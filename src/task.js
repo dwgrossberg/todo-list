@@ -1,23 +1,56 @@
-const TaskFactory = (project, title, details, dueDate, priority) => {
+const TaskFactory = (project, title, dueDate, priority, details, checklist) => {
     const task = {
         project : project,
         title : title,
-        details : details,
         dueDate : dueDate,
-        priority : priority
+        priority : priority,
+        details : details,
+        checklist : checklist
     }
     
-    const editTitle = (title) => {
+    const changeProject = (project) => {
+        task.project = project;
+    }
+
+    const changeTitle = (title) => {
         task.title = title;
+    }
+
+    const changeDueDate = (dueDate) => {
+        task.dueDate = dueDate;
+    }
+
+    const changePriority = (priority) => {
+        task.priority = priority;
+    }
+
+    const changeDetails = (details) => {
+        task.details = details;
+    }
+
+    const changeChecklist = (checklist) => {
+        task.checklist = checklist;
     }
 
     return {
         task,
-        editTitle
+        changeProject,
+        changeTitle,
+        changeDueDate,
+        changePriority,
+        changeDetails,
+        changeChecklist
     }
 }
-const yoyo = TaskFactory('home', 'peaches', 'eat peaches', 'nov. 2nd', 'very high');
-console.log(yoyo, yoyo.task.title)
 
-yoyo.editTitle('piss');
-console.log(yoyo, yoyo.task.title);
+const yoyo = TaskFactory();
+console.log(yoyo.task)
+
+yoyo.changeProject('yo');
+yoyo.changeTitle('piss');
+yoyo.changeDueDate('oct. 2');
+yoyo.changePriority('muy importanto');
+yoyo.changeDetails('so many details the detaisl');
+yoyo.changeChecklist('now 3 checks so many the boxes');
+
+console.log(yoyo.task);
