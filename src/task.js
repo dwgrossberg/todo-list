@@ -1,11 +1,12 @@
-const TaskFactory = (project, title, dueDate, priority, details, checklist) => {
+const createTask = (project, title, dueDate, priority, details, checklist, complete) => {
     const task = {
         project : project,
         title : title,
         dueDate : dueDate,
         priority : priority,
         details : details,
-        checklist : checklist
+        checklist : checklist,
+        complete : complete
     }
     
     const changeProject = (project) => {
@@ -32,6 +33,10 @@ const TaskFactory = (project, title, dueDate, priority, details, checklist) => {
         task.checklist = checklist;
     }
 
+    const changeCompleteStatus = (complete) => {
+        task.complete = complete;
+    }
+
     return {
         task,
         changeProject,
@@ -39,18 +44,9 @@ const TaskFactory = (project, title, dueDate, priority, details, checklist) => {
         changeDueDate,
         changePriority,
         changeDetails,
-        changeChecklist
+        changeChecklist,
+        changeCompleteStatus
     }
 }
 
-const yoyo = TaskFactory();
-console.log(yoyo.task)
-
-yoyo.changeProject('yo');
-yoyo.changeTitle('piss');
-yoyo.changeDueDate('oct. 2');
-yoyo.changePriority('muy importanto');
-yoyo.changeDetails('so many details the detaisl');
-yoyo.changeChecklist('now 3 checks so many the boxes');
-
-console.log(yoyo.task);
+export default createTask;

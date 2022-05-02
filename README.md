@@ -3,9 +3,12 @@ A simple Todo List App built using vanilla JavaScript and Webpack
 
 
 modules structure
+- index
 - ui
-- 
-
+- projects
+- tasks
+- notes/lists
+- storage
 
 
 todo notes
