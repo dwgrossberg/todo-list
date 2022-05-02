@@ -1,4 +1,4 @@
-const createTask = (project, title, dueDate, priority, details, checklist, complete) => {
+const Task = (project, title, dueDate, priority, details, checklist, complete) => {
     const task = {
         project : project,
         title : title,
@@ -49,4 +49,4 @@ const createTask = (project, title, dueDate, priority, details, checklist, compl
     }
 }
 
-export default createTask;
+export default Task;
