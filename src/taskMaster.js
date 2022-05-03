@@ -1,6 +1,5 @@
 import Task from "./task.js";
 import Project from "./project.js";
-import { format, parse, compareAsc } from 'date-fns';
 
 // Control the creation and manipulation of Projects & Tasks
 // Module to be called from the DOM 
@@ -23,25 +22,29 @@ const taskMaster = (() => {
     // Keep track of all Tasks
     const taskList = [runTask.task, studyTask.task, funTask.task, emptyTask.task];
 
-    // Create a list of all Tasks, ordered by date
-    const dateOrderTaskList = () => {
-        taskList.sort(function(a, b) {
-            if (a.dueDate < b.dueDate) return -1;
-            if (a.dueDate > b.dueDate) return 1;
-            return 0;
-        });
-
-        return {
-            taskList
-        }
-    }
-    
     // Add default Tasks to designated Projects
     taskList.forEach(task => home.addTask(task));
     today.addTask(funTask.task);
     next7Days.addTask(studyTask.task);
 
-    console.log(projectList, home.project.tasks, dateOrderTaskList());
+    // Modify the taskList to be ordered by date
+    const dateOrderTaskList = (taskList) => {
+        taskList.sort(function(a, b) {
+            if (a.dueDate < b.dueDate) return -1;
+            if (a.dueDate > b.dueDate) return 1;
+            return 0;
+        });
+        return {
+            taskList
+        }
+    }
+    
+    
+    
+    
+    
+
+    console.log(projectList, home.project.tasks, dateOrderTaskList(taskList));
 
 
     return {
