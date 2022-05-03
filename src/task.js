@@ -1,4 +1,5 @@
 const Task = (project, title, dueDate, priority, details, checklist, complete) => {
+
     const task = {
         project : project,
         title : title,
@@ -29,8 +30,10 @@ const Task = (project, title, dueDate, priority, details, checklist, complete) =
         task.details = details;
     }
 
-    const changeChecklist = (checklist) => {
-        task.checklist = checklist;
+    const changeChecklist = (item, newItem) => {
+        const index = [task.checklist.findIndex(check => check === item)];
+        console.log(task.checklist, index);
+        task.checklist[index] = newItem;
     }
 
     const changeCompleteStatus = (complete) => {
