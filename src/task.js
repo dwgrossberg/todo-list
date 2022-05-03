@@ -4,7 +4,7 @@ import { th } from 'date-fns/locale/index.js';
 const Task = (project, title, dueDate, priority, details, checklist, complete) => {
 
     const task = {
-        project : 'Home', //default
+        project : 'home', //default
         title : title,
         dueDate : dueDate,
         priority : priority,
@@ -20,7 +20,7 @@ const Task = (project, title, dueDate, priority, details, checklist, complete) =
 
     // Set dueDate to date-fns format if dueDate variable is not undefined 
     if (dueDate !== undefined) {
-        task.dueDate = new Date(dueDate);
+        task.dueDate = new Date(dueDate)
     }
 
     const changeProject = (project) => {

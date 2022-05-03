@@ -5,27 +5,42 @@ import Project from "./project.js";
 // Module to be called from the DOM 
 const taskMaster = (() => {
 
-    // Default projects on page load
-    const home = Project('Home');
-    const today = Project('Today');
-    const next7Days = Project('Next 7 Days');
+    // Keep track of the current Projects && Tasks
+    const projectList = [];
+    const taskList = [];
 
-    // Keep track of the current Projects
-    const projectList = [home.project, today.project, next7Days.project];
-    
+    // Create new Projects and push them to the projectList
+    const createProject = (project) => {
+        const newProject = Project(project);
+        projectList.push(newProject.project);
+        return newProject;
+    }
+    // Default Projects on page load
+    const home = createProject('Home');
+    const today = createProject('Today');
+    const next7Days = createProject('Next 7 Days');
+
+    // Create new Tasks and push them to the taskList
+    const createTask = (...args) => {
+        const newTask = Task(...args);
+        taskList.push(newTask.task);
+        console.log(newTask.task.project);
+        home.addTask(newTask.task)
+        // newTask.task.project.addTask(newTask.task);
+
+        return newTask;
+    }
+
     // Default tasks on page load
-    const runTask = Task('Home', 'Run 10k practice pace for race', '10.2.22', 'Low', '', false, false);
-    const studyTask = Task('Next 7 Days', 'Review Webpack.config.js configuration basics', '5/20/2022', 'medium', 'Revist the Webpack guides page and review relevant info', ['Asset Managment', 'Output', 'Development'], false);
-    const funTask = Task('Today', 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', '', false);
-    const emptyTask = Task();
-    
-    // Keep track of all Tasks
-    const taskList = [runTask.task, studyTask.task, funTask.task, emptyTask.task];
+    const runTask = createTask('home', 'Run 10k practice pace for race', '10.2.22', 'Low', '', false, false);
+    const studyTask = createTask('next7Days', 'Review Webpack.config.js configuration basics', '5/20/2022', 'medium', 'Revist the Webpack guides page and review relevant info', ['Asset Managment', 'Output', 'Development'], false);
+    const funTask = createTask('today', 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', '', false);
+    const emptyTask = createTask();
 
     // Add default Tasks to designated Projects
-    taskList.forEach(task => home.addTask(task));
-    today.addTask(funTask.task);
-    next7Days.addTask(studyTask.task);
+    // taskList.forEach(task => home.addTask(task));
+    // today.addTask(funTask.task);
+    // next7Days.addTask(studyTask.task);
 
     // Modify the taskList to be ordered by date
     const dateOrderTaskList = (taskList) => {
@@ -39,11 +54,10 @@ const taskMaster = (() => {
         }
     }
     
+    // write a function to automate the creation of new tasks - adding them to project lists
     
     
     
-    
-
     console.log(projectList, home.project.tasks, dateOrderTaskList(taskList));
 
 
