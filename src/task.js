@@ -1,9 +1,11 @@
+import { format } from 'date-fns';
+
 const Task = (project, title, dueDate, priority, details, checklist, complete) => {
 
     const task = {
         project : project,
         title : title,
-        dueDate : dueDate,
+        dueDate : format(new Date(dueDate), 'MMM/dd/yyyy'),
         priority : priority,
         details : details,
         checklist : checklist,
@@ -30,9 +32,16 @@ const Task = (project, title, dueDate, priority, details, checklist, complete) =
         task.details = details;
     }
 
-    const changeChecklist = (item, newItem) => {
+    const addChecklistItem = (item) => {
+        task.checklist.push(item);
+    }
+
+    const removeChecklistItem = (item) => {
+        task.checklist.splice(task.checklist.findIndex(check => check === item), 1);
+    }
+
+    const changeChecklistItem = (item, newItem) => {
         const index = [task.checklist.findIndex(check => check === item)];
-        console.log(task.checklist, index);
         task.checklist[index] = newItem;
     }
 
@@ -47,7 +56,9 @@ const Task = (project, title, dueDate, priority, details, checklist, complete) =
         changeDueDate,
         changePriority,
         changeDetails,
-        changeChecklist,
+        addChecklistItem,
+        removeChecklistItem,
+        changeChecklistItem,
         changeCompleteStatus
     }
 }
