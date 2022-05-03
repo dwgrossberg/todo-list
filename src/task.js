@@ -5,13 +5,18 @@ const Task = (project, title, dueDate, priority, details, checklist, complete) =
     const task = {
         project : project,
         title : title,
-        dueDate : format(new Date(dueDate), 'MMM/dd/yyyy'),
+        dueDate : dueDate,
         priority : priority,
         details : details,
-        checklist : checklist,
+        checklist : (checklist || []),
         complete : complete
     }
     
+    // Set dueDate to date-fns format if field is not undefined 
+    if (dueDate !== undefined) {
+        task.dueDate = format(new Date(dueDate), 'MMM/dd/yyyy')
+    }
+
     const changeProject = (project) => {
         task.project = project;
     }
