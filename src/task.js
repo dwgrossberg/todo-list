@@ -1,57 +1,63 @@
 import { format } from 'date-fns';
+import { th } from 'date-fns/locale/index.js';
 
 const Task = (project, title, dueDate, priority, details, checklist, complete) => {
 
     const task = {
-        project : project,
+        project : 'Home', //default
         title : title,
         dueDate : dueDate,
         priority : priority,
         details : details,
-        checklist : (checklist || []),
+        checklist : (checklist || []), //set up empty array if checklist is undefined
         complete : complete
     }
     
-    // Set dueDate to date-fns format if field is not undefined 
+    // Change project name if project variable is not undefined
+    if (project !== undefined) {
+        task.project = project;
+    } 
+
+    // Set dueDate to date-fns format if dueDate variable is not undefined 
     if (dueDate !== undefined) {
-        task.dueDate = format(new Date(dueDate), 'MMM/dd/yyyy')
+        task.dueDate = new Date(dueDate);
     }
 
     const changeProject = (project) => {
-        task.project = project;
+        return task.project = project;
     }
 
     const changeTitle = (title) => {
-        task.title = title;
+        return task.title = title;
     }
 
     const changeDueDate = (dueDate) => {
-        task.dueDate = dueDate;
+        return task.dueDate = dueDate;
     }
 
     const changePriority = (priority) => {
-        task.priority = priority;
+        return task.priority = priority;
     }
 
     const changeDetails = (details) => {
-        task.details = details;
+        return task.details = details;
     }
 
     const addChecklistItem = (item) => {
-        task.checklist.push(item);
+        return task.checklist.push(item);
     }
 
     const removeChecklistItem = (item) => {
-        task.checklist.splice(task.checklist.findIndex(check => check === item), 1);
+        return task.checklist.splice(task.checklist.findIndex(check => check === item), 1);
     }
 
     const changeChecklistItem = (item, newItem) => {
         const index = [task.checklist.findIndex(check => check === item)];
-        task.checklist[index] = newItem;
+        return task.checklist[index] = newItem;
     }
 
     const changeCompleteStatus = (complete) => {
-        task.complete = complete;
+        return task.complete = complete;
     }
 
     return {

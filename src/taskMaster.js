@@ -1,6 +1,6 @@
 import Task from "./task.js";
 import Project from "./project.js";
-import { parse, compareAsc } from 'date-fns';
+import { format, parse, compareAsc } from 'date-fns';
 
 // Control the creation and manipulation of Projects & Tasks
 // Module to be called from the DOM 
@@ -18,20 +18,21 @@ const taskMaster = (() => {
     const runTask = Task('Home', 'Run 10k practice pace for race', '10.2.22', 'Low', '', false, false);
     const studyTask = Task('Next 7 Days', 'Review Webpack.config.js configuration basics', '5/20/2022', 'medium', 'Revist the Webpack guides page and review relevant info', ['Asset Managment', 'Output', 'Development'], false);
     const funTask = Task('Today', 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', '', false);
-    const emptyTask = Task('empty');
+    const emptyTask = Task();
     
     // Keep track of all Tasks
     const taskList = [runTask.task, studyTask.task, funTask.task, emptyTask.task];
 
-    // Create a list of all Tasks orderded by date
-    const dateOrderTaskList = (taskList) => {
-        let taskListByDate = [];
-        taskList.forEach(task => taskListByDate.push(parse(task.dueDate, 'MMM/dd/yyyy', new Date())));
-        taskListByDate.sort(compareAsc);
-        
+    // Create a list of all Tasks, ordered by date
+    const dateOrderTaskList = () => {
+        taskList.sort(function(a, b) {
+            if (a.dueDate < b.dueDate) return -1;
+            if (a.dueDate > b.dueDate) return 1;
+            return 0;
+        });
 
         return {
-            taskListByDate
+            taskList
         }
     }
     
@@ -40,7 +41,7 @@ const taskMaster = (() => {
     today.addTask(funTask.task);
     next7Days.addTask(studyTask.task);
 
-    console.log(projectList, home.project.tasks, dateOrderTaskList(taskList));
+    console.log(projectList, home.project.tasks, dateOrderTaskList());
 
 
     return {
