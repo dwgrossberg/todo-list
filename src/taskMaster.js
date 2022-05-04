@@ -37,11 +37,6 @@ const taskMaster = (() => {
     const funTask = createTask(today, 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', '', false);
     const emptyTask = createTask(home);
 
-    // Add default Tasks to designated Projects
-    // taskList.forEach(task => home.addTask(task));
-    // today.addTask(funTask.task);
-    // next7Days.addTask(studyTask.task);
-
     // Sort the taskList so that it is ordered by date
     const dateOrderTaskList = () => {
         let sortedTaskList = taskList.sort(function(a, b) {
@@ -52,12 +47,7 @@ const taskMaster = (() => {
         return sortedTaskList;
     }
     
-    let sortedTaskList = dateOrderTaskList();
-    // for (const [key, value] of Object.entries(sortedTaskList)) {
-        // console.log(`${key}: ${value}`);
-    // }
-
-    console.log(projectList, home.project.tasks, sortedTaskList);
+    console.log(projectList, home.project.tasks, dateOrderTaskList());
 
 
     return {
