@@ -57,8 +57,6 @@ const taskMaster = (() => {
         });
         return sortedTaskList;
     }
-    
-    projectList.forEach(project => console.log(project.project.name));
     console.log(dateOrderTaskList(taskList));
 
 
