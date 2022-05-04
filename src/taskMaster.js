@@ -12,7 +12,7 @@ const taskMaster = (() => {
     // Create new Projects and push them to the projectList
     const createProject = (project) => {
         const newProject = Project(project);
-        projectList.push(newProject.project);
+        projectList.push(newProject);
         return newProject;
     }
     // Default Projects on page load
@@ -24,13 +24,10 @@ const taskMaster = (() => {
     const createTask = (...args) => {
         const newTask = Task(...args);
         taskList.push(newTask.task); //Keep track of all Tasks in the taskList array
-        if (args[0] !== home) {
+        if (args[0] !== home) { //Add all Tasks to the Home Project by default without duplicating
             home.addTask(newTask.task);
-        } //Add all Tasks to the Home Project by default if they are not already so
-        args[0].addTask(newTask.task); //Automatically add the new Task to the correct Project
-        // let propName = getOwnPropertyNames();
-        // console.log(args[0]);   //.addTask(newTask.task);
-
+        } 
+        args[0].addTask(newTask.task); //Automatically add the new Task to the correct Project task array
         return newTask;
     }
 
