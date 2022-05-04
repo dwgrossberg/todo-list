@@ -23,11 +23,11 @@ const taskMaster = (() => {
     // Create new Tasks and push them to the taskList
     const createTask = (...args) => {
         const newTask = Task(...args);
-        taskList.push(newTask.task); //Keep track of all Tasks in the taskList array
+        taskList.push(newTask); //Keep track of all Tasks in the taskList array
         if (args[0] !== home) { //Add all Tasks to the Home Project by default without duplicating
-            home.addTask(newTask.task);
+            home.addTask(newTask);
         } 
-        args[0].addTask(newTask.task); //Automatically add the new Task to the correct Project task array
+        args[0].addTask(newTask); //Automatically add the new Task to the correct Project task array
         return newTask;
     }
 
@@ -43,22 +43,21 @@ const taskMaster = (() => {
     // next7Days.addTask(studyTask.task);
 
     // Sort the taskList so that it is ordered by date
-    const dateOrderTaskList = (taskList) => {
-        taskList.sort(function(a, b) {
-            if (a.dueDate < b.dueDate) return -1;
-            if (a.dueDate > b.dueDate) return 1;
+    const dateOrderTaskList = () => {
+        let sortedTaskList = taskList.sort(function(a, b) {
+            if (a.task.dueDate < b.task.dueDate) return -1;
+            if (a.task.dueDate > b.task.dueDate) return 1;
             return 0;
         });
-        return {
-            taskList
-        }
+        return sortedTaskList;
     }
     
-    // write a function to automate the creation of new tasks - adding them to project lists
-    
-    
-    
-    console.log(projectList, home.project.tasks, dateOrderTaskList(taskList));
+    let sortedTaskList = dateOrderTaskList();
+    // for (const [key, value] of Object.entries(sortedTaskList)) {
+        // console.log(`${key}: ${value}`);
+    // }
+
+    console.log(projectList, home.project.tasks, sortedTaskList);
 
 
     return {
