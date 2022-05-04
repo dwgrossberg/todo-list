@@ -22,23 +22,34 @@ const taskMaster = (() => {
 
     // Create new Tasks and push them to the taskList
     const createTask = (...args) => {
+        if (!args[0]) {
+            args[0] = 'Home'; //Default Project value
+        }
         const newTask = Task(...args);
-        taskList.push(newTask); //Keep track of all Tasks in the taskList array
-        if (args[0] !== home) { //Add all Tasks to the Home Project by default without duplicating
-            home.addTask(newTask);
-        } 
-        args[0].addTask(newTask); //Automatically add the new Task to the correct Project task array
+        taskList.push(newTask); //Keep track of all new Tasks in the taskList array
+        if (args[0] !== 'Home') { 
+            home.addTask(newTask); //Add all new Tasks to the Home Project by default without duplicating
+        }
+
+        // args[0].addTask(newTask); //Automatically add the new Task to the correct Project task array
+        
+        // match the arg[0] string with the correct Project object via the name property
+        let taskProject = projectList.find(project => project.project.name === args[0]);
+        taskProject.addTask(newTask);
+
+        console.log(taskProject);
+
         return newTask;
     }
 
     // Default tasks on page load
-    const runTask = createTask(home, 'Run 10k practice pace for race', '10.2.22', 'Low', '', false, false);
-    const studyTask = createTask(next7Days, 'Review Webpack.config.js configuration basics', '5/20/2022', 'medium', 'Revist the Webpack guides page and review relevant info', ['Asset Managment', 'Output', 'Development'], false);
-    const funTask = createTask(today, 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', '', false);
-    const emptyTask = createTask(home);
+    const runTask = createTask('Home', 'Run 10k practice pace for race', '10.2.22', 'Low', '', false, false);
+    const studyTask = createTask('Next 7 Days', 'Review Webpack.config.js configuration basics', '5/20/2022', 'medium', 'Revist the Webpack guides page and review relevant info', ['Asset Managment', 'Output', 'Development'], false);
+    const funTask = createTask('Today', 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', '', false);
+    const emptyTask = createTask();
 
     // Sort the taskList so that it is ordered by date
-    const dateOrderTaskList = () => {
+    const dateOrderTaskList = (taskList) => {
         let sortedTaskList = taskList.sort(function(a, b) {
             if (a.task.dueDate < b.task.dueDate) return -1;
             if (a.task.dueDate > b.task.dueDate) return 1;
@@ -47,7 +58,8 @@ const taskMaster = (() => {
         return sortedTaskList;
     }
     
-    console.log(projectList, home.project.tasks, dateOrderTaskList());
+    projectList.forEach(project => console.log(project.project.name));
+    console.log(dateOrderTaskList(taskList));
 
 
     return {
