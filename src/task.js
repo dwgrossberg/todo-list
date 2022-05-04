@@ -1,6 +1,3 @@
-import { format } from 'date-fns';
-import { th } from 'date-fns/locale/index.js';
-
 const Task = (project, title, dueDate, priority, details, checklist, complete) => {
 
     const task = {

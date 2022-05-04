@@ -23,15 +23,13 @@ const taskMaster = (() => {
     // Create new Tasks and push them to the taskList
     const createTask = (...args) => {
         if (!args[0]) {
-            args[0] = 'Home'; //Default Project value
+            args[0] = 'Home'; //Default Project value if none is provided
         }
         const newTask = Task(...args);
         taskList.push(newTask); //Keep track of all new Tasks in the taskList array
         if (args[0] !== 'Home') { 
             home.addTask(newTask); //Add all new Tasks to the Home Project by default without duplicating
         }
-
-        // args[0].addTask(newTask); //Automatically add the new Task to the correct Project task array
         
         // match the arg[0] string with the correct Project object via the name property
         let taskProject = projectList.find(project => project.project.name === args[0]);
