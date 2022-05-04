@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'retroFunks';
+    src: url('./assets/Retrofunkscriptpersonaluse-v6XO.otf');
+    font-weight: 600;
+    font-style: normal;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+}
+
+#content {
+    display: grid;
+    grid-template: 100px 1fr 50px / 250px 1fr;
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+.header {
+    grid-area: 1 / 1 / 2 / 3;
+    background-color: floralwhite;
+    place-self: center;
+    font-family: 'retroFunks', cursive;
+    font-size: 32px;
+}
+
+.sidebar {
+    grid-area: 2 / 1 / 3 / 2;
+    background-color: darkturquoise;
+}
+
+.task-content {
+    grid-area: 2 / 2 / 3 / 3;
+    background-color: plum;
+}
+
+.footer {
+    grid-area: 3 / 1 / 4 / 3;
+    background-color: floralwhite;
+    place-self: center;
+}
