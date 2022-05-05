@@ -16,11 +16,13 @@ const displayUI = (() => {
             let dueDate = format(new Date(task.task.dueDate), 'dd MMM yy' );
             taskDiv.innerHTML = `
             <div>
+                <span class="priority-label"></span>
                 <label class="container">
                     <input type="checkbox" id="task-checkbox-${taskList.indexOf(task)}" name="task-checkbox-${taskList.indexOf(task)}" value="complete">
                     <span class="checkmark"></span>
                 </label>    
-                <p class="project-title">${task.task.title}</p>
+                <p class="task-title">${task.task.title}</p>
+                <p class="task-details">${task.task.details}</p>
             </div>
             <p class="due-date">${dueDate}</p>
             `

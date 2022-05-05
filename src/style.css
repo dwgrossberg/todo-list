@@ -185,13 +185,12 @@ body {
     align-items: stretch;
     gap: 20px;
     justify-content: flex-start;
-    background-color: ghostwhite;
+    background-color: white;
     padding: 20px;
     overflow: scroll;
 }
 
 .task {
-    border: 1px solid black;
     padding: 10px;
     padding-left: 15px;
     font-size: 12px;
@@ -200,9 +199,17 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-width: 400px;
+    height: 40px;
+    background-color: ghostwhite;
 }
 
-.low::before {
+.task:hover {
+    background-color: #F5F5F5;
+    box-shadow: 1px 1px #E0E0E0;
+}
+
+.low .priority-label {
     position: absolute;
     content: '';
     top: 0;
@@ -210,10 +217,10 @@ body {
     border-radius: 3px 0 0 3px;
     height: 100%;
     width: 5px;
-    background-color: #FB8B24;
+    background-color: #FCAB5F;
 }
 
-.medium::before {
+.medium .priority-label {
     position: absolute;
     content: '';
     top: 0;
@@ -224,7 +231,7 @@ body {
     background-color: #E36414;
 }
 
-.high::before {
+.high .priority-label {
     position: absolute;
     content: '';
     top: 0;
@@ -264,11 +271,11 @@ body {
 .checkmark {
     height: 15px;
     width: 15px;
-    background-color: #eee;
+    background-color: #E0E0E0;
 }
 
 .container:hover input ~ .checkmark {
-    background-color: #E0E0E0;
+    background-color: #C8C8C8;
 }
 
 .container input:checked ~ .checkmark {
@@ -295,12 +302,26 @@ body {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-  }
-  
+}
 
+.task-title {
+    min-width: 50%;
+}
+
+.task-details {
+    width: 30vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 9.5px;
+    color: grey;
+}
 
 .due-date {
     font-size: 10px;
+    min-width: 60px;
+    justify-content: end;
+    text-align: end;
 }
 
 
