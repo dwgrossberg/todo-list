@@ -33,6 +33,7 @@
 
 body {
     overflow: hidden;
+    font-family: "Lato", sans-serif;
 }
 
 
@@ -77,7 +78,6 @@ body {
     align-items: flex-start;
     padding-top: 35px;
     padding-left: 20px;
-    font-family: "Lato", sans-serif;
     font-size: 13px;
 }
 
@@ -112,8 +112,9 @@ body {
     height: 15px;
     display: flex;
     align-items: center;
+    justify-content: center;
     font-size: 9px;
-    margin-right: -10px;
+    margin-right: -5px;
 }
 
 .home-icon,
@@ -192,7 +193,119 @@ body {
 .task {
     border: 1px solid black;
     padding: 10px;
+    padding-left: 15px;
+    font-size: 12px;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+.low::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    border-radius: 3px 0 0 3px;
+    height: 100%;
+    width: 5px;
+    background-color: #FB8B24;
+}
+
+.medium::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    border-radius: 3px 0 0 3px;
+    height: 100%;
+    width: 5px;
+    background-color: #E36414;
+}
+
+.high::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    border-radius: 3px 0 0 3px;
+    height: 100%;
+    width: 5px;
+    background-color: #9A031E;
+}
+
+.task div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+.checkmark {
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+}
+
+.container:hover input ~ .checkmark {
+    background-color: #E0E0E0;
+}
+
+.container input:checked ~ .checkmark {
+    background-color: #0F4C5C;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container input:checked ~ .checkmark::after {
+    display: block;
+}
+
+.container .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 3px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  
+
+
+.due-date {
+    font-size: 10px;
+}
+
+
+
+
 
 .footer {
     grid-area: 3 / 1 / 4 / 3;

@@ -1,26 +1,40 @@
 import taskMaster from "./taskMaster.js";
+import { format } from "date-fns";
 
 const displayUI = (() => {
     
      
 
 
-    const loadTaskContent = (taskList) => {
+    const loadTaskCards = (taskList) => {
         const taskContent = document.getElementById('task-content');
         taskList.forEach(task => {
             const taskDiv = document.createElement('div');
             taskDiv.classList.add('task');
-            taskDiv.innerText = Object.entries(task.task);
+            taskDiv.classList.add(task.task.priority); //Add task priority for css manipulation
+            taskDiv.setAttribute('id', `task-${taskList.indexOf(task)}`); //Add task id for later deletion, etc.
+            let dueDate = format(new Date(task.task.dueDate), 'dd MMM yy' );
+            taskDiv.innerHTML = `
+            <div>
+                <label class="container">
+                    <input type="checkbox" id="task-checkbox-${taskList.indexOf(task)}" name="task-checkbox-${taskList.indexOf(task)}" value="complete">
+                    <span class="checkmark"></span>
+                </label>    
+                <p class="project-title">${task.task.title}</p>
+            </div>
+            <p class="due-date">${dueDate}</p>
+            `
+
             taskContent.appendChild(taskDiv);
         });
 
     }
 
     return {
-        loadTaskContent
+        loadTaskCards
     }
 })();
 
-displayUI.loadTaskContent(taskMaster.taskList);
+displayUI.loadTaskCards(taskMaster.taskList);
 
 export default displayUI;

@@ -1,6 +1,8 @@
 # todo-list
 A simple Todo List App built using vanilla JavaScript and Webpack
 
+ui features 
+- searchbar
 
 modules structure
 - index

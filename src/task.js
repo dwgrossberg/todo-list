@@ -1,7 +1,7 @@
 const Task = (project, title, dueDate, priority, details, checklist, complete) => {
 
     const task = {
-        project : 'home', //default
+        project : 'Home', //default
         title : title,
         dueDate : dueDate,
         priority : priority,
