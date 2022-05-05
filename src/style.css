@@ -1,16 +1,29 @@
+:root {
+    --main-color: #5F0F40;
+    --accent-color: #d82775;
+}
+
 @font-face {
     font-family: 'retroFunks';
-    src: url('./assets/Retrofunkscriptpersonaluse-v6XO.otf');
+    src: url('./assets/Retrofunkscriptpersonaluse-v6XO.otf') format("opentype");
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Lato';
-    src: url('./assets/Lato-Medium.woff');
+    src: url('./assets/Lato-Regular.ttf') format("truetype");
     font-weight: 600;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('./assets/Lato-Bold.ttf') format("truetype");
+    font-weight: bold;
+    font-style: bold;
+}
+
 
 * {
     padding: 0;
@@ -35,7 +48,7 @@ body {
     grid-area: 1 / 1 / 2 / 3;
     display: flex;
     gap: 20px;
-    background-color:#5F0F40;
+    background-color: var(--main-color);
     align-items: center;
     padding-left: 50px;
 }
@@ -78,16 +91,29 @@ body {
     gap: 10px;
 }
 
+.home:hover,
+.today:hover,
+.next-seven-days:hover,
+.projects:hover,
+.notes:hover,
+.project-sidebar-list div:hover {
+    cursor: pointer;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
 .home-counter,
 .today-counter,
 .next-seven-days-counter,
 .projects-counter,
-.notes-counter {
+.notes-counter,
+.project-counter {
     width: 15px;
     height: 15px;
     display: flex;
     align-items: center;
-    font-size: 10px;
+    font-size: 9px;
+    margin-right: -10px;
 }
 
 .home-icon,
@@ -126,14 +152,19 @@ body {
 
 .project-sidebar-list {
     margin-top: -15px;
-    padding-left: 70px;
+    padding-left: 50px;
     font-size: 12px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 .project-sidebar-list div {
+    display: flex;
+    gap: 5px;
+}
+
+.project-icon {
     display: flex;
     gap: 20px;
     background-image: url('./assets/project.png');
@@ -141,6 +172,12 @@ body {
     width: 15px;
     height: 15px;
 }
+
+.project-counter {
+    font-size: 8px;
+}
+
+
 
 .task-content {
     grid-area: 2 / 2 / 3 / 3;
