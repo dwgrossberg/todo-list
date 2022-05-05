@@ -24,10 +24,24 @@ body {
 
 .header {
     grid-area: 1 / 1 / 2 / 3;
-    background-color: floralwhite;
-    place-self: center;
+    display: flex;
+    gap: 20px;
+    background-color:#5F0F40;
+    align-items: center;
+    padding-left: 50px;
+}
+
+.header div {
+    height: 50px;
+    width: 50px;
+    background-image: url('./assets/list.png');
+    background-size: 100%;
+}
+
+.header h1 {
     font-family: 'retroFunks', cursive;
     font-size: 32px;
+    color: ghostwhite;
 }
 
 .sidebar {
@@ -42,6 +56,41 @@ body {
 
 .footer {
     grid-area: 3 / 1 / 4 / 3;
-    background-color: floralwhite;
-    place-self: center;
+    display: flex;
+    align-items: center;
+    background-color:#5F0F40;
+    width: 100%;
+}
+
+.made-by {
+    font-family: "Lato", sans-serif;
+    color: ghostwhite;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 12px;
+    padding: 7px;
+    border-radius: 7px;
+    width: 100%;
+}
+
+.made-by a {
+    text-decoration: none;
+    color: ghostwhite;
+}
+
+.made-by img {
+    height: 16px;
+    transition: transform 0.3s ease-in-out;
+}
+
+#githubIcon {
+    content: url('./assets/gitHubIconWhite.png');
+    max-height: 16px;
+}
+
+.made-by img:hover {
+    transform: rotate(360deg) scale(1.2);
 }
