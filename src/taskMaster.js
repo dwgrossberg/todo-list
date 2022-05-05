@@ -15,10 +15,6 @@ const taskMaster = (() => {
         projectList.push(newProject);
         return newProject;
     }
-    // Default Projects on page load
-    const home = createProject('Home');
-    const today = createProject('Today');
-    const next7Days = createProject('Next 7 Days');
 
     // Create new Tasks and push them to the taskList
     const createTask = (...args) => {
@@ -38,8 +34,13 @@ const taskMaster = (() => {
         console.log(taskProject);
 
         return newTask;
-    }
+    }   
 
+    // Default Projects on page load
+    const home = createProject('Home');
+    const today = createProject('Today');
+    const next7Days = createProject('Next 7 Days');
+    
     // Default tasks on page load
     const runTask = createTask('Home', 'Run 10k practice pace for race', '10.2.22', 'Low', '', false, false);
     const studyTask = createTask('Next 7 Days', 'Review Webpack.config.js configuration basics', '5/20/2022', 'medium', 'Revist the Webpack guides page and review relevant info', ['Asset Managment', 'Output', 'Development'], false);
@@ -59,7 +60,9 @@ const taskMaster = (() => {
 
 
     return {
-        projectList
+        projectList,
+        taskList,
+        dateOrderTaskList
     }
 })();
 

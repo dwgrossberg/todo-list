@@ -1,4 +1,4 @@
 import './style.css';
-import taskMaster from "./taskMaster.js";
+import displayUI from "./ui.js";
 
-console.log(taskMaster.projectList);
+displayUI;
