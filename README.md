@@ -3,6 +3,7 @@ A simple Todo List App built using vanilla JavaScript and Webpack
 
 ui features 
 - searchbar
+- undo button
 
 modules structure
 - index
