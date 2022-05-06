@@ -1,14 +1,7 @@
 import taskMaster from "./taskMaster.js";
-import favicon from './assets/favicon.ico';
 import { format } from "date-fns";
 
 const displayUI = (() => {
-    
-    // Set favicon icon
-    const faviconDOM = document.querySelector('link[rel~="icon"]');
-    faviconDOM.href = favicon;
-
-
 
     const loadTaskCards = (taskList) => {
         const taskContent = document.getElementById('task-content');
@@ -70,11 +63,9 @@ const displayUI = (() => {
             trash.setAttribute('id', 'trash');
             taskCardRight.appendChild(trash);
             taskDiv.appendChild(taskCardRight);
-
-            
+            // Add Task card to DOM
             taskContent.appendChild(taskDiv);
         });
-
     }
 
     loadTaskCards(taskMaster.taskList);
