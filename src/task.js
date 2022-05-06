@@ -4,8 +4,8 @@ const Task = (project, title, dueDate, priority, details, checklist, complete) =
         project : 'Home', //default
         title : title,
         dueDate : dueDate,
-        priority : priority,
-        details : details,
+        priority : (priority || 'none'),
+        details : (details || ''),
         checklist : (checklist || []), //set up empty array if checklist is undefined
         complete : complete
     }
