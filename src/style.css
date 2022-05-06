@@ -55,8 +55,8 @@ body {
 }
 
 .header div {
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
     background-image: url('./assets/list.png');
     background-size: 100%;
 }
@@ -67,6 +67,7 @@ body {
     color: ghostwhite;
 }
 
+/* Sidebar */
 
 .sidebar {
     grid-area: 2 / 1 / 3 / 2;
@@ -79,6 +80,8 @@ body {
     padding-top: 35px;
     padding-left: 20px;
     font-size: 13px;
+    position: relative;
+    border-right: .5px solid #d82775;
 }
 
 .home,
@@ -178,6 +181,37 @@ body {
     font-size: 8px;
 }
 
+#add-task {
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    font-size: 35px;
+    color: #d82775;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: ghostwhite;
+    box-shadow: .5px .5px #d82775;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 3px;
+    cursor: pointer;
+}
+
+#add-task:hover {
+    transform: scale(1.1);
+    box-shadow: 1px 1px ghostwhite;
+    background-color: #d82775;
+    color: white;
+}
+
+
+/* Task Content  */
+
 
 #task-content {
     grid-area: 2 / 2 / 3 / 3;
@@ -189,7 +223,8 @@ body {
     background-color: white;
     padding: 20px;
     padding-top: 30px;
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .task {
@@ -348,28 +383,34 @@ body {
 }
 
 #expand {
-    background-image: url('./assets/chevron.png');
+    /* background-image: url('./assets/chevron.png'); */
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+    color: grey;
     background-size: 100%;
-    width: 10px;
-    height: 10px;
-    transform: rotate(180deg);
+    min-width: 10px;
+    min-height: 10px;
+    transform: scale(1, 2)
+    /* transform: rotate(180deg); */
 }
 
 #trash {
     background-image: url('./assets/trash.png');
     background-size: 100%;
-    width: 10px;
-    height: 10px;
+    min-width: 12px;
+    min-height: 12px;
 }
 
-#expand:hover,
 #trash:hover {
     transform: scale(1.2);
     cursor: pointer;
 }
 
 #expand:hover {
-    transform: rotate(90deg);
+    cursor: pointer;
+    transform: rotate(-90deg) scale(1, 2);
+    color: #d82775;
 }
 
 

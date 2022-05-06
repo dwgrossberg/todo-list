@@ -1,6 +1,7 @@
 import favicon from './assets/favicon.ico';
 
 const loadHome = (() => {
+    
     // Set favicon icon
     const faviconDOM = document.querySelector('link[rel~="icon"]');
     faviconDOM.href = favicon;
@@ -29,18 +30,18 @@ const loadHome = (() => {
             <div class="next-seven-days-text"><p>Next 7 Days</p></div>
         </div>
         <div class="projects">
-            <div class="projects-counter"><p></p></div>
+            <div class="projects-counter"></div>
             <div class="projects-icon"></div>
             <div class="projects-text"><p>Projects</p></div>
         </div>
         <div class="project-sidebar-list">
             <div class="project-baby">
-                <div class="project-counter"><p>7</p></div>
+                <div class="project-counter"></div>
                 <div class="project-icon">
                 </div><p>Baby</p>
             </div>
             <div class="project-study">
-                <div class="project-counter"><p></p></div>
+                <div class="project-counter"></div>
                 <div class="project-icon"></div>
                 <p>Study</p>
             </div>
@@ -51,10 +52,11 @@ const loadHome = (() => {
         </div>
         </div>
         <div class="notes">
-            <div class="notes-counter"><p>5</p></div>
+            <div class="notes-counter"></div>
             <div class="notes-icon"></div>
             <div class="notes-text"><p>Notes</p></div>
         </div>
+        <span id="add-task">+</span>
     </div>
 
     <div id="task-content"></div>
@@ -71,9 +73,8 @@ const loadHome = (() => {
         </div>
     </div>`
 
-    return {
+    return {}
 
-    }
 })();
 
 export default loadHome;

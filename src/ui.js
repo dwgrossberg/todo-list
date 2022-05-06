@@ -57,6 +57,8 @@ const displayUI = (() => {
             // Expand button
             let expand = document.createElement('div');
             expand.setAttribute('id', 'expand');
+            let expandText = document.createTextNode('<<');
+            expand.appendChild(expandText);
             taskCardRight.appendChild(expand);
             // Delete button
             let trash = document.createElement('div');
@@ -71,7 +73,7 @@ const displayUI = (() => {
     loadTaskCards(taskMaster.taskList);
 
     return {
-        loadTaskCards
+
     }
 })();
 
