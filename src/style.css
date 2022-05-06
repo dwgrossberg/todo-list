@@ -36,7 +36,6 @@ body {
     font-family: "Lato", sans-serif;
 }
 
-
 #content {
     display: grid;
     grid-template: 100px 1fr 50px / 200px 1fr;
@@ -44,17 +43,25 @@ body {
     min-width: 100vw;
 }
 
+/* Header */
 
 .header {
     grid-area: 1 / 1 / 2 / 3;
     display: flex;
+    justify-content: space-between;
     gap: 20px;
     background-color: var(--main-color);
     align-items: center;
     padding-left: 50px;
 }
 
-.header div {
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.icon {
     height: 60px;
     width: 60px;
     background-image: url('./assets/list.png');
@@ -65,6 +72,57 @@ body {
     font-family: 'retroFunks', cursive;
     font-size: 32px;
     color: ghostwhite;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-right: 20px;
+    gap: 20px;
+}
+
+input[type="search"] {
+    padding: 3px 7px;
+    border-radius: 5px;
+    position: relative;
+    background-color: ghostwhite;
+    font-family: "Lato", sans-serif;
+    font-size: 12px;
+    width: 190px;
+    height: 25px;
+    border: none;
+}
+
+input[type="search"]:focus {
+    outline: none;
+}
+
+button {
+    position: absolute;
+    right: 23px;
+    background-image: url('./assets/search.png');
+    background-size: 100%;
+    background-position: center;
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: ghostwhite;
+}
+
+#undo {
+    width: 20px;
+    height: 20px;
+    background-image: url('./assets/undo.png');
+    background-size: 100%;
+}
+
+#undo:hover {
+    background-image: url('./assets/undopink.png');
+    cursor: pointer;
+    transform: scale(1.2);
 }
 
 /* Sidebar */
@@ -329,6 +387,7 @@ body {
     height: 15px;
     width: 15px;
     background-color: #E0E0E0;
+    border-radius: 3px;
 }
 
 .container:hover input ~ .checkmark {

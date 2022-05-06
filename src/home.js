@@ -9,8 +9,15 @@ const loadHome = (() => {
     const content = document.getElementById('content');
     content.innerHTML = `
     <div class="header">
-        <div></div>
-        <h1>toDo notes</h1>
+        <div class="header-left">
+            <div class="icon"></div>
+            <h1>toDo notes</h1>
+        </div>
+        <div class="header-right">
+            <div id="undo"></div>
+            <input type="search" id="search" placeholder="search for a task or project">
+            <button id="search-button"></button>
+        </div>
     </div>
     
     <div class="sidebar">
