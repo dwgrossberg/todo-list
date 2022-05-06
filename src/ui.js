@@ -21,22 +21,26 @@ const displayUI = (() => {
                     <input type="checkbox" id="task-checkbox-${taskList.indexOf(task)}" name="task-checkbox-${taskList.indexOf(task)}" value="complete">
                     <span class="checkmark"></span>
                 </label>    
+                
                 <p class="task-title">${task.task.title}</p>
                 <p class="task-details">${task.task.details}</p>
             </div>
             <p class="due-date">${dueDate}</p>
+            
             `
-
+            // details, edit, delete
+            
             taskContent.appendChild(taskDiv);
         });
 
     }
+
+    loadTaskCards(taskMaster.taskList);
 
     return {
         loadTaskCards
     }
 })();
 
-displayUI.loadTaskCards(taskMaster.taskList);
 
 export default displayUI;
