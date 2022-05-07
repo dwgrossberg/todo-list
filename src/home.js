@@ -15,8 +15,8 @@ const loadHome = (() => {
         </div>
         <div class="header-right">
             <div id="undo"></div>
-            <input type="search" id="search" placeholder="search for a task or project">
             <button id="search-button"></button>
+            <input type="search" id="search" placeholder="search for a task or project">
         </div>
     </div>
     

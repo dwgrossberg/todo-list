@@ -114,6 +114,11 @@ button {
     border: none;
     cursor: pointer;
     background-color: ghostwhite;
+    z-index: 1;
+}
+
+button:hover + input[type="search"] {
+    outline: 3px solid var(--accent-color);
 }
 
 #undo {
@@ -128,6 +133,20 @@ button {
     background-image: url('./assets/undopink.png');
     cursor: pointer;
     transform: rotate(-90deg);
+}
+
+#undo:hover::after {
+    position: absolute;
+    content: 'undo';
+    left: 18px;
+    top: -4px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Lato", sans-serif;
+    font-size: 10px;
+    background-color: #E0E0E0;
+    color: var(--main-color);
+    transform: rotate(90deg);
 }
 
 /* Sidebar */
@@ -270,6 +289,20 @@ button {
     box-shadow: 1px 1px ghostwhite;
     background-color: var(--accent-color);
     color: white;
+}
+
+#add-task:hover::after {
+    position: absolute;
+    content: 'add a new task or project';
+    left: -90px;
+    top: -35px;
+    width: 125px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Lato", sans-serif;
+    font-size: 10px;
+    background-color: var(--main-color);
+    color: #E0E0E0;
 }
 
 
@@ -477,7 +510,7 @@ button {
     color: var(--accent-color);
 }
 
-
+/* Footer */
 
 .footer {
     grid-area: 3 / 1 / 4 / 3;
