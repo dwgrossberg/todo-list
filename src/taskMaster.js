@@ -61,8 +61,7 @@ const taskMaster = (() => {
 
     return {
         projectList,
-        taskList,
-        dateOrderTaskList
+        taskList
     }
 })();
 

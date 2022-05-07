@@ -386,6 +386,32 @@ button:hover + input[type="search"] {
     background-color: #9A031E;
 }
 
+.complete {
+    background-color: #E0E0E0;
+}
+
+.complete .priority-label {
+    background-color: #0F4C5C;
+}
+
+.complete .task-title {
+    color: grey;
+    text-decoration: line-through;
+}
+
+.complete .task-details {
+    color: #A9A9A9;
+    text-decoration: line-through;
+}
+
+.complete .due-date {
+    color: grey;
+}
+
+.complete #expand {
+    color: #A9A9A9;
+}
+
 .task-card-left {
     display: flex;
     align-items: center;
@@ -488,8 +514,7 @@ button:hover + input[type="search"] {
     background-size: 100%;
     min-width: 10px;
     min-height: 10px;
-    transform: scale(1, 2)
-    /* transform: rotate(180deg); */
+    transform: scale(1, 2);
 }
 
 #trash {
