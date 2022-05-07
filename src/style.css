@@ -94,8 +94,12 @@ input[type="search"] {
     border: none;
 }
 
+input[type="search"]:hover {
+    outline: 3px solid var(--accent-color);
+}
+
 input[type="search"]:focus {
-    outline: none;
+    outline: 2px solid var(--accent-color);
 }
 
 button {
@@ -117,12 +121,13 @@ button {
     height: 20px;
     background-image: url('./assets/undo.png');
     background-size: 100%;
+    position: relative;
 }
 
 #undo:hover {
     background-image: url('./assets/undopink.png');
     cursor: pointer;
-    transform: scale(1.2);
+    transform: rotate(-90deg);
 }
 
 /* Sidebar */
@@ -139,7 +144,7 @@ button {
     padding-left: 20px;
     font-size: 13px;
     position: relative;
-    border-right: .5px solid #d82775;
+    border-right: .5px solid var(--accent-color);
 }
 
 .home,
@@ -243,7 +248,7 @@ button {
     font-family: 'Lato', sans-serif;
     font-weight: bold;
     font-size: 35px;
-    color: #d82775;
+    color: var(--accent-color);
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -251,7 +256,7 @@ button {
     height: 45px;
     border-radius: 50%;
     background-color: ghostwhite;
-    box-shadow: .5px .5px #d82775;
+    box-shadow: .5px .5px var(--accent-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -263,7 +268,7 @@ button {
 #add-task:hover {
     transform: scale(1.1);
     box-shadow: 1px 1px ghostwhite;
-    background-color: #d82775;
+    background-color: var(--accent-color);
     color: white;
 }
 
@@ -469,7 +474,7 @@ button {
 #expand:hover {
     cursor: pointer;
     transform: rotate(-90deg) scale(1, 2);
-    color: #d82775;
+    color: var(--accent-color);
 }
 
 
