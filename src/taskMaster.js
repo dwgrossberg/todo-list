@@ -63,6 +63,7 @@ const taskMaster = (() => {
         projectList,
         taskList
     }
+    
 })();
 
 export default taskMaster;

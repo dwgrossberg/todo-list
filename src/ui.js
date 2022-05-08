@@ -22,6 +22,8 @@ const displayUI = (() => {
             taskCardLeft.appendChild(priorityLabel);
 
             // Completion checkbox
+            let checkboxTitle = document.createElement('div');
+            checkboxTitle.classList.add('checkbox-title');
             let container = document.createElement('label');
             container.classList.add('container');
             let checkbox = document.createElement('input');
@@ -40,7 +42,7 @@ const displayUI = (() => {
             let checkmark = document.createElement('span');
             checkmark.classList.add('checkmark');
             container.appendChild(checkmark);
-            taskCardLeft.appendChild(container);
+            checkboxTitle.appendChild(container);
 
             // Task title
             let taskTitle = document.createElement('p');
@@ -48,22 +50,16 @@ const displayUI = (() => {
             taskTitle.setAttribute('id', `task-title-${taskList.indexOf(task)}`)
             taskTitle.setAttribute('contenteditable', 'true')
             taskTitle.innerText = `${task.task.title}`;
-            taskCardLeft.appendChild(taskTitle);
+            checkboxTitle.appendChild(taskTitle);
+            taskCardLeft.appendChild(checkboxTitle);
 
             // Task details
             let taskDetails = document.createElement('p');
             taskDetails.classList.add('task-details');
+            taskDetails.setAttribute('id', `task-details-${taskList.indexOf(task)}`);
             taskDetails.innerText = `${task.task.details}`;
             taskCardLeft.appendChild(taskDetails);
             taskDiv.appendChild(taskCardLeft);
-
-            // Due Date
-            // let taskCardRight = document.createElement('div');
-            // taskCardRight.classList.add('task-card-right');
-            // let dueDateDOM = document.createElement('p');
-            // dueDateDOM.classList.add('due-date');
-            // dueDateDOM.innerText = `${dueDate}`;
-            // taskCardRight.appendChild(dueDateDOM);
 
             // Filter out underfined dates before formatting
             let dueDateValue;
@@ -87,7 +83,8 @@ const displayUI = (() => {
 
             // Expand button
             let expand = document.createElement('div');
-            expand.setAttribute('id', 'expand');
+            expand.classList.add('expand');
+            expand.setAttribute('id', `task-expand-${taskList.indexOf(task)}`);
             let expandText = document.createTextNode('<<');
             expand.appendChild(expandText);
             taskCardRight.appendChild(expand);
@@ -137,9 +134,50 @@ const displayUI = (() => {
     
     updateTaskDueDate();
 
-    return {
-
+    const changeTaskStyles = (e) => {
+        e.target.style.transform = 'rotate(-90deg) scale(1, 2)';
+        e.target.style.color = '#d82775';
+        const taskCard = e.target.parentNode.parentNode;
+        const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
+        taskCard.style.height = 'fit-content';
+        taskCard.style.alignItems = 'flex-start';
+        taskCardLeft.style.display = 'block';
     }
+
+    const expandTask = () => {
+        const taskExpanders = Array.from(document.querySelectorAll('[id^="task-expand-"]'));
+        taskExpanders.forEach(expander => expander.addEventListener('mousedown', (e) => {
+            e.target.style.transform = 'rotate(-90deg) scale(1, 2)';
+            e.target.style.color = '#d82775';
+            // e.target.id = e.target.id.substring(1);
+            const taskCard = e.target.parentNode.parentNode;
+            const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
+            taskCard.style.height = 'fit-content';
+            taskCard.style.alignItems = 'flex-start';
+            taskCardLeft.style.display = 'block';
+        }));
+    }
+
+    expandTask();
+
+    const UNexpandTask = () => {
+        const taskExpanders = Array.from(document.querySelectorAll('[id^="ask-expand-"]'));
+        taskExpanders.forEach(expander => expander.addEventListener('mousedown', (e) => {
+            e.target.style.transform = 'scale(1, 2)';
+            e.target.style.color = 'grey';
+            e.target.id = 't' + e.target.id;
+            const taskCard = e.target.parentNode.parentNode;
+            const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
+            taskCard.style.height = '40px';
+            taskCard.style.alignItems = 'center';
+            taskCardLeft.style.display = 'flex';
+        }));
+    }
+
+    UNexpandTask();
+
+    return {}
+
 })();
 
 
