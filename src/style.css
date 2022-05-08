@@ -580,8 +580,24 @@ button:hover + input[type="search"] {
 .due-date {
     font-size: 10px;
     min-width: 60px;
+    padding: 5px;
+    border-radius: 5px;
     justify-content: end;
     text-align: end;
+    border: none;
+    background-color: transparent;
+    color: grey;
+}
+
+.due-date:hover {
+    outline: 1px dotted #0F4C5C;
+}
+
+.due-date:focus {
+    outline: 2px dotted #0F4C5C;
+    font-size: 10px;
+    font-family: 'Lato', sans-serif;
+    color: grey;
 }
 
 #expand {

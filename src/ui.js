@@ -66,11 +66,28 @@ const displayUI = (() => {
             taskDiv.appendChild(taskCardLeft);
 
             // Due Date
+            // let taskCardRight = document.createElement('div');
+            // taskCardRight.classList.add('task-card-right');
+            // let dueDateDOM = document.createElement('p');
+            // dueDateDOM.classList.add('due-date');
+            // dueDateDOM.innerText = `${dueDate}`;
+            // taskCardRight.appendChild(dueDateDOM);
+
+            // Due Date 
+            // Using input type="text" in order to create a  
+            // date picker && use the Task dueDate as a placeholder
             let taskCardRight = document.createElement('div');
             taskCardRight.classList.add('task-card-right');
-            let dueDateDOM = document.createElement('p');
+            let dueDateDOM = document.createElement('input');
             dueDateDOM.classList.add('due-date');
-            dueDateDOM.innerText = `${dueDate}`;
+            dueDateDOM.type = 'text';
+            dueDateDOM.placeholder = `${dueDate}`;
+            dueDateDOM.addEventListener('focus', (e) => {
+                e.target.type = 'date';
+            });
+            dueDateDOM.addEventListener('blur', (e) => {
+                e.target.type = 'text';
+            })
             taskCardRight.appendChild(dueDateDOM);
 
             // Expand button
@@ -91,8 +108,10 @@ const displayUI = (() => {
         });
     }
 
+    loadTaskCards(taskMaster.taskList);
+
     const updateTaskTitle = () => {
-        // Setup mutation Observer to watch for changes to Task titles and update Task objects
+        // Setup mutation Observer to watch for changes to Task titles and update the corresponding Task objects
         const taskTitles = Array.from(document.querySelectorAll('[id^="task-title-"]'));
         const config = { characterData: true, attributes: true, childList: true, subtree: true };
         const callback = function(mutationsList, observer) {
@@ -101,22 +120,17 @@ const displayUI = (() => {
                 console.log(mutation.target.parentNode.id, mutation.target.textContent); 
                 // Regex parse string to get final id # - corresponds with Task array index in taskMaster
                 const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.id)[0]);
-                console.log(taskArrayIndex, taskMaster.taskList[taskArrayIndex]);
+                console.log(taskMaster.taskList[taskArrayIndex].task);
                 taskMaster.taskList[taskArrayIndex].changeTitle(mutation.target.textContent);
-                // if (mutation.target.parentNode.id === 'player-O-name') {
-                    // player1.updatePlayerName(mutation.target.textContent, 'Player O');
-                // } else if (mutation.target.parentNode.id === 'player-X-name') {
-                    // player1.updatePlayerName(mutation.target.textContent, 'Player X');
-                // }
-            
             }
         }
         const observer = new MutationObserver(callback);
         taskTitles.forEach(title => observer.observe(title, config));
     }
 
-    loadTaskCards(taskMaster.taskList);
     updateTaskTitle();
+
+    
 
     return {
 
