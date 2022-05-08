@@ -4,9 +4,10 @@ import { format } from "date-fns";
 const displayUI = (() => {
 
     const loadTaskCards = (taskList) => {
-        
+        // Setup Task cards for display to the DOM
         const taskContent = document.getElementById('task-content');
         taskList.forEach(task => {
+
             const taskDiv = document.createElement('div');
             taskDiv.classList.add('task');
             taskDiv.classList.add(task.task.priority); //Add task priority for css manipulation
@@ -52,6 +53,8 @@ const displayUI = (() => {
             // Task title
             let taskTitle = document.createElement('p');
             taskTitle.classList.add('task-title');
+            taskTitle.setAttribute('id', `task-title-${taskList.indexOf(task)}`)
+            taskTitle.setAttribute('contenteditable', 'true')
             taskTitle.innerText = `${task.task.title}`;
             taskCardLeft.appendChild(taskTitle);
 
@@ -88,7 +91,32 @@ const displayUI = (() => {
         });
     }
 
+    const updateTaskTitle = () => {
+        // Setup mutation Observer to watch for changes to Task titles and update Task objects
+        const taskTitles = Array.from(document.querySelectorAll('[id^="task-title-"]'));
+        const config = { characterData: true, attributes: true, childList: true, subtree: true };
+        const callback = function(mutationsList, observer) {
+            for(const mutation of mutationsList) {
+                // Keep track of mutated DOM element and text content
+                console.log(mutation.target.parentNode.id, mutation.target.textContent); 
+                // Regex parse string to get final id # - corresponds with Task array index in taskMaster
+                const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.id)[0]);
+                console.log(taskArrayIndex, taskMaster.taskList[taskArrayIndex]);
+                taskMaster.taskList[taskArrayIndex].changeTitle(mutation.target.textContent);
+                // if (mutation.target.parentNode.id === 'player-O-name') {
+                    // player1.updatePlayerName(mutation.target.textContent, 'Player O');
+                // } else if (mutation.target.parentNode.id === 'player-X-name') {
+                    // player1.updatePlayerName(mutation.target.textContent, 'Player X');
+                // }
+            
+            }
+        }
+        const observer = new MutationObserver(callback);
+        taskTitles.forEach(title => observer.observe(title, config));
+    }
+
     loadTaskCards(taskMaster.taskList);
+    updateTaskTitle();
 
     return {
 

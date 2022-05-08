@@ -266,12 +266,10 @@ button:hover + input[type="search"] {
 
 .delete-project {
     background-image: url('./assets/close.png');
-    background-size: 60%;
+    background-size: 50%;
     background-repeat: no-repeat;
     background-position: center;
     align-self: center;
-    color: white;
-    font-size: 9px;
     height: 11px;
     width: 11px;
     right: 40px;
@@ -284,6 +282,22 @@ button:hover + input[type="search"] {
 .delete-project:hover {
     background-color: var(--accent-color);
     transform: scale(1.15);
+}
+
+.delete-project:hover::after {
+    position: absolute;
+    content: 'delete project';
+    left: 15px;
+    top: -15px;
+    width: 40px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Lato", sans-serif;
+    font-size: 10px;
+    background-color: var(--main-color);
+    color: #E0E0E0;
+    text-align: center;
+    transform: scale(.8);
 }
 
 #add-task {
@@ -482,7 +496,7 @@ button:hover + input[type="search"] {
     position: absolute;
     content: 'mark complete';
     left: -5px;
-    top: -33px;
+    top: -35px;
     width: 70px;
     padding: 7px 10px;
     border-radius: 5px;
@@ -525,6 +539,32 @@ button:hover + input[type="search"] {
 
 .task-title {
     min-width: fit-content;
+    padding: 5px;
+}
+
+.task-title:hover {
+    outline: 1px dotted #0F4C5C;
+    border-radius: 5px;
+}
+
+.task-title:focus {
+    outline: 2px dotted #0F4C5C;
+    border-radius: 5px;
+}
+
+.task-title:hover::after {
+    position: absolute;
+    content: 'edit task title';
+    left: 35px;
+    top: -22px;
+    width: 60px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Lato", sans-serif;
+    font-size: 10px;
+    background-color: var(--main-color);
+    color: #E0E0E0;
+    text-align: center;
 }
 
 .task-details {
@@ -572,6 +612,7 @@ button:hover + input[type="search"] {
     border-radius: 5px;
     font-family: "Lato", sans-serif;
     font-size: 10px;
+    font-weight: normal;
     background-color: var(--main-color);
     color: #E0E0E0;
     text-align: center;
@@ -592,10 +633,10 @@ button:hover + input[type="search"] {
 
 #delete-task:hover::after {
     position: absolute;
-    content: 'delete';
-    left: -33px;
+    content: 'delete task';
+    left: -42px;
     top: -30px;
-    width: 40px;
+    width: 50px;
     padding: 7px 10px;
     border-radius: 5px;
     font-family: "Lato", sans-serif;
