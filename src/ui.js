@@ -1,5 +1,5 @@
 import taskMaster from "./taskMaster.js";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 const displayUI = (() => {
 
@@ -12,14 +12,6 @@ const displayUI = (() => {
             taskDiv.classList.add('task');
             taskDiv.classList.add(task.task.priority); //Add task priority for css manipulation
             taskDiv.setAttribute('id', `task-${taskList.indexOf(task)}`); //Add task id for later deletion, etc.
-
-            // Filter out underfined dates before formatting
-            let dueDate;
-            if (task.task.dueDate !== undefined) {
-                dueDate = format(new Date(task.task.dueDate), 'dd MMM yy' );
-            } else {
-                dueDate = 'No Due Date';
-            }
 
             // Create the html structure for each Task card
             // Priority color label
@@ -73,21 +65,24 @@ const displayUI = (() => {
             // dueDateDOM.innerText = `${dueDate}`;
             // taskCardRight.appendChild(dueDateDOM);
 
+            // Filter out underfined dates before formatting
+            let dueDateValue;
+            if (task.task.dueDate !== undefined) {
+                dueDateValue = format(new Date(task.task.dueDate), 'yyyy-MM-dd');
+            } else {
+                dueDateValue = 'No Due Date';
+            }
+            
             // Due Date 
-            // Using input type="text" in order to create a  
-            // date picker && use the Task dueDate as a placeholder
+            // Using input type="date" in order to create an interactive
+            // date picker that corresponds to each Task object
             let taskCardRight = document.createElement('div');
             taskCardRight.classList.add('task-card-right');
             let dueDateDOM = document.createElement('input');
             dueDateDOM.classList.add('due-date');
-            dueDateDOM.type = 'text';
-            dueDateDOM.placeholder = `${dueDate}`;
-            dueDateDOM.addEventListener('focus', (e) => {
-                e.target.type = 'date';
-            });
-            dueDateDOM.addEventListener('blur', (e) => {
-                e.target.type = 'text';
-            })
+            dueDateDOM.setAttribute('id', `task-dueDate-${taskList.indexOf(task)}`);
+            dueDateDOM.type = 'date';
+            dueDateDOM.value = `${dueDateValue}`;
             taskCardRight.appendChild(dueDateDOM);
 
             // Expand button
@@ -130,7 +125,17 @@ const displayUI = (() => {
 
     updateTaskTitle();
 
+    const updateTaskDueDate = () => {
+        // Add event listener to watch for changes to dueDate
+        const taskDueDates = Array.from(document.querySelectorAll('[id^="task-dueDate-"]'));
+        taskDueDates.forEach(dueDate => dueDate.addEventListener('change', (e) => {
+            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
+            taskMaster.taskList[taskArrayIndex].changeDueDate(e.target.value);
+            console.log(taskMaster.taskList[taskArrayIndex].task);
+        }));
+    }
     
+    updateTaskDueDate();
 
     return {
 

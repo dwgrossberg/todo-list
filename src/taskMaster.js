@@ -43,7 +43,7 @@ const taskMaster = (() => {
     
     // Default tasks on page load
     const runTask = createTask('Home', 'Run 10k practice pace for race', '10.2.22', 'low', '', false, false);
-    const studyTask = createTask('Next 7 Days', 'Review Webpack.config.js configuration basics', '5/20/2022', 'medium', 'Revist the Webpack guides page and review relevant info', ['Asset Managment', 'Output', 'Development'], false);
+    const studyTask = createTask('Next 7 Days', 'Review Webpack.config.js basics', '5/20/2022', 'medium', 'Revist the Webpack guides page and review relevant info', ['Asset Managment', 'Output', 'Development'], false);
     const funTask = createTask('Today', 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', '', false);
     const emptyTask = createTask('Home', 'Title');
 

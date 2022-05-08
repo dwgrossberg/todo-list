@@ -454,7 +454,7 @@ button:hover + input[type="search"] {
     display: flex;
     align-items: center;
     gap: 10px;
-    min-width: 75%;
+    min-width: 65%;
 }
 
 .task-card-right {
@@ -462,7 +462,7 @@ button:hover + input[type="search"] {
     align-items: center;
     justify-content: space-around;
     gap: 10px;
-    min-width: 25%;
+    min-width: 35%;
 }
 
 .container {
@@ -568,7 +568,7 @@ button:hover + input[type="search"] {
 }
 
 .task-details {
-    min-width: 50px;
+    min-width: 0px;
     max-width: 400px;
     white-space: nowrap;
     overflow: hidden;
@@ -579,7 +579,7 @@ button:hover + input[type="search"] {
 
 .due-date {
     font-size: 10px;
-    min-width: 60px;
+    min-width: 80px;
     padding: 5px;
     border-radius: 5px;
     justify-content: end;
@@ -598,6 +598,22 @@ button:hover + input[type="search"] {
     font-size: 10px;
     font-family: 'Lato', sans-serif;
     color: grey;
+}
+
+.due-date:hover::after {
+    position: absolute;
+    content: 'edit due date';
+    right: 82px;
+    top: -22px;
+    width: 60px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Lato", sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+    background-color: var(--main-color);
+    color: #E0E0E0;
+    text-align: center;
 }
 
 #expand {
@@ -621,9 +637,9 @@ button:hover + input[type="search"] {
 #expand:hover::after {
     position: absolute;
     content: 'show details / edit';
-    left: -25px;
+    left: -20px;
     top: -20px;
-    width: 100px;
+    width: 90px;
     padding: 7px 10px;
     border-radius: 5px;
     font-family: "Lato", sans-serif;
