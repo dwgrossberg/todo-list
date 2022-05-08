@@ -264,6 +264,28 @@ button:hover + input[type="search"] {
     font-size: 8px;
 }
 
+.delete-project {
+    background-image: url('./assets/close.png');
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+    align-self: center;
+    color: white;
+    font-size: 9px;
+    height: 11px;
+    width: 11px;
+    right: 40px;
+    border-radius: 50%;
+    background-color: grey;
+    justify-content: center;
+    margin-left: 5px;
+}
+
+.delete-project:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.15);
+}
+
 #add-task {
     font-family: 'Lato', sans-serif;
     font-weight: bold;
@@ -459,7 +481,7 @@ button:hover + input[type="search"] {
 .container:hover::after {
     position: absolute;
     content: 'mark complete';
-    left: 0px;
+    left: -5px;
     top: -33px;
     width: 70px;
     padding: 7px 10px;
@@ -556,19 +578,19 @@ button:hover + input[type="search"] {
     transform: rotate(90deg) scale(.5, 1);
 }
 
-#trash {
+#delete-task {
     background-image: url('./assets/trash.png');
     background-size: 100%;
     min-width: 12px;
     min-height: 12px;
 }
 
-#trash:hover {
+#delete-task:hover {
     transform: scale(1.2);
     cursor: pointer;
 }
 
-#trash:hover::after {
+#delete-task:hover::after {
     position: absolute;
     content: 'delete';
     left: -33px;

@@ -46,16 +46,19 @@ const loadHome = (() => {
                 <div class="project-counter"></div>
                 <div class="project-icon">
                 </div><p>Baby</p>
+                <div class="delete-project"></div>
             </div>
             <div class="project-study">
                 <div class="project-counter"></div>
                 <div class="project-icon"></div>
                 <p>Study</p>
+                <div class="delete-project"></div>
             </div>
             <div class="project-workout">
             <div class="project-counter"></div>
             <div class="project-icon"></div>
             <p>Workout</p>
+            <div class="delete-project"></div>
         </div>
         </div>
         <div class="notes">

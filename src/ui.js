@@ -35,6 +35,7 @@ const displayUI = (() => {
             checkbox.type = 'checkbox';
             checkbox.id = `task-checkbox-${taskList.indexOf(task)}`;
             checkbox.name= `task-checkbox-name-${taskList.indexOf(task)}`;
+            // Add 'complete' class on clicking Task checkbox 
             checkbox.addEventListener('change', (e) => {
                 if (e.target.checked) {
                     taskDiv.classList.add('complete');
@@ -78,7 +79,7 @@ const displayUI = (() => {
 
             // Delete button
             let trash = document.createElement('div');
-            trash.setAttribute('id', 'trash');
+            trash.setAttribute('id', 'delete-task');
             taskCardRight.appendChild(trash);
             taskDiv.appendChild(taskCardRight);
 
