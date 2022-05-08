@@ -147,6 +147,7 @@ button:hover + input[type="search"] {
     background-color: #E0E0E0;
     color: var(--main-color);
     transform: rotate(90deg);
+    text-align: center;
 }
 
 /* Sidebar */
@@ -303,6 +304,7 @@ button:hover + input[type="search"] {
     font-size: 10px;
     background-color: var(--main-color);
     color: #E0E0E0;
+    text-align: center;
 }
 
 
@@ -454,6 +456,21 @@ button:hover + input[type="search"] {
     border-radius: 3px;
 }
 
+.container:hover::after {
+    position: absolute;
+    content: 'mark complete';
+    left: 0px;
+    top: -33px;
+    width: 70px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Lato", sans-serif;
+    font-size: 10px;
+    background-color: var(--main-color);
+    color: #E0E0E0;
+    text-align: center;
+}
+
 .container:hover input ~ .checkmark {
     background-color: #C8C8C8;
 }
@@ -517,6 +534,28 @@ button:hover + input[type="search"] {
     transform: scale(1, 2);
 }
 
+#expand:hover {
+    cursor: pointer;
+    transform: rotate(-90deg) scale(1, 2);
+    color: var(--accent-color);
+}
+
+#expand:hover::after {
+    position: absolute;
+    content: 'show details / edit';
+    left: -25px;
+    top: -20px;
+    width: 100px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Lato", sans-serif;
+    font-size: 10px;
+    background-color: var(--main-color);
+    color: #E0E0E0;
+    text-align: center;
+    transform: rotate(90deg) scale(.5, 1);
+}
+
 #trash {
     background-image: url('./assets/trash.png');
     background-size: 100%;
@@ -529,10 +568,20 @@ button:hover + input[type="search"] {
     cursor: pointer;
 }
 
-#expand:hover {
-    cursor: pointer;
-    transform: rotate(-90deg) scale(1, 2);
-    color: var(--accent-color);
+#trash:hover::after {
+    position: absolute;
+    content: 'delete';
+    left: -33px;
+    top: -30px;
+    width: 40px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Lato", sans-serif;
+    font-size: 10px;
+    background-color: var(--main-color);
+    color: #E0E0E0;
+    text-align: center;
+    transform: scale(.8);
 }
 
 /* Footer */
