@@ -4,6 +4,9 @@ A simple Todo List App built using vanilla JavaScript and Webpack
 ui features 
 - searchbar
 - undo button
+- checkall button
+- light dark mode
+
 
 modules structure
 - index

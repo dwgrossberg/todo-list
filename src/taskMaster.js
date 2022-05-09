@@ -36,10 +36,10 @@ const taskMaster = (() => {
         return newTask;
     }   
     
-    const updateTask = (index, task) => {
-        taskList.splice(index, 1, task);
-        return taskList;
-    }
+    // const updateTask = (index, task) => {
+        // taskList.splice(index, 1, task);
+        // return taskList;
+    // }
 
     // Default Projects on page load
     const home = createProject('Home');
@@ -67,7 +67,7 @@ const taskMaster = (() => {
     return {
         projectList,
         taskList,
-        updateTask,
+        // updateTask,
         dateOrderTaskList
     }
 

@@ -3,9 +3,51 @@ import { format } from "date-fns";
 
 const displayUI = (() => {
 
+    const updateTaskTitle = () => {
+        // Setup mutation Observer to watch for changes to Task titles and update the corresponding Task objects
+        const taskTitles = Array.from(document.querySelectorAll('[id^="task-title-"]'));
+        const config = { characterData: true, attributes: true, childList: true, subtree: true };
+        const callback = function(mutationsList, observer) {
+            for (const mutation of mutationsList) {
+                // Keep track of mutated DOM element and text content
+                console.log(mutation.target.parentNode.id, mutation.target.textContent); 
+                // Regex parse string to get final id # - corresponds with Task array index in taskMaster
+                const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.id)[0]);
+                console.log(taskMaster.taskList[taskArrayIndex].task);
+                taskMaster.taskList[taskArrayIndex].changeTitle(mutation.target.textContent);
+            }
+        }
+        const observer = new MutationObserver(callback);
+        taskTitles.forEach(title => observer.observe(title, config));
+    }
+    
+    updateTaskTitle();
+
+    const updateTaskDueDate = () => {
+        // Add event listener to watch for changes to dueDate
+        const taskDueDates = Array.from(document.querySelectorAll('[id^="task-dueDate-"]'));
+        taskDueDates.forEach(dueDate => dueDate.addEventListener('change', (e) => {
+            // Get the id # of the Task DOM object - matches the index of Task object in taskList
+            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
+            const newDateFormatted = new Date(e.target.value);
+            console.log(newDateFormatted);
+            // Update the Task object dueDate
+            taskMaster.taskList[taskArrayIndex].changeDueDate(newDateFormatted);
+            console.log(taskMaster.taskList[taskArrayIndex].task);
+            // Reorder the taskList according to new dates
+            taskMaster.dateOrderTaskList(taskMaster.taskList);
+            console.log(taskMaster.taskList);
+            // Clear the task-content DOM section
+            while (taskContent.firstChild) {
+                taskContent.removeChild(taskContent.lastChild);
+            }
+            loadTaskCards(taskMaster.taskList);
+        }));
+    }
+
+    const taskContent = document.getElementById('task-content');
     const loadTaskCards = (taskList) => {
         // Setup Task cards for display to the DOM
-        const taskContent = document.getElementById('task-content');
         taskList.forEach(task => {
 
             const taskDiv = document.createElement('div');
@@ -97,47 +139,58 @@ const displayUI = (() => {
 
             // Add Task card to DOM
             taskContent.appendChild(taskDiv);
+
+            // Call update TaskDueDate function here to reattach event 
+            // listeners to Task DOM objects each time loadTaskCards runs
+            updateTaskDueDate();
+
         });
     }
 
     loadTaskCards(taskMaster.taskList);
 
-    const updateTaskTitle = () => {
-        // Setup mutation Observer to watch for changes to Task titles and update the corresponding Task objects
-        const taskTitles = Array.from(document.querySelectorAll('[id^="task-title-"]'));
-        const config = { characterData: true, attributes: true, childList: true, subtree: true };
-        const callback = function(mutationsList, observer) {
-            for(const mutation of mutationsList) {
-                // Keep track of mutated DOM element and text content
-                console.log(mutation.target.parentNode.id, mutation.target.textContent); 
-                // Regex parse string to get final id # - corresponds with Task array index in taskMaster
-                const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.id)[0]);
-                console.log(taskMaster.taskList[taskArrayIndex].task);
-                taskMaster.taskList[taskArrayIndex].changeTitle(mutation.target.textContent);
-            }
-        }
-        const observer = new MutationObserver(callback);
-        taskTitles.forEach(title => observer.observe(title, config));
-    }
-
-    updateTaskTitle();
-
-    const updateTaskDueDate = () => {
-        // Add event listener to watch for changes to dueDate
-        const taskDueDates = Array.from(document.querySelectorAll('[id^="task-dueDate-"]'));
-        taskDueDates.forEach(dueDate => dueDate.addEventListener('change', (e) => {
-            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
-            taskMaster.taskList[taskArrayIndex].changeDueDate(e.target.value);
-            console.log(taskMaster.taskList[taskArrayIndex].task);
-            // Update the taskMaster taskList
-            taskMaster.updateTask();
-
-
-            loadTaskCards(taskMaster.dateOrderTaskList(taskMaster.taskList));
-        }));
-    }
     
-    updateTaskDueDate();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
 
     const expandTask = () => {
         const taskExpanders = Array.from(document.querySelectorAll('[id^="task-expand-"]'));
