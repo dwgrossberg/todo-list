@@ -3,6 +3,21 @@ import { format } from "date-fns";
 
 const displayUI = (() => {
 
+    const updateTaskCompleteStatus = () => {
+        const taskCheckboxes = Array.from(document.querySelectorAll('[id^="task-checkbox-"]'));
+        taskCheckboxes.forEach(checkbox => checkbox.addEventListener('change', (e) => {
+            // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
+            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
+            console.log(taskArrayIndex);
+            if (e.target.checked) {
+                taskMaster.taskList[taskArrayIndex].changeCompleteStatus(true);
+            } else {
+                taskMaster.taskList[taskArrayIndex].changeCompleteStatus(false);
+            }
+            console.log(taskMaster.taskList[taskArrayIndex].task);
+        }));
+    }
+
     const updateTaskTitle = () => {
         // Setup mutation Observer to watch for changes to Task titles and update the corresponding Task objects
         const taskTitles = Array.from(document.querySelectorAll('[id^="task-title-"]'));
@@ -40,6 +55,8 @@ const displayUI = (() => {
                 taskContent.removeChild(taskContent.lastChild);
             }
             loadTaskCards(taskMaster.taskList);
+            // Re-attach event listener functions to Task DOM objects
+            updateTaskCompleteStatus();
             expandTask();
             deleteTask();
         }));
@@ -77,7 +94,6 @@ const displayUI = (() => {
         taskBins.forEach(bin => bin.addEventListener('mousedown', (e) => {
             // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
             const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
-            console.log(taskArrayIndex, e.target.parentNode.parentNode);
             // Remove Task DOM object
             e.target.parentNode.parentNode.remove();
             // Remove the Task object from the taskMasker.taskList
@@ -113,7 +129,12 @@ const displayUI = (() => {
             checkbox.type = 'checkbox';
             checkbox.id = `task-checkbox-${taskList.indexOf(task)}`;
             checkbox.name= `task-checkbox-name-${taskList.indexOf(task)}`;
-            // Add 'complete' class on clicking Task checkbox 
+            // Add complete class to existing completed Tasks
+            if (task.task.complete === true) {
+                taskDiv.classList.add('complete');
+                checkbox.checked = true;
+            }
+            // Add 'complete' class on clicking Task checkbox
             checkbox.addEventListener('change', (e) => {
                 if (e.target.checked) {
                     taskDiv.classList.add('complete');
@@ -191,6 +212,7 @@ const displayUI = (() => {
 
     loadTaskCards(taskMaster.taskList);
 
+    updateTaskCompleteStatus();
     expandTask();
     deleteTask();
 
