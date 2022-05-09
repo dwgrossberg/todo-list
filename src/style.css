@@ -630,7 +630,7 @@ button:hover + input[type="search"] {
     text-align: center;
 }
 
-.expand {
+[class^="expand"] {
     /* background-image: url('./assets/chevron.png'); */
     font-family: 'Lato', sans-serif;
     font-weight: bold;
@@ -642,13 +642,13 @@ button:hover + input[type="search"] {
     transform: scale(1, 2);
 }
 
-.expand:hover {
+[class^="expand"]:hover {
     cursor: pointer;
     transform: rotate(-90deg) scale(1, 2);
     color: var(--accent-color);
 }
 
-.expand:hover::after {
+[class^="expand"]:hover::after {
     position: absolute;
     content: 'show details / edit';
     left: -20px;
@@ -665,19 +665,19 @@ button:hover + input[type="search"] {
     transform: rotate(90deg) scale(.5, 1);
 }
 
-#delete-task {
+[id^="task-delete"] {
     background-image: url('./assets/trash.png');
     background-size: 100%;
     min-width: 12px;
     min-height: 12px;
 }
 
-#delete-task:hover {
+[id^="task-delete"]:hover {
     transform: scale(1.2);
     cursor: pointer;
 }
 
-#delete-task:hover::after {
+[id^="task-delete"]:hover::after {
     position: absolute;
     content: 'delete task';
     left: -42px;

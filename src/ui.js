@@ -11,7 +11,7 @@ const displayUI = (() => {
             for (const mutation of mutationsList) {
                 // Keep track of mutated DOM element and text content
                 console.log(mutation.target.parentNode.id, mutation.target.textContent); 
-                // Regex parse string to get final id # - corresponds with Task array index in taskMaster
+                // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
                 const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.id)[0]);
                 console.log(taskMaster.taskList[taskArrayIndex].task);
                 taskMaster.taskList[taskArrayIndex].changeTitle(mutation.target.textContent);
@@ -20,8 +20,6 @@ const displayUI = (() => {
         const observer = new MutationObserver(callback);
         taskTitles.forEach(title => observer.observe(title, config));
     }
-    
-    updateTaskTitle();
 
     const updateTaskDueDate = () => {
         // Add event listener to watch for changes to dueDate
@@ -42,9 +40,52 @@ const displayUI = (() => {
                 taskContent.removeChild(taskContent.lastChild);
             }
             loadTaskCards(taskMaster.taskList);
+            expandTask();
+            deleteTask();
         }));
     }
 
+    const expandTask = () => {
+        const taskExpanders = Array.from(document.querySelectorAll('[id^="task-expand-"]'));
+        taskExpanders.forEach(expander => expander.addEventListener('mousedown', (e) => {
+            const taskCard = e.target.parentNode.parentNode;
+            const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
+            const taskDetails = e.target.parentNode.parentNode.childNodes[0].childNodes[2];
+            if (taskCard.classList.contains('expanded')) {
+                e.target.style.transform = '';
+                e.target.style.color = '';
+                taskCard.classList.remove('expanded');
+                taskCard.style.height = '';
+                taskCard.style.alignItems = '';
+                taskCardLeft.style.display = '';
+                taskDetails.style.whiteSpace = '';
+    
+            } else {
+                e.target.style.transform = 'rotate(-90deg) scale(1, 2)';
+                e.target.style.color = '#d82775';
+                taskCard.classList.add('expanded');
+                taskCard.style.height = 'fit-content';
+                taskCard.style.alignItems = 'flex-start';
+                taskCardLeft.style.display = 'block';
+                taskDetails.style.whiteSpace = 'normal';
+            }
+        }));
+    }
+        
+    const deleteTask = () => {
+        const taskBins = Array.from(document.querySelectorAll('[id^="task-delete-"]'));
+        taskBins.forEach(bin => bin.addEventListener('mousedown', (e) => {
+            // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
+            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
+            console.log(taskArrayIndex, e.target.parentNode.parentNode);
+            // Remove Task DOM object
+            e.target.parentNode.parentNode.remove();
+            // Remove the Task object from the taskMasker.taskList
+            taskMaster.removeTask(taskArrayIndex);
+            console.log(taskMaster.taskList)
+        }));
+    }
+    
     const taskContent = document.getElementById('task-content');
     const loadTaskCards = (taskList) => {
         // Setup Task cards for display to the DOM
@@ -133,99 +174,28 @@ const displayUI = (() => {
 
             // Delete button
             let trash = document.createElement('div');
-            trash.setAttribute('id', 'delete-task');
+            trash.setAttribute('id', `task-delete-${taskList.indexOf(task)}`);
             taskCardRight.appendChild(trash);
             taskDiv.appendChild(taskCardRight);
 
             // Add Task card to DOM
             taskContent.appendChild(taskDiv);
 
-            // Call update TaskDueDate function here to reattach event 
-            // listeners to Task DOM objects each time loadTaskCards runs
+            // Call Task functions here in order to reattach event
+            // listeners to DOM objects each time loadTaskCards runs
             updateTaskDueDate();
+            updateTaskTitle();
 
         });
     }
 
     loadTaskCards(taskMaster.taskList);
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-    const expandTask = () => {
-        const taskExpanders = Array.from(document.querySelectorAll('[id^="task-expand-"]'));
-        taskExpanders.forEach(expander => expander.addEventListener('mousedown', (e) => {
-            const taskCard = e.target.parentNode.parentNode;
-            const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
-            const taskDetails = e.target.parentNode.parentNode.childNodes[0].childNodes[2];
-            if (taskCard.classList.contains('expanded')) {
-                e.target.style.transform = '';
-                e.target.style.color = '';
-                taskCard.classList.remove('expanded');
-                taskCard.style.height = '';
-                taskCard.style.alignItems = '';
-                taskCardLeft.style.display = '';
-                taskDetails.style.whiteSpace = '';
-
-            } else {
-                e.target.style.transform = 'rotate(-90deg) scale(1, 2)';
-                e.target.style.color = '#d82775';
-                taskCard.classList.add('expanded');
-                taskCard.style.height = 'fit-content';
-                taskCard.style.alignItems = 'flex-start';
-                taskCardLeft.style.display = 'block';
-                taskDetails.style.whiteSpace = 'normal';
-            }
-        }));
-    }
-
     expandTask();
-
-
+    deleteTask();
 
     return {}
 
 })();
-
 
 export default displayUI;

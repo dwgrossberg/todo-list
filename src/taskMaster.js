@@ -16,8 +16,9 @@ const taskMaster = (() => {
         return newProject;
     }
 
-    const updateProject = () => {
-
+    const removeProject = (index) => {
+        projectList.splice(index, 1);
+        return projectList;
     }
 
     // Create new Tasks and push them to the taskList
@@ -36,10 +37,10 @@ const taskMaster = (() => {
         return newTask;
     }   
     
-    // const updateTask = (index, task) => {
-        // taskList.splice(index, 1, task);
-        // return taskList;
-    // }
+    const removeTask = (index) => {
+        taskList.splice(index, 1);
+        return taskList;
+    }
 
     // Default Projects on page load
     const home = createProject('Home');
@@ -66,8 +67,11 @@ const taskMaster = (() => {
 
     return {
         projectList,
+        createProject,
+        removeProject,
         taskList,
-        // updateTask,
+        createTask,
+        removeTask,
         dateOrderTaskList
     }
 
