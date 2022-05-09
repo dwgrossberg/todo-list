@@ -550,6 +550,7 @@ button:hover + input[type="search"] {
 .task-title {
     min-width: fit-content;
     padding: 5px;
+    margin-left: 5px;
 }
 
 .task-title:hover {

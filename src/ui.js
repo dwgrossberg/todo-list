@@ -134,47 +134,33 @@ const displayUI = (() => {
     
     updateTaskDueDate();
 
-    const changeTaskStyles = (e) => {
-        e.target.style.transform = 'rotate(-90deg) scale(1, 2)';
-        e.target.style.color = '#d82775';
-        const taskCard = e.target.parentNode.parentNode;
-        const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
-        taskCard.style.height = 'fit-content';
-        taskCard.style.alignItems = 'flex-start';
-        taskCardLeft.style.display = 'block';
-    }
-
     const expandTask = () => {
         const taskExpanders = Array.from(document.querySelectorAll('[id^="task-expand-"]'));
         taskExpanders.forEach(expander => expander.addEventListener('mousedown', (e) => {
-            e.target.style.transform = 'rotate(-90deg) scale(1, 2)';
-            e.target.style.color = '#d82775';
-            // e.target.id = e.target.id.substring(1);
             const taskCard = e.target.parentNode.parentNode;
             const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
-            taskCard.style.height = 'fit-content';
-            taskCard.style.alignItems = 'flex-start';
-            taskCardLeft.style.display = 'block';
+            // const taskDetails = e.target.parentNode.parentNode.childNodes[0].childNodes[2];
+            if (taskCard.classList.contains('expanded')) {
+                e.target.style.transform = '';
+                e.target.style.color = '';
+                taskCard.classList.remove('expanded');
+                taskCard.style.height = '';
+                taskCard.style.alignItems = '';
+                taskCardLeft.style.display = '';
+            } else {
+                e.target.style.transform = 'rotate(-90deg) scale(1, 2)';
+                e.target.style.color = '#d82775';
+                taskCard.classList.add('expanded');
+                taskCard.style.height = 'fit-content';
+                taskCard.style.alignItems = 'flex-start';
+                taskCardLeft.style.display = 'block';
+            }
         }));
     }
 
     expandTask();
 
-    const UNexpandTask = () => {
-        const taskExpanders = Array.from(document.querySelectorAll('[id^="ask-expand-"]'));
-        taskExpanders.forEach(expander => expander.addEventListener('mousedown', (e) => {
-            e.target.style.transform = 'scale(1, 2)';
-            e.target.style.color = 'grey';
-            e.target.id = 't' + e.target.id;
-            const taskCard = e.target.parentNode.parentNode;
-            const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
-            taskCard.style.height = '40px';
-            taskCard.style.alignItems = 'center';
-            taskCardLeft.style.display = 'flex';
-        }));
-    }
 
-    UNexpandTask();
 
     return {}
 
