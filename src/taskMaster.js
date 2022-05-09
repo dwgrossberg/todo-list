@@ -56,6 +56,7 @@ const taskMaster = (() => {
     // Sort the taskList so that it is ordered by date
     const dateOrderTaskList = (taskList) => {
         let sortedTaskList = taskList.sort(function(a, b) {
+
             if (a.task.dueDate < b.task.dueDate) return -1;
             if (a.task.dueDate > b.task.dueDate) return 1;
             return 0;

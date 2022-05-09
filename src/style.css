@@ -551,19 +551,26 @@ button:hover + input[type="search"] {
     transform: rotate(45deg);
 }
 
-.task-title {
+.task-title,
+.editable {
     padding: 5px;
     margin-left: 5px;
 }
 
-.task-title:hover {
+.task-title:hover,
+.editable:hover {
     outline: 1px dotted #0F4C5C;
     border-radius: 5px;
 }
 
-.task-title:focus {
+.task-title:focus,
+.editable:focus {
     outline: 2px dotted #0F4C5C;
     border-radius: 5px;
+}
+
+.editable {
+    margin-top: 5px;
 }
 
 .task-title:hover::after {
@@ -572,6 +579,21 @@ button:hover + input[type="search"] {
     left: 35px;
     top: -22px;
     width: 60px;
+    padding: 7px 10px;
+    border-radius: 5px;
+    font-family: "Lato", sans-serif;
+    font-size: 10px;
+    background-color: var(--main-color);
+    color: #E0E0E0;
+    text-align: center;
+}
+
+.editable:hover::after {
+    position: absolute;
+    content: 'edit task details';
+    left: 200px;
+    top: 5px;
+    width: 70px;
     padding: 7px 10px;
     border-radius: 5px;
     font-family: "Lato", sans-serif;
@@ -617,7 +639,7 @@ button:hover + input[type="search"] {
 .due-date:hover::after {
     position: absolute;
     content: 'edit due date';
-    right: 82px;
+    right: 145px;
     top: -22px;
     width: 60px;
     padding: 7px 10px;

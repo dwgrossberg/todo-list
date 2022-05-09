@@ -36,6 +36,24 @@ const displayUI = (() => {
         taskTitles.forEach(title => observer.observe(title, config));
     }
 
+    const updateTaskDetails = () => {
+        // Setup mutation Observer to watch for changes to Task titles and update the corresponding Task objects
+        const taskDetails = Array.from(document.querySelectorAll('[id^="task-details-"]'));
+        const config = { characterData: true, childList: true, subtree: true };
+        const callback = function(mutationsList, observer) {
+            for (const mutation of mutationsList) {
+                // Keep track of mutated DOM element and text content
+                console.log(mutation.target.parentNode.id, mutation.target.textContent); 
+                // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
+                const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.id)[0]);
+                console.log(taskMaster.taskList[taskArrayIndex].task);
+                taskMaster.taskList[taskArrayIndex].changeDetails(mutation.target.textContent);
+            }
+        }
+        const observer = new MutationObserver(callback);
+        taskDetails.forEach(detail => observer.observe(detail, config));
+    }
+
     const updateTaskDueDate = () => {
         // Add event listener to watch for changes to dueDate
         const taskDueDates = Array.from(document.querySelectorAll('[id^="task-dueDate-"]'));
@@ -57,6 +75,7 @@ const displayUI = (() => {
             loadTaskCards(taskMaster.taskList);
             // Re-attach event listener functions to Task DOM objects
             updateTaskCompleteStatus();
+            updateTaskDueDate();
             expandTask();
             deleteTask();
         }));
@@ -76,7 +95,8 @@ const displayUI = (() => {
                 taskCard.style.alignItems = '';
                 taskCardLeft.style.display = '';
                 taskDetails.style.whiteSpace = '';
-    
+                taskDetails.classList.remove('editable');
+                taskDetails.setAttribute('contenteditable', 'false');
             } else {
                 e.target.style.transform = 'rotate(-90deg) scale(1, 2)';
                 e.target.style.color = '#d82775';
@@ -85,6 +105,8 @@ const displayUI = (() => {
                 taskCard.style.alignItems = 'flex-start';
                 taskCardLeft.style.display = 'block';
                 taskDetails.style.whiteSpace = 'normal';
+                taskDetails.classList.add('editable');
+                taskDetails.setAttribute('contenteditable', 'true');
             }
         }));
     }
@@ -202,10 +224,10 @@ const displayUI = (() => {
             // Add Task card to DOM
             taskContent.appendChild(taskDiv);
 
-            // Call Task functions here in order to reattach event
+            // Call TaskTitle function here in order to reattach event
             // listeners to DOM objects each time loadTaskCards runs
-            updateTaskDueDate();
             updateTaskTitle();
+            updateTaskDetails();
 
         });
     }
@@ -213,6 +235,7 @@ const displayUI = (() => {
     loadTaskCards(taskMaster.taskList);
 
     updateTaskCompleteStatus();
+    updateTaskDueDate();
     expandTask();
     deleteTask();
 
