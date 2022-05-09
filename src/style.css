@@ -33,6 +33,7 @@
 
 body {
     font-family: "Lato", sans-serif;
+    overflow-x: hidden;
 }
 
 #content {
@@ -376,7 +377,7 @@ button:hover + input[type="search"] {
     justify-content: space-between;
     align-items: center;
     min-width: 400px;
-    height: 40px;
+    height: fit-content;
     background-color: ghostwhite;
 }
 
@@ -472,6 +473,7 @@ button:hover + input[type="search"] {
 
 .checkbox-title {
     display: flex;
+    align-items: center;
     min-width: fit-content;
 }
 
@@ -481,6 +483,7 @@ button:hover + input[type="search"] {
     position: relative;
     cursor: pointer;
     font-size: 22px;
+    height: 15px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -536,6 +539,7 @@ button:hover + input[type="search"] {
 }
 
 .container .checkmark:after {
+    content: "";
     left: 5px;
     top: 2px;
     width: 3px;
@@ -548,7 +552,6 @@ button:hover + input[type="search"] {
 }
 
 .task-title {
-    min-width: fit-content;
     padding: 5px;
     margin-left: 5px;
 }

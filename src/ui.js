@@ -1,5 +1,5 @@
 import taskMaster from "./taskMaster.js";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 const displayUI = (() => {
 
@@ -129,6 +129,11 @@ const displayUI = (() => {
             const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
             taskMaster.taskList[taskArrayIndex].changeDueDate(e.target.value);
             console.log(taskMaster.taskList[taskArrayIndex].task);
+            // Update the taskMaster taskList
+            taskMaster.updateTask();
+
+
+            loadTaskCards(taskMaster.dateOrderTaskList(taskMaster.taskList));
         }));
     }
     
@@ -139,7 +144,7 @@ const displayUI = (() => {
         taskExpanders.forEach(expander => expander.addEventListener('mousedown', (e) => {
             const taskCard = e.target.parentNode.parentNode;
             const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
-            // const taskDetails = e.target.parentNode.parentNode.childNodes[0].childNodes[2];
+            const taskDetails = e.target.parentNode.parentNode.childNodes[0].childNodes[2];
             if (taskCard.classList.contains('expanded')) {
                 e.target.style.transform = '';
                 e.target.style.color = '';
@@ -147,6 +152,8 @@ const displayUI = (() => {
                 taskCard.style.height = '';
                 taskCard.style.alignItems = '';
                 taskCardLeft.style.display = '';
+                taskDetails.style.whiteSpace = '';
+
             } else {
                 e.target.style.transform = 'rotate(-90deg) scale(1, 2)';
                 e.target.style.color = '#d82775';
@@ -154,6 +161,7 @@ const displayUI = (() => {
                 taskCard.style.height = 'fit-content';
                 taskCard.style.alignItems = 'flex-start';
                 taskCardLeft.style.display = 'block';
+                taskDetails.style.whiteSpace = 'normal';
             }
         }));
     }
