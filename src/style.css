@@ -409,7 +409,7 @@ button:hover + input[type="search"] {
     background-color: #FCAB5F;
 }
 
-.medium .priority-label {
+.med .priority-label {
     position: absolute;
     content: '';
     top: 0;

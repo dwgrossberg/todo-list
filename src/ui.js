@@ -76,9 +76,26 @@ const displayUI = (() => {
             // Re-attach event listener functions to Task DOM objects
             updateTaskCompleteStatus();
             updateTaskDueDate();
+            updateTaskPriority();
             expandTask();
             deleteTask();
         }));
+    }
+
+    const updateTaskPriority = () => {
+        taskMaster.taskList.forEach(task => {
+            let taskIndex = (taskMaster.taskList.indexOf(task));
+            if (task.task.priority === 'none') {
+                document.querySelector(`[name="priority-none-${taskIndex}"`).checked = true;
+            } else if (task.task.priority === 'low') {
+                document.querySelector(`[name="priority-low-${taskIndex}"`).checked = true;
+            } else if (task.task.priority === 'med') {
+                document.querySelector(`[name="priority-med-${taskIndex}"`).checked = true;
+            } else if (task.task.priority === 'high') {
+                document.querySelector(`[name="priority-high-${taskIndex}"`).checked = true;
+            }
+        });
+        
     }
 
     const expandTask = () => {
@@ -237,7 +254,7 @@ const displayUI = (() => {
             radioLabelOne.appendChild(radioPOne);
             let radioInputOne = document.createElement('input');
             radioInputOne.type = 'radio';
-            radioInputOne.name = 'radio';
+            radioInputOne.name = `priority-none-${taskList.indexOf(task)}`;
             radioLabelOne.appendChild(radioInputOne);
             let radioSpanOne = document.createElement('span');
             radioSpanOne.classList.add('radio-checkmark');
@@ -250,7 +267,7 @@ const displayUI = (() => {
             radioLabelTwo.appendChild(radioPTwo);
             let radioInputTwo = document.createElement('input');
             radioInputTwo.type = 'radio';
-            radioInputTwo.name = 'radio';
+            radioInputTwo.name = `priority-low-${taskList.indexOf(task)}`;
             radioLabelTwo.appendChild(radioInputTwo);
             let radioSpanTwo = document.createElement('span');
             radioSpanTwo.classList.add('radio-checkmark');
@@ -263,7 +280,7 @@ const displayUI = (() => {
             radioLabelThree.appendChild(radioPThree);
             let radioInputThree = document.createElement('input');
             radioInputThree.type = 'radio';
-            radioInputThree.name = 'radio';
+            radioInputThree.name = `priority-med-${taskList.indexOf(task)}`;
             radioLabelThree.appendChild(radioInputThree);
             let radioSpanThree = document.createElement('span');
             radioSpanThree.classList.add('radio-checkmark');
@@ -276,7 +293,7 @@ const displayUI = (() => {
             radioLabelFour.appendChild(radioPFour);
             let radioInputFour = document.createElement('input');
             radioInputFour.type = 'radio';
-            radioInputFour.name = 'radio';
+            radioInputFour.name = `priority-high-${taskList.indexOf(task)}`;
             radioLabelFour.appendChild(radioInputFour);
             let radioSpanFour = document.createElement('span');
             radioSpanFour.classList.add('radio-checkmark');
@@ -302,6 +319,7 @@ const displayUI = (() => {
 
     updateTaskCompleteStatus();
     updateTaskDueDate();
+    updateTaskPriority();
     expandTask();
     deleteTask();
 
