@@ -226,8 +226,10 @@ const displayUI = (() => {
             //Priority radio buttons
             let priority = document.createElement('div');
             priority.classList.add('task-priority');
-            let header = document.createTextNode('Set priority level');
+            let header = document.createTextNode('Priority level');
             priority.appendChild(header);
+            let radioButtonsContainer = document.createElement('div');
+            radioButtonsContainer.classList.add('radio-buttons-container');
 
             let radioLabelOne = document.createElement('label');
             radioLabelOne.classList.add('radio-container');
@@ -240,7 +242,7 @@ const displayUI = (() => {
             let radioSpanOne = document.createElement('span');
             radioSpanOne.classList.add('radio-checkmark');
             radioLabelOne.appendChild(radioSpanOne);
-            priority.appendChild(radioLabelOne);
+            radioButtonsContainer.appendChild(radioLabelOne);
 
             let radioLabelTwo = document.createElement('label');
             radioLabelTwo.classList.add('radio-container');
@@ -253,11 +255,11 @@ const displayUI = (() => {
             let radioSpanTwo = document.createElement('span');
             radioSpanTwo.classList.add('radio-checkmark');
             radioLabelTwo.appendChild(radioSpanTwo);
-            priority.appendChild(radioLabelTwo);
+            radioButtonsContainer.appendChild(radioLabelTwo);
 
             let radioLabelThree = document.createElement('label');
             radioLabelThree.classList.add('radio-container');
-            let radioPThree = document.createTextNode('medium');
+            let radioPThree = document.createTextNode('med');
             radioLabelThree.appendChild(radioPThree);
             let radioInputThree = document.createElement('input');
             radioInputThree.type = 'radio';
@@ -266,7 +268,7 @@ const displayUI = (() => {
             let radioSpanThree = document.createElement('span');
             radioSpanThree.classList.add('radio-checkmark');
             radioLabelThree.appendChild(radioSpanThree);
-            priority.appendChild(radioLabelThree);
+            radioButtonsContainer.appendChild(radioLabelThree);
 
             let radioLabelFour = document.createElement('label');
             radioLabelFour.classList.add('radio-container');
@@ -279,8 +281,9 @@ const displayUI = (() => {
             let radioSpanFour = document.createElement('span');
             radioSpanFour.classList.add('radio-checkmark');
             radioLabelFour.appendChild(radioSpanFour);
-            priority.appendChild(radioLabelFour);
+            radioButtonsContainer.appendChild(radioLabelFour);
 
+            priority.appendChild(radioButtonsContainer);
             taskCardRight.appendChild(priority);
             taskDiv.appendChild(taskCardRight);
 
