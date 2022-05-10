@@ -87,6 +87,7 @@ const displayUI = (() => {
             const taskCard = e.target.parentNode.parentNode;
             const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
             const taskDetails = e.target.parentNode.parentNode.childNodes[0].childNodes[2];
+            const taskPriority = e.target.parentNode.parentNode.childNodes[1].childNodes[3];
             if (taskCard.classList.contains('expanded')) {
                 e.target.style.transform = '';
                 e.target.style.color = '';
@@ -97,6 +98,7 @@ const displayUI = (() => {
                 taskDetails.style.whiteSpace = '';
                 taskDetails.classList.remove('editable');
                 taskDetails.setAttribute('contenteditable', 'false');
+                taskPriority.style.display = '';
             } else {
                 e.target.style.transform = 'rotate(-90deg) scale(1, 2)';
                 e.target.style.color = '#d82775';
@@ -107,6 +109,7 @@ const displayUI = (() => {
                 taskDetails.style.whiteSpace = 'normal';
                 taskDetails.classList.add('editable');
                 taskDetails.setAttribute('contenteditable', 'true');
+                taskPriority.style.display = 'flex';
             }
         }));
     }
@@ -219,6 +222,66 @@ const displayUI = (() => {
             let trash = document.createElement('div');
             trash.setAttribute('id', `task-delete-${taskList.indexOf(task)}`);
             taskCardRight.appendChild(trash);
+
+            //Priority radio buttons
+            let priority = document.createElement('div');
+            priority.classList.add('task-priority');
+            let header = document.createTextNode('Set priority level');
+            priority.appendChild(header);
+
+            let radioLabelOne = document.createElement('label');
+            radioLabelOne.classList.add('radio-container');
+            let radioPOne = document.createTextNode('none');
+            radioLabelOne.appendChild(radioPOne);
+            let radioInputOne = document.createElement('input');
+            radioInputOne.type = 'radio';
+            radioInputOne.name = 'radio';
+            radioLabelOne.appendChild(radioInputOne);
+            let radioSpanOne = document.createElement('span');
+            radioSpanOne.classList.add('radio-checkmark');
+            radioLabelOne.appendChild(radioSpanOne);
+            priority.appendChild(radioLabelOne);
+
+            let radioLabelTwo = document.createElement('label');
+            radioLabelTwo.classList.add('radio-container');
+            let radioPTwo = document.createTextNode('low');
+            radioLabelTwo.appendChild(radioPTwo);
+            let radioInputTwo = document.createElement('input');
+            radioInputTwo.type = 'radio';
+            radioInputTwo.name = 'radio';
+            radioLabelTwo.appendChild(radioInputTwo);
+            let radioSpanTwo = document.createElement('span');
+            radioSpanTwo.classList.add('radio-checkmark');
+            radioLabelTwo.appendChild(radioSpanTwo);
+            priority.appendChild(radioLabelTwo);
+
+            let radioLabelThree = document.createElement('label');
+            radioLabelThree.classList.add('radio-container');
+            let radioPThree = document.createTextNode('medium');
+            radioLabelThree.appendChild(radioPThree);
+            let radioInputThree = document.createElement('input');
+            radioInputThree.type = 'radio';
+            radioInputThree.name = 'radio';
+            radioLabelThree.appendChild(radioInputThree);
+            let radioSpanThree = document.createElement('span');
+            radioSpanThree.classList.add('radio-checkmark');
+            radioLabelThree.appendChild(radioSpanThree);
+            priority.appendChild(radioLabelThree);
+
+            let radioLabelFour = document.createElement('label');
+            radioLabelFour.classList.add('radio-container');
+            let radioPFour = document.createTextNode('high');
+            radioLabelFour.appendChild(radioPFour);
+            let radioInputFour = document.createElement('input');
+            radioInputFour.type = 'radio';
+            radioInputFour.name = 'radio';
+            radioLabelFour.appendChild(radioInputFour);
+            let radioSpanFour = document.createElement('span');
+            radioSpanFour.classList.add('radio-checkmark');
+            radioLabelFour.appendChild(radioSpanFour);
+            priority.appendChild(radioLabelFour);
+
+            taskCardRight.appendChild(priority);
             taskDiv.appendChild(taskCardRight);
 
             // Add Task card to DOM
