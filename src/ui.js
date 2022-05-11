@@ -85,12 +85,14 @@ const displayUI = (() => {
         const taskRadios = Array.from(document.querySelectorAll('[name^="task-radio-"]'));
         taskRadios.forEach(radio => radio.addEventListener('change', (e) => {
             const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.name)[0]);
-            console.log(e.target.value, taskArrayIndex);
+            const oldPriority = taskMaster.taskList[taskArrayIndex].task.priority;
             taskMaster.taskList[taskArrayIndex].changePriority(e.target.value);
             console.log(taskMaster.taskList[taskArrayIndex].task);
+            const taskCard = document.getElementById(`task-card-${taskArrayIndex}`);
+            // change css priority labels
+            taskCard.classList.remove(`${oldPriority}`);
+            taskCard.classList.add(`${taskMaster.taskList[taskArrayIndex].task.priority}`);
         }));
-
-        
     }
 
     const expandTask = () => {
@@ -147,9 +149,10 @@ const displayUI = (() => {
             const taskDiv = document.createElement('div');
             taskDiv.classList.add('task');
             taskDiv.classList.add(task.task.priority); //Add task priority for css manipulation
-            taskDiv.setAttribute('id', `task-${taskList.indexOf(task)}`); //Add task id for later deletion, etc.
+            taskDiv.setAttribute('id', `task-card-${taskList.indexOf(task)}`); //Add task id for later deletion, etc.
 
             // Create the html structure for each Task card
+            
             // Priority color label
             let taskCardLeft = document.createElement('div');
             taskCardLeft.classList.add('task-card-left');
