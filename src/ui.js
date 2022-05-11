@@ -61,40 +61,35 @@ const displayUI = (() => {
             // Get the id # of the Task DOM object - matches the index of Task object in taskList
             const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
             const newDateFormatted = new Date(e.target.value);
-            console.log(newDateFormatted);
             // Update the Task object dueDate
             taskMaster.taskList[taskArrayIndex].changeDueDate(newDateFormatted);
             console.log(taskMaster.taskList[taskArrayIndex].task);
             // Reorder the taskList according to new dates
             taskMaster.dateOrderTaskList(taskMaster.taskList);
-            console.log(taskMaster.taskList);
             // Clear the task-content DOM section
             while (taskContent.firstChild) {
                 taskContent.removeChild(taskContent.lastChild);
             }
+            // Reload the sorted task cards
             loadTaskCards(taskMaster.taskList);
             // Re-attach event listener functions to Task DOM objects
             updateTaskCompleteStatus();
             updateTaskDueDate();
-            // updateTaskPriority();
+            updateTaskPriority();
             expandTask();
             deleteTask();
         }));
     }
 
     const updateTaskPriority = () => {
-        taskMaster.taskList.forEach(task => {
-            let taskIndex = (taskMaster.taskList.indexOf(task));
-            if (task.task.priority === 'none') {
-                document.querySelector(`[id="priority-none-${taskIndex}"`).checked = true;
-            } else if (task.task.priority === 'low') {
-                document.querySelector(`[id="priority-low-${taskIndex}"`).checked = true;
-            } else if (task.task.priority === 'med') {
-                document.querySelector(`[id="priority-med-${taskIndex}"`).checked = true;
-            } else if (task.task.priority === 'high') {
-                document.querySelector(`[id="priority-high-${taskIndex}"`).checked = true;
-            }
-        });
+        const taskRadios = Array.from(document.querySelectorAll('[name^="task-radio-"]'));
+        taskRadios.forEach(radio => radio.addEventListener('change', (e) => {
+            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.name)[0]);
+            console.log(e.target.value, taskArrayIndex);
+            taskMaster.taskList[taskArrayIndex].changePriority(e.target.value);
+            console.log(taskMaster.taskList[taskArrayIndex].task);
+        }));
+
         
     }
 
@@ -207,7 +202,7 @@ const displayUI = (() => {
             taskCardLeft.appendChild(taskDetails);
             taskDiv.appendChild(taskCardLeft);
 
-            // Filter out underfined dates before formatting
+            // Filter out undefined dates before formatting
             let dueDateValue;
             if (task.task.dueDate !== undefined) {
                 dueDateValue = format(new Date(task.task.dueDate), 'yyyy-MM-dd');
@@ -247,15 +242,15 @@ const displayUI = (() => {
             priority.appendChild(header);
             let radioButtonsContainer = document.createElement('div');
             radioButtonsContainer.classList.add('radio-buttons-container');
-
+            // 'none' radio button
             let radioLabelOne = document.createElement('label');
             radioLabelOne.classList.add('radio-container');
             let radioPOne = document.createTextNode('none');
             radioLabelOne.appendChild(radioPOne);
             let radioInputOne = document.createElement('input');
             radioInputOne.type = 'radio';
-            radioInputOne.name = `radio-${taskList.indexOf(task)}`;
-            radioInputOne.setAttribute('id', `priority-none-${taskList.indexOf(task)}`);
+            radioInputOne.value = 'none';
+            radioInputOne.name = `task-radio-${taskList.indexOf(task)}`;
             if (task.task.priority === 'none') {
                 radioInputOne.checked = true
             }
@@ -264,48 +259,49 @@ const displayUI = (() => {
             radioSpanOne.classList.add('radio-checkmark');
             radioLabelOne.appendChild(radioSpanOne);
             radioButtonsContainer.appendChild(radioLabelOne);
-
+            // 'low' radio button
             let radioLabelTwo = document.createElement('label');
             radioLabelTwo.classList.add('radio-container');
             let radioPTwo = document.createTextNode('low');
             radioLabelTwo.appendChild(radioPTwo);
             let radioInputTwo = document.createElement('input');
             radioInputTwo.type = 'radio';
-            radioInputTwo.name = `radio-${taskList.indexOf(task)}`;
+            radioInputTwo.value = 'low';
+            radioInputTwo.name = `task-radio-${taskList.indexOf(task)}`;
             if (task.task.priority === 'low') {
                 radioInputTwo.checked = true
             }
-            radioInputTwo.setAttribute('id', `priority-low-${taskList.indexOf(task)}`);
             radioLabelTwo.appendChild(radioInputTwo);
             let radioSpanTwo = document.createElement('span');
             radioSpanTwo.classList.add('radio-checkmark');
             radioLabelTwo.appendChild(radioSpanTwo);
             radioButtonsContainer.appendChild(radioLabelTwo);
-
+            // 'med' radio button
             let radioLabelThree = document.createElement('label');
             radioLabelThree.classList.add('radio-container');
             let radioPThree = document.createTextNode('med');
             radioLabelThree.appendChild(radioPThree);
             let radioInputThree = document.createElement('input');
             radioInputThree.type = 'radio';
-            radioInputThree.name = `radio-${taskList.indexOf(task)}`;
+            radioInputThree.value = 'med';
+            radioInputThree.name = `task-radio-${taskList.indexOf(task)}`;
             if (task.task.priority === 'med') {
                 radioInputThree.checked = true
             }
-            radioInputThree.setAttribute('id', `priority-med-${taskList.indexOf(task)}`);
             radioLabelThree.appendChild(radioInputThree);
             let radioSpanThree = document.createElement('span');
             radioSpanThree.classList.add('radio-checkmark');
             radioLabelThree.appendChild(radioSpanThree);
             radioButtonsContainer.appendChild(radioLabelThree);
-
+            // 'high' radio button
             let radioLabelFour = document.createElement('label');
             radioLabelFour.classList.add('radio-container');
             let radioPFour = document.createTextNode('high');
             radioLabelFour.appendChild(radioPFour);
             let radioInputFour = document.createElement('input');
             radioInputFour.type = 'radio';
-            radioInputFour.name = `radio-${taskList.indexOf(task)}`;
+            radioInputFour.value = 'high';
+            radioInputFour.name = `task-radio-${taskList.indexOf(task)}`;
             if (task.task.priority === 'high') {
                 radioInputFour.checked = true
             }
@@ -315,7 +311,7 @@ const displayUI = (() => {
             radioSpanFour.classList.add('radio-checkmark');
             radioLabelFour.appendChild(radioSpanFour);
             radioButtonsContainer.appendChild(radioLabelFour);
-
+            // Bringing the div's together
             priority.appendChild(radioButtonsContainer);
             taskCardRight.appendChild(priority);
             taskDiv.appendChild(taskCardRight);
@@ -335,7 +331,7 @@ const displayUI = (() => {
 
     updateTaskCompleteStatus();
     updateTaskDueDate();
-    // updateTaskPriority();
+    updateTaskPriority();
     expandTask();
     deleteTask();
 
