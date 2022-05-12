@@ -191,14 +191,27 @@ const displayUI = (() => {
             container.appendChild(checkmark);
             checkboxTitle.appendChild(container);
 
-            // Task project
+            // Task project 
             let projectTitle = document.createElement('div');
-            let taskProject = document.createElement('p');
-            taskProject.classList.add('task-project');
-            taskProject.setAttribute('id', `task-project-${taskList.indexOf(task)}`)
-            taskProject.setAttribute('contenteditable', 'true')
-            taskProject.innerText = `${task.task.project}`;
-            projectTitle.appendChild(taskProject);
+            let projectLabel = document.createElement('label');
+            projectLabel.setAttribute('for', 'projects');
+            projectLabel.setAttribute('id', `task-project-${taskList.indexOf(task)}`);
+            projectLabel.classList.add('task-project');
+            projectLabel.innerText = 'Project: '
+            let projectSelect = document.createElement('select');
+            projectSelect.setAttribute('name', 'projects');
+            projectSelect.setAttribute('id', 'projects-select');
+            // Loop through projectList to create select list values
+            taskMaster.projectList.forEach(project => {
+                console.log(task.task.project);
+                let projectOption = document.createElement('option');
+                projectOption.value = `${project.project.name}`;
+                projectOption.innerText = `${project.project.name}`;
+                projectSelect.appendChild(projectOption);
+            });
+
+            projectLabel.appendChild(projectSelect);
+            projectTitle.appendChild(projectLabel);
 
             // Task title
             let taskTitle = document.createElement('p');

@@ -591,15 +591,13 @@ button:hover + input[type="search"] {
 }
 
 .task-title:hover,
-.editable:hover,
-.task-project:hover {
+.editable:hover {
     outline: 1px dotted #0F4C5C;
     border-radius: 5px;
 }
 
 .task-title:focus,
-.editable:focus,
-.task-project:focus {
+.editable:focus {
     outline: 2px dotted #0F4C5C;
     border-radius: 5px;
 }
@@ -761,7 +759,7 @@ button:hover + input[type="search"] {
     border-radius: 5px;
     position: absolute;
     right: 5px;
-    bottom: 10%;
+    bottom: 20%;
     font-size: 11px;
 }
 
