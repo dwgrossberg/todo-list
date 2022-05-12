@@ -73,11 +73,7 @@ const displayUI = (() => {
             // Reload the sorted task cards
             loadTaskCards(taskMaster.taskList);
             // Re-attach event listener functions to Task DOM objects
-            updateTaskCompleteStatus();
-            updateTaskDueDate();
-            updateTaskPriority();
-            expandTask();
-            deleteTask();
+            runDOMFunctions();
         }));
     }
 
@@ -330,13 +326,40 @@ const displayUI = (() => {
         });
     }
 
-    loadTaskCards(taskMaster.taskList);
+    const runDOMFunctions = () => {
+        updateTaskCompleteStatus();
+        updateTaskDueDate();
+        updateTaskPriority();
+        expandTask();
+        deleteTask();
+    }
 
-    updateTaskCompleteStatus();
-    updateTaskDueDate();
-    updateTaskPriority();
-    expandTask();
-    deleteTask();
+    const displayProject = () => {
+        const home = document.getElementById('home');
+        const today = document.getElementById('today');
+        const next7Days = document.getElementById('next-seven-days');
+        const projects = document.getElementById('projects');
+        const baby = document.getElementById('baby');
+        const study = document.getElementById('study');
+        const workout = document.getElementById('workout');
+        const notes = document.getElementById('notes');
+
+        // Run the Home Project on page load (includes all Tasks by default)
+        loadTaskCards(taskMaster.taskList);
+        runDOMFunctions();
+
+        today.addEventListener('mousedown', (e) => {
+            const projectName = e;
+
+            console.log(taskMaster.projectList, projectName);
+
+
+        });
+
+
+    }
+
+    displayProject();
 
     return {}
 

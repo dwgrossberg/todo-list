@@ -48,9 +48,9 @@ const taskMaster = (() => {
     const next7Days = createProject('Next 7 Days');
     
     // Default tasks on page load
-    const runTask = createTask('Home', 'Run 10k practice pace for race', '10.2.22', 'low', ' so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false, false);
-    const studyTask = createTask('Next 7 Days', 'Review Webpack.config.js basics', '5/20/2022', 'med', 'Revist the Webpack guides page and review relevant info', ['Asset Managment', 'Output', 'Development'], false);
-    const funTask = createTask('Today', 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', '', false);
+    const runTask = createTask('Home', 'Run 10k practice pace for race', '10.2.22', 'low', ' so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
+    const studyTask = createTask('Next 7 Days', 'Review Webpack.config.js basics', '5/20/2022', 'med', 'Revist the Webpack guides page and review relevant info', false);
+    const funTask = createTask('Today', 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', false);
     const emptyTask = createTask('Home', 'TitleTitleTitleTitleTitleTitleTitleTitleTitleTitle TitleTitleTitle TitleTitleTitle');
 
     // Sort the taskList so that it is ordered by date

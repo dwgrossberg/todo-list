@@ -174,23 +174,24 @@ button:hover + input[type="search"] {
     height: calc(100vh - 150px);
     top: 100px;
     border-right: .5px solid var(--accent-color);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-.home,
-.today,
-.next-seven-days,
-.projects,
-.notes {
+#home,
+#today,
+#next-seven-days,
+#projects,
+#notes {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.home:hover,
-.today:hover,
-.next-seven-days:hover,
-.projects:hover,
-.notes:hover,
+#home:hover,
+#today:hover,
+#next-seven-days:hover,
+#notes:hover,
 .project-sidebar-list div:hover {
     cursor: pointer;
     color: var(--accent-color);
@@ -314,7 +315,8 @@ button:hover + input[type="search"] {
     font-weight: bold;
     font-size: 35px;
     color: var(--accent-color);
-    position: absolute;
+    position: sticky;
+    margin-left: auto;
     bottom: 20px;
     right: 20px;
     width: 45px;

@@ -21,22 +21,22 @@ const loadHome = (() => {
     </div>
     
     <div class="sidebar">
-        <div class="home">
+        <div id="home">
             <div class="home-counter"></div>
             <div class="home-icon"></div>
             <div class="home-text"><p>Home</p></div>
         </div>
-        <div class="today">
+        <div id="today">
             <div class="today-counter"></div>
             <div class="today-icon"></div>
             <div class="today-text"><p>Today</p></div>
         </div>
-        <div class="next-seven-days">
+        <div id="next-seven-days">
             <div class="next-seven-days-counter"></div>
             <div class="next-seven-days-icon"></div>
             <div class="next-seven-days-text"><p>Next 7 Days</p></div>
         </div>
-        <div class="projects">
+        <div id="projects">
             <div class="projects-counter"></div>
             <div class="projects-icon"></div>
             <div class="projects-text"><p>Projects</p></div>
@@ -48,20 +48,20 @@ const loadHome = (() => {
                 </div><p>Baby</p>
                 <div class="delete-project"></div>
             </div>
-            <div class="project-study">
+            <div id="project-study">
                 <div class="project-counter"></div>
                 <div class="project-icon"></div>
                 <p>Study</p>
                 <div class="delete-project"></div>
             </div>
-            <div class="project-workout">
-            <div class="project-counter"></div>
-            <div class="project-icon"></div>
-            <p>Workout</p>
-            <div class="delete-project"></div>
+            <div id="project-workout">
+                <div class="project-counter"></div>
+                <div class="project-icon"></div>
+                <p>Workout</p>
+                <div class="delete-project"></div>
+            </div>
         </div>
-        </div>
-        <div class="notes">
+        <div id="notes">
             <div class="notes-counter"></div>
             <div class="notes-icon"></div>
             <div class="notes-text"><p>Notes</p></div>

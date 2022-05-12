@@ -6,7 +6,6 @@ const Task = (project, title, dueDate, priority, details, checklist, complete) =
         dueDate : dueDate,
         priority : (priority || 'none'),
         details : (details || ''),
-        checklist : (checklist || []), //set up empty array if checklist is undefined
         complete : complete
     }
     
@@ -40,19 +39,6 @@ const Task = (project, title, dueDate, priority, details, checklist, complete) =
         return task.details = details;
     }
 
-    const addChecklistItem = (item) => {
-        return task.checklist.push(item);
-    }
-
-    const removeChecklistItem = (item) => {
-        return task.checklist.splice(task.checklist.findIndex(check => check === item), 1);
-    }
-
-    const changeChecklistItem = (item, newItem) => {
-        const index = [task.checklist.findIndex(check => check === item)];
-        return task.checklist[index] = newItem;
-    }
-
     const changeCompleteStatus = (complete) => {
         return task.complete = complete;
     }
@@ -64,9 +50,6 @@ const Task = (project, title, dueDate, priority, details, checklist, complete) =
         changeDueDate,
         changePriority,
         changeDetails,
-        addChecklistItem,
-        removeChecklistItem,
-        changeChecklistItem,
         changeCompleteStatus
     }
 }
