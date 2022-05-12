@@ -1,4 +1,4 @@
-const Task = (project, title, dueDate, priority, details, checklist, complete) => {
+const Task = (project, title, dueDate, priority, details, complete) => {
 
     const task = {
         project : 'Home', //default

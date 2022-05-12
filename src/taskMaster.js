@@ -44,13 +44,15 @@ const taskMaster = (() => {
 
     // Default Projects on page load
     const home = createProject('Home');
-    const today = createProject('Today');
-    const next7Days = createProject('Next 7 Days');
+    const baby = createProject('Baby');
+    const study = createProject('Study');
+    const workout = createProject('Workout');
     
     // Default tasks on page load
-    const runTask = createTask('Home', 'Run 10k practice pace for race', '10.2.22', 'low', ' so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
-    const studyTask = createTask('Next 7 Days', 'Review Webpack.config.js basics', '5/20/2022', 'med', 'Revist the Webpack guides page and review relevant info', false);
-    const funTask = createTask('Today', 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', false);
+    const workoutTask = createTask('Workout', 'Run 10k practice pace for race', '10.2.22', 'low', ' so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
+    const studyTask = createTask('Study', 'Review Webpack.config.js basics', '5/20/2022', 'med', 'Revist the Webpack guides page and review relevant info', false);
+    const babyTask = createTask('Baby', 'Prep Baby\'s favorite chicken dumplings', '6/1/2022', 'med', 'Get the recipe from Uncle M who made it last New Year\'s', false);
+    const funTask = createTask('Home', 'Meet up with Lou for a beer', '5/3/22', 'high', 'Meet at Jax Brewery near 9th street', false);
     const emptyTask = createTask('Home', 'TitleTitleTitleTitleTitleTitleTitleTitleTitleTitle TitleTitleTitle TitleTitleTitle');
 
     // Sort the taskList so that it is ordered by date

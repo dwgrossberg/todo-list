@@ -96,6 +96,7 @@ const displayUI = (() => {
         taskExpanders.forEach(expander => expander.addEventListener('mousedown', (e) => {
             const taskCard = e.target.parentNode.parentNode;
             const taskCardLeft = e.target.parentNode.parentNode.childNodes[0];
+            const taskProject = e.target.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[1].childNodes[0];
             const taskDetails = e.target.parentNode.parentNode.childNodes[0].childNodes[2];
             const taskPriority = e.target.parentNode.parentNode.childNodes[1].childNodes[3];
             if (taskCard.classList.contains('expanded')) {
@@ -105,6 +106,9 @@ const displayUI = (() => {
                 taskCard.style.height = '';
                 taskCard.style.alignItems = '';
                 taskCardLeft.style.display = '';
+                taskProject.style.opacity = '';
+                taskProject.style.position = '';
+                taskProject.style.zIndex = '';
                 taskDetails.style.whiteSpace = '';
                 taskDetails.classList.remove('editable');
                 taskDetails.setAttribute('contenteditable', 'false');
@@ -116,6 +120,9 @@ const displayUI = (() => {
                 taskCard.style.height = 'fit-content';
                 taskCard.style.alignItems = 'flex-start';
                 taskCardLeft.style.display = 'block';
+                taskProject.style.opacity = '1';
+                taskProject.style.position = 'static';
+                taskProject.style.zIndex = '0';
                 taskDetails.style.whiteSpace = 'normal';
                 taskDetails.classList.add('editable');
                 taskDetails.setAttribute('contenteditable', 'true');
@@ -184,13 +191,23 @@ const displayUI = (() => {
             container.appendChild(checkmark);
             checkboxTitle.appendChild(container);
 
+            // Task project
+            let projectTitle = document.createElement('div');
+            let taskProject = document.createElement('p');
+            taskProject.classList.add('task-project');
+            taskProject.setAttribute('id', `task-project-${taskList.indexOf(task)}`)
+            taskProject.setAttribute('contenteditable', 'true')
+            taskProject.innerText = `${task.task.project}`;
+            projectTitle.appendChild(taskProject);
+
             // Task title
             let taskTitle = document.createElement('p');
             taskTitle.classList.add('task-title');
             taskTitle.setAttribute('id', `task-title-${taskList.indexOf(task)}`)
             taskTitle.setAttribute('contenteditable', 'true')
             taskTitle.innerText = `${task.task.title}`;
-            checkboxTitle.appendChild(taskTitle);
+            projectTitle.appendChild(taskTitle);
+            checkboxTitle.appendChild(projectTitle);
             taskCardLeft.appendChild(checkboxTitle);
 
             // Task details
