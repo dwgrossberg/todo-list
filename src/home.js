@@ -22,47 +22,46 @@ const loadHome = (() => {
     
     <div class="sidebar">
         <div id="home">
-            <div class="home-counter"></div>
+            <div id="home-counter"></div>
             <div class="home-icon"></div>
             <div class="home-text"><p>Home</p></div>
         </div>
         <div id="today">
-            <div class="today-counter"></div>
+            <div id="today-counter"></div>
             <div class="today-icon"></div>
             <div class="today-text"><p>Today</p></div>
         </div>
         <div id="next-seven-days">
-            <div class="next-seven-days-counter"></div>
+            <div id="next-seven-days-counter"></div>
             <div class="next-seven-days-icon"></div>
             <div class="next-seven-days-text"><p>Next 7 Days</p></div>
         </div>
         <div id="projects">
-            <div class="projects-counter"></div>
             <div class="projects-icon"></div>
             <div class="projects-text"><p>Projects</p></div>
         </div>
         <div class="project-sidebar-list">
             <div class="project-baby">
-                <div class="project-counter"></div>
+                <div id="project-counter-baby"></div>
                 <div class="project-icon">
                 </div><p>Baby</p>
                 <div class="delete-project"></div>
             </div>
             <div id="project-study">
-                <div class="project-counter"></div>
+                <div id="project-counter-study"></div>
                 <div class="project-icon"></div>
                 <p>Study</p>
                 <div class="delete-project"></div>
             </div>
             <div id="project-workout">
-                <div class="project-counter"></div>
+                <div id="project-counter-workout"></div>
                 <div class="project-icon"></div>
                 <p>Workout</p>
                 <div class="delete-project"></div>
             </div>
         </div>
         <div id="notes">
-            <div class="notes-counter"></div>
+            <div id="notes-counter"></div>
             <div class="notes-icon"></div>
             <div class="notes-text"><p>Notes</p></div>
         </div>

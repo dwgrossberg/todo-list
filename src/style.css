@@ -198,12 +198,11 @@ button:hover + input[type="search"] {
     font-weight: bold;
 }
 
-.home-counter,
-.today-counter,
-.next-seven-days-counter,
-.projects-counter,
-.notes-counter,
-.project-counter {
+#home-counter,
+#today-counter,
+#next-seven-days-counter,
+#notes-counter,
+[id^="project-counter"] {
     width: 15px;
     height: 15px;
     display: flex;
@@ -317,7 +316,8 @@ button:hover + input[type="search"] {
     color: var(--accent-color);
     position: sticky;
     margin-left: auto;
-    bottom: 20px;
+    margin-top: auto;
+    bottom: 40px;
     right: 20px;
     width: 45px;
     height: 45px;
@@ -333,7 +333,6 @@ button:hover + input[type="search"] {
 }
 
 #add-task:hover {
-    transform: scale(1.1);
     box-shadow: 1px 1px ghostwhite;
     background-color: var(--accent-color);
     color: white;
@@ -341,10 +340,10 @@ button:hover + input[type="search"] {
 
 #add-task:hover::after {
     position: absolute;
-    content: 'add a new task or project';
+    content: 'add a new task';
     left: -90px;
     top: -35px;
-    width: 125px;
+    width: 90px;
     padding: 7px 10px;
     border-radius: 5px;
     font-family: "Lato", sans-serif;

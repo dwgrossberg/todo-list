@@ -104,7 +104,7 @@ const loadTaskCards = (() => {
                 projectOption.innerText = `${project.project.name}`;
                 projectSelect.appendChild(projectOption);
             });
-
+            projectSelect.value = task.task.project;
             projectLabel.appendChild(projectSelect);
             projectTitle.appendChild(projectLabel);
 

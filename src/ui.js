@@ -5,12 +5,17 @@ const displayUI = (() => {
 
     const taskContent = document.getElementById('task-content');
 
+    const removeDOMTasks = () => {
+        while (taskContent.firstChild) {
+            taskContent.removeChild(taskContent.lastChild);
+        }
+    }
+
     const updateTaskCompleteStatus = () => {
         const taskCheckboxes = Array.from(document.querySelectorAll('[id^="task-checkbox-"]'));
         taskCheckboxes.forEach(checkbox => checkbox.addEventListener('change', (e) => {
             // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
             const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
-            console.log(taskArrayIndex);
             if (e.target.checked) {
                 taskMaster.taskList[taskArrayIndex].changeCompleteStatus(true);
             } else {
@@ -23,6 +28,7 @@ const displayUI = (() => {
     const updateTaskProject = () => {
         const taskProjects = Array.from(document.querySelectorAll('[id^="projects-select-"]'));
         taskProjects.forEach(project => project.addEventListener('change', (e) => {
+            // Set select option to match Task object project
             const selectedOption = e.target[e.target.selectedIndex].innerText;
             // Get the id # of the Task DOM object - matches the index of Task object in taskList
             const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
@@ -44,9 +50,7 @@ const displayUI = (() => {
             // Reorder the taskList according to new dates
             taskMaster.dateOrderTaskList(taskMaster.taskList);
             // Clear the task-content DOM section
-            while (taskContent.firstChild) {
-                taskContent.removeChild(taskContent.lastChild);
-            }
+            removeDOMTasks();
             // Reload the sorted task cards
             loadTaskCards.run(taskMaster.taskList);
             // Re-attach event listener functions to Task DOM objects
@@ -135,25 +139,105 @@ const displayUI = (() => {
 
     const displayProject = () => {
         const home = document.getElementById('home');
+        const homeCounter = document.getElementById('home-counter');
         const today = document.getElementById('today');
+        const todayCounter = document.getElementById('today-counter');
         const next7Days = document.getElementById('next-seven-days');
-        const projects = document.getElementById('projects');
+        const next7DaysCounter = document.getElementById('next-seven-days-counter');
         const baby = document.getElementById('baby');
         const study = document.getElementById('study');
         const workout = document.getElementById('workout');
         const notes = document.getElementById('notes');
 
         // Run the Home Project on page load (includes all Tasks by default)
+        home.style.color = "#d82775";
+        home.style.fontWeight = 'bold';
         loadTaskCards.run(taskMaster.taskList);
         runDOMFunctions();
 
-        today.addEventListener('mousedown', (e) => {
-            const projectName = e;
+        // Home
+        home.addEventListener('mousedown', (e) => {
+            today.style.color = '';
+            today.style.fontWeight = '';
+            next7Days.style.color = '';
+            next7Days.style.fontWeight = '';
 
-            console.log(taskMaster.projectList, projectName);
-
-
+            home.style.color = "#d82775";
+            home.style.fontWeight = 'bold';
+            homeCounter.innerText = taskMaster.taskList.length;
+            removeDOMTasks();
+            loadTaskCards.run(taskMaster.taskList);
+            runDOMFunctions();
         });
+
+        // Today
+        const todayTasks = [];
+        // Check to find Task dueDates that match today
+        const isToday = (date) => {
+            if (date) {
+                const today = new Date();
+                return date.getDate() == today.getDate() &&
+                    date.getMonth() == today.getMonth() &&
+                    date.getFullYear() == today.getFullYear();
+            }
+        }
+        taskMaster.taskList.forEach(task => {
+            if (isToday(task.task.dueDate)) {
+                todayTasks.push(task);
+            } ;
+        });
+
+        today.addEventListener('mousedown', (e) => {
+            home.style.color = '';
+            home.style.fontWeight = '';
+            next7Days.style.color = '';
+            next7Days.style.fontWeight = '';
+            
+            today.style.color = "#d82775";
+            today.style.fontWeight = 'bold'; 
+            todayCounter.innerText = todayTasks.length;
+            removeDOMTasks();
+            loadTaskCards.run(todayTasks);
+            runDOMFunctions();
+        });
+
+        // Next 7 Days
+        const next7DaysTasks = [];
+        // Check to find Task dueDates that match next7Days
+        const isNextWeek = (date) => {
+            if (date) {
+                const today = new Date();
+                const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+                if (nextWeek < date) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+        taskMaster.taskList.forEach(task => {
+            if (isNextWeek(task.task.dueDate)) {
+                next7DaysTasks.push(task);
+            } ;
+        });
+        next7Days.addEventListener('mousedown', (e) => {
+            home.style.color = '';
+            home.style.fontWeight = '';
+            today.style.color = '';
+            today.style.fontWeight = '';
+
+            
+            next7Days.style.color = "#d82775";
+            next7Days.style.fontWeight = 'bold'; 
+            removeDOMTasks();
+            loadTaskCards.run(next7DaysTasks);
+            runDOMFunctions();
+        });
+
+
+        homeCounter.innerText = taskMaster.taskList.length;
+        todayCounter.innerText = todayTasks.length;
+        next7DaysCounter.innerText = next7DaysTasks.length;
     }
 
     displayProject();
