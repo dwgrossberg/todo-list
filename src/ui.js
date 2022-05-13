@@ -55,6 +55,7 @@ const displayUI = (() => {
             const taskTitle = e.target.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[1].childNodes[1].innerText;
             // Find the index of the Task object with the matching title
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
+            const taskProject = taskMaster.taskList[taskIndex].task.project;
             const newDateFormatted = new Date(e.target.value);
             // Update the Task object dueDate
             taskMaster.taskList[taskIndex].changeDueDate(newDateFormatted);
@@ -74,18 +75,24 @@ const displayUI = (() => {
             home.style.fontWeight = 'bold';
             // Clear the task-content DOM section
             removeDOMTasks();
-            // Reload the sorted task cards
+            // Reload the newly sorted task cards
             loadTaskCards.run(taskMaster.taskList);
             // Re-attach event listener functions to Task DOM objects
             runDOMTaskFunctions();
-        }));
+            // Display the updated project list, unless the user is already on Home tab
+            console.log(taskProject);
+            const project = document.getElementById(`Project-${taskProject}`);
+            if (home.style.color === "#d82775") return;
+            else if (document.createEvent) {
+                project.dispatchEvent(new Event('mousedown'));
+            }
+            }));
     }
 
     const updateTaskPriority = () => {
         const taskRadios = Array.from(document.querySelectorAll('[name^="task-radio-"]'));
         taskRadios.forEach(radio => radio.addEventListener('change', (e) => {
             const taskCard = e.target.parentNode.parentNode.parentNode.parentNode.parentNode;
-            console.log(taskCard);
             const taskTitle = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[1].childNodes[1].innerText;
             // Find the index of the Task object with the matching title
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
