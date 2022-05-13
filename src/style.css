@@ -178,7 +178,7 @@ button:hover + input[type="search"] {
     overflow-x: hidden;
 }
 
-#home,
+#Project-Home,
 #today,
 #next-seven-days,
 #projects {
@@ -187,7 +187,7 @@ button:hover + input[type="search"] {
     gap: 10px;
 }
 
-#home:hover,
+#Project-Home:hover,
 #today:hover,
 #next-seven-days:hover,
 #project-sidebar-list div:hover {

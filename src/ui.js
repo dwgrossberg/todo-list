@@ -4,7 +4,7 @@ import loadTaskCards from "./loadTaskCards.js";
 const displayUI = (() => {
 
     const taskContent = document.getElementById('task-content');
-    const home = document.getElementById('home');
+    const home = document.getElementById('Project-Home');
     const today = document.getElementById('today');
     const next7Days = document.getElementById('next-seven-days');
     const projects = document.querySelectorAll('[id^="Project-"]');
@@ -40,6 +40,11 @@ const displayUI = (() => {
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
             taskMaster.taskList[taskIndex].changeProject(selectedOption);
             console.log(taskMaster.taskList[taskIndex].task);
+            // Display the updated project list
+            const project = document.getElementById(`Project-${selectedOption}`);            
+            if (document.createEvent) {
+                project.dispatchEvent(new Event('mousedown'));
+            }
         }));
     }
 
@@ -85,7 +90,7 @@ const displayUI = (() => {
             const oldPriority = taskMaster.taskList[taskIndex].task.priority;
             taskMaster.taskList[taskIndex].changePriority(e.target.value);
             console.log(taskMaster.taskList[taskIndex].task);
-            const taskCard = document.getElementById(`task-card-${taskArrayIndex}`);
+            const taskCard = document.getElementById(`task-card-${taskIndex}`);
             // change css priority labels
             taskCard.classList.remove(`${oldPriority}`);
             taskCard.classList.add(`${taskMaster.taskList[taskIndex].task.priority}`);

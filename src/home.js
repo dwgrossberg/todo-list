@@ -21,7 +21,7 @@ const loadHome = (() => {
     </div>
     
     <div class="sidebar">
-        <div id="home">
+        <div id="Project-Home">
             <div id="home-counter"></div>
             <div class="home-icon"></div>
             <div class="home-text"><p>Home</p></div>
