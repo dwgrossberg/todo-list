@@ -1,5 +1,4 @@
 import taskMaster from "./taskMaster.js";
-import displayUI from "./ui.js";
 import { format } from "date-fns";
 
 const loadTaskCards = (() => {
@@ -96,7 +95,7 @@ const loadTaskCards = (() => {
             projectLabel.innerText = 'Project:'
             let projectSelect = document.createElement('select');
             projectSelect.setAttribute('name', 'projects');
-            projectSelect.setAttribute('id', 'projects-select');
+            projectSelect.setAttribute('id', `projects-select-${taskList.indexOf(task)}`);
             // Loop through projectList to create select list values
             taskMaster.projectList.forEach(project => {
                 console.log(task.task.project);

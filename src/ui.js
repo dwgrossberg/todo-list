@@ -3,6 +3,8 @@ import loadTaskCards from "./loadTaskCards.js";
 
 const displayUI = (() => {
 
+    const taskContent = document.getElementById('task-content');
+
     const updateTaskCompleteStatus = () => {
         const taskCheckboxes = Array.from(document.querySelectorAll('[id^="task-checkbox-"]'));
         taskCheckboxes.forEach(checkbox => checkbox.addEventListener('change', (e) => {
@@ -18,42 +20,16 @@ const displayUI = (() => {
         }));
     }
 
-    // update task project
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    const updateTaskProject = () => {
+        const taskProjects = Array.from(document.querySelectorAll('[id^="projects-select-"]'));
+        taskProjects.forEach(project => project.addEventListener('change', (e) => {
+            const selectedOption = e.target[e.target.selectedIndex].innerText;
+            // Get the id # of the Task DOM object - matches the index of Task object in taskList
+            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
+            taskMaster.taskList[taskArrayIndex].changeProject(selectedOption);
+            console.log(taskMaster.taskList[taskArrayIndex].task);
+        }));
+    }
 
     const updateTaskDueDate = () => {
         // Add event listener to watch for changes to dueDate
@@ -72,7 +48,7 @@ const displayUI = (() => {
                 taskContent.removeChild(taskContent.lastChild);
             }
             // Reload the sorted task cards
-            loadTaskCards(taskMaster.taskList);
+            loadTaskCards.run(taskMaster.taskList);
             // Re-attach event listener functions to Task DOM objects
             runDOMFunctions();
         }));
@@ -148,10 +124,9 @@ const displayUI = (() => {
         }));
     }
     
-    loadTaskCards.run(taskMaster.taskList);
-
     const runDOMFunctions = () => {
         updateTaskCompleteStatus();
+        updateTaskProject();
         updateTaskDueDate();
         updateTaskPriority();
         expandTask();

@@ -568,6 +568,25 @@ button:hover + input[type="search"] {
     z-index: -1;
 }
 
+.task-project select {
+    margin-left: 5px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #E0E0E0;
+    text-align: center;
+    font-family: "Lato", sans-serif;
+    font-size: 11px;
+}
+
+.task-project select:hover {
+    outline: 1px solid #0F4C5C;
+}
+
+.task-project select:focus {
+    outline: 2px solid #0F4C5C;
+}
+
 .task-project:hover::after {
     position: absolute;
     content: 'edit task project';
