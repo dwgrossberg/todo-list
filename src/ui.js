@@ -84,13 +84,14 @@ const displayUI = (() => {
     const updateTaskPriority = () => {
         const taskRadios = Array.from(document.querySelectorAll('[name^="task-radio-"]'));
         taskRadios.forEach(radio => radio.addEventListener('change', (e) => {
+            const taskCard = e.target.parentNode.parentNode.parentNode.parentNode.parentNode;
+            console.log(taskCard);
             const taskTitle = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[1].childNodes[1].innerText;
             // Find the index of the Task object with the matching title
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
             const oldPriority = taskMaster.taskList[taskIndex].task.priority;
             taskMaster.taskList[taskIndex].changePriority(e.target.value);
             console.log(taskMaster.taskList[taskIndex].task);
-            const taskCard = document.getElementById(`task-card-${taskIndex}`);
             // change css priority labels
             taskCard.classList.remove(`${oldPriority}`);
             taskCard.classList.add(`${taskMaster.taskList[taskIndex].task.priority}`);
@@ -193,6 +194,7 @@ const displayUI = (() => {
             home.style.color = "#d82775";
             home.style.fontWeight = 'bold';
             removeDOMTasks();
+            console.log(taskMaster.taskList);   
             loadTaskCards.run(taskMaster.taskList);
             runDOMTaskFunctions();
         });
@@ -270,16 +272,16 @@ const displayUI = (() => {
 
         // Projects
         let projectTasks = [];
-        projects.forEach(project => project.addEventListener('mousedown', () => {
+        projects.forEach(project => project.addEventListener('mousedown', (e) => {
+            if (e.target.innerText === 'Home') return;
             projectTasks = [];
             const projectName = (/(?<=([^-]*-)).*/.exec(project.id)[0]);
-            console.log(projectName);
+            console.log(e.target.innerText);
             taskMaster.taskList.forEach(task => {
                 if (task.task.project === projectName) {
                     projectTasks.push(task);
                 }
             });
-
             // Set Project styles on sidebar && reload Tasks
             let otherProjects = Array.from(project.parentNode.childNodes);
             otherProjects.forEach(project => {
