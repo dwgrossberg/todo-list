@@ -192,7 +192,7 @@ button:hover + input[type="search"] {
 #today:hover,
 #next-seven-days:hover,
 #notes:hover,
-.project-sidebar-list div:hover {
+#project-sidebar-list div:hover {
     cursor: pointer;
     color: var(--accent-color);
     font-weight: bold;
@@ -202,7 +202,8 @@ button:hover + input[type="search"] {
 #today-counter,
 #next-seven-days-counter,
 #notes-counter,
-[id^="project-counter"] {
+[id^="project-counter"],
+#projects-counter {
     width: 15px;
     height: 15px;
     display: flex;
@@ -246,7 +247,7 @@ button:hover + input[type="search"] {
     background-size: 100%;
 }
 
-.project-sidebar-list {
+#project-sidebar-list {
     margin-top: -15px;
     padding-left: 30px;
     font-size: 12px;
@@ -255,7 +256,7 @@ button:hover + input[type="search"] {
     gap: 15px;
 }
 
-.project-sidebar-list div {
+#project-sidebar-list div {
     display: flex;
     gap: 5px;
 }
@@ -267,10 +268,6 @@ button:hover + input[type="search"] {
     background-size: 100%;
     width: 15px;
     height: 15px;
-}
-
-.project-counter {
-    font-size: 8px;
 }
 
 .delete-project {
@@ -443,6 +440,11 @@ button:hover + input[type="search"] {
 .complete .task-project {
     color: #0F4C5C;
     text-decoration: line-through;
+}
+
+.complete select {
+    text-decoration: line-through;
+    color: #0F4C5C;
 }
 
 .complete .task-title {

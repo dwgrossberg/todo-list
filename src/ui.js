@@ -54,7 +54,7 @@ const displayUI = (() => {
             // Reload the sorted task cards
             loadTaskCards.run(taskMaster.taskList);
             // Re-attach event listener functions to Task DOM objects
-            runDOMFunctions();
+            runDOMTaskFunctions();
         }));
     }
 
@@ -128,7 +128,7 @@ const displayUI = (() => {
         }));
     }
     
-    const runDOMFunctions = () => {
+    const runDOMTaskFunctions = () => {
         updateTaskCompleteStatus();
         updateTaskProject();
         updateTaskDueDate();
@@ -137,14 +137,21 @@ const displayUI = (() => {
         deleteTask();
     }
 
-    const displayProject = () => {
+    // load projects
+    // counter
+
+    const displayController = () => {
         const home = document.getElementById('home');
         const homeCounter = document.getElementById('home-counter');
         const today = document.getElementById('today');
         const todayCounter = document.getElementById('today-counter');
         const next7Days = document.getElementById('next-seven-days');
         const next7DaysCounter = document.getElementById('next-seven-days-counter');
-        const baby = document.getElementById('baby');
+        const projectCounter = document.getElementById('projects-counter');
+        const projects = document.querySelectorAll('[id^="Project-"]');
+
+        const baby = document.getElementById('project-baby');
+        const babyCounter = document.getElementById('project-counter-baby');
         const study = document.getElementById('study');
         const workout = document.getElementById('workout');
         const notes = document.getElementById('notes');
@@ -153,7 +160,7 @@ const displayUI = (() => {
         home.style.color = "#d82775";
         home.style.fontWeight = 'bold';
         loadTaskCards.run(taskMaster.taskList);
-        runDOMFunctions();
+        runDOMTaskFunctions();
 
         // Home
         home.addEventListener('mousedown', (e) => {
@@ -161,86 +168,117 @@ const displayUI = (() => {
             today.style.fontWeight = '';
             next7Days.style.color = '';
             next7Days.style.fontWeight = '';
-
             home.style.color = "#d82775";
             home.style.fontWeight = 'bold';
-            homeCounter.innerText = taskMaster.taskList.length;
             removeDOMTasks();
             loadTaskCards.run(taskMaster.taskList);
-            runDOMFunctions();
+            runDOMTaskFunctions();
         });
 
-        // Today
-        const todayTasks = [];
-        // Check to find Task dueDates that match today
-        const isToday = (date) => {
-            if (date) {
-                const today = new Date();
-                return date.getDate() == today.getDate() &&
-                    date.getMonth() == today.getMonth() &&
-                    date.getFullYear() == today.getFullYear();
-            }
-        }
-        taskMaster.taskList.forEach(task => {
-            if (isToday(task.task.dueDate)) {
-                todayTasks.push(task);
-            } ;
-        });
-
+        // Today    
+        let todayTasks = [];    
         today.addEventListener('mousedown', (e) => {
+            todayTasks = [];
+            // Check to find Task dueDates that match today
+            const isToday = (date) => {
+                if (date) {
+                    const today = new Date();
+                    return date.getDate() == today.getDate() &&
+                        date.getMonth() == today.getMonth() &&
+                        date.getFullYear() == today.getFullYear();
+                }
+            }
+            taskMaster.taskList.forEach(task => {
+                if (isToday(task.task.dueDate) && !todayTasks.includes(task)) {;
+                    todayTasks.push(task);
+                } ;
+            });
+            // Set sidebar styles && reload Tasks
             home.style.color = '';
             home.style.fontWeight = '';
             next7Days.style.color = '';
             next7Days.style.fontWeight = '';
-            
             today.style.color = "#d82775";
             today.style.fontWeight = 'bold'; 
-            todayCounter.innerText = todayTasks.length;
             removeDOMTasks();
             loadTaskCards.run(todayTasks);
-            runDOMFunctions();
+            runDOMTaskFunctions();
         });
 
         // Next 7 Days
-        const next7DaysTasks = [];
-        // Check to find Task dueDates that match next7Days
-        const isNextWeek = (date) => {
-            if (date) {
-                const today = new Date();
-                const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-                if (nextWeek < date) {
-                    return false;
-                } else {
-                    return true;
+        let next7DaysTasks = [];
+        next7Days.addEventListener('mousedown', (e) => {
+            next7DaysTasks = [];
+            // Check to find Task dueDates that match next7Days
+            const isNextWeek = (date) => {
+                if (date) {
+                    const today = new Date();
+                    const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+                    if (nextWeek < date) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
             }
-        }
-        taskMaster.taskList.forEach(task => {
-            if (isNextWeek(task.task.dueDate)) {
-                next7DaysTasks.push(task);
-            } ;
-        });
-        next7Days.addEventListener('mousedown', (e) => {
+            taskMaster.taskList.forEach(task => {
+                if (isNextWeek(task.task.dueDate)) {
+                    next7DaysTasks.push(task);
+                } ;
+            });
+            // Set sidebar styles && reload Tasks
             home.style.color = '';
             home.style.fontWeight = '';
             today.style.color = '';
             today.style.fontWeight = '';
-
-            
             next7Days.style.color = "#d82775";
             next7Days.style.fontWeight = 'bold'; 
             removeDOMTasks();
             loadTaskCards.run(next7DaysTasks);
-            runDOMFunctions();
+            runDOMTaskFunctions();
         });
 
+        // Projects
+        let projectTasks = [];
+        projects.forEach(project => project.addEventListener('mousedown', () => {
+            projectTasks = [];
+            const projectName = (/(?<=([^-]*-)).*/.exec(project.id)[0]);
+            console.log(projectName);
+            taskMaster.taskList.forEach(task => {
+                if (task.task.project === projectName) {
+                    projectTasks.push(task);
+                }
+            });
 
-        homeCounter.innerText = taskMaster.taskList.length;
-        todayCounter.innerText = todayTasks.length;
-        next7DaysCounter.innerText = next7DaysTasks.length;
+            // Set Project styles on sidebar && reload Tasks
+            let otherProjects = Array.from(project.parentNode.childNodes);
+            otherProjects.forEach(project => {
+                if (otherProjects.indexOf(project) % 2 !== 0) {
+                    project.style.color = '';
+                    project.style.fontWeight = '';
+                }
+            })
+            home.style.color = '';
+            home.style.fontWeight = '';
+            today.style.color = '';
+            today.style.fontWeight = '';
+            next7Days.style.color = '';
+            next7Days.style.fontWeight = ''; 
+            project.style.color = "#d82775";
+            project.style.fontWeight = 'bold';
+            removeDOMTasks();
+            loadTaskCards.run(projectTasks);
+            runDOMTaskFunctions();
+        }));
+    
+
+        // homeCounter.innerText = taskMaster.taskList.length;
+        // todayCounter.innerText = todayTasks.length;
+        // next7DaysCounter.innerText = next7DaysTasks.length;
+        // projectCounter.innerText = taskMaster.projectList.length;
     }
 
-    displayProject();
+    displayController();
 
     return {}
 

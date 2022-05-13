@@ -37,23 +37,24 @@ const loadHome = (() => {
             <div class="next-seven-days-text"><p>Next 7 Days</p></div>
         </div>
         <div id="projects">
+            <div id="projects-counter"></div>
             <div class="projects-icon"></div>
             <div class="projects-text"><p>Projects</p></div>
         </div>
-        <div class="project-sidebar-list">
-            <div class="project-baby">
+        <div id="project-sidebar-list">
+            <div id="Project-Baby">
                 <div id="project-counter-baby"></div>
                 <div class="project-icon">
                 </div><p>Baby</p>
                 <div class="delete-project"></div>
             </div>
-            <div id="project-study">
+            <div id="Project-Study">
                 <div id="project-counter-study"></div>
                 <div class="project-icon"></div>
                 <p>Study</p>
                 <div class="delete-project"></div>
             </div>
-            <div id="project-workout">
+            <div id="Project-Workout">
                 <div id="project-counter-workout"></div>
                 <div class="project-icon"></div>
                 <p>Workout</p>
