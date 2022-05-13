@@ -181,8 +181,7 @@ button:hover + input[type="search"] {
 #home,
 #today,
 #next-seven-days,
-#projects,
-#notes {
+#projects {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -191,7 +190,6 @@ button:hover + input[type="search"] {
 #home:hover,
 #today:hover,
 #next-seven-days:hover,
-#notes:hover,
 #project-sidebar-list div:hover {
     cursor: pointer;
     color: var(--accent-color);
@@ -201,7 +199,6 @@ button:hover + input[type="search"] {
 #home-counter,
 #today-counter,
 #next-seven-days-counter,
-#notes-counter,
 [id^="project-counter"],
 #projects-counter {
     width: 15px;
@@ -216,8 +213,7 @@ button:hover + input[type="search"] {
 .home-icon,
 .today-icon,
 .next-seven-days-icon,
-.projects-icon,
-.notes-icon {
+.projects-icon {
     height: 20px;
     width: 20px;
 }
@@ -239,11 +235,6 @@ button:hover + input[type="search"] {
 
 .projects-icon {
     background-image: url('./assets/projects.png');
-    background-size: 100%;
-}
-
-.notes-icon {
-    background-image: url('./assets/notes.png');
     background-size: 100%;
 }
 

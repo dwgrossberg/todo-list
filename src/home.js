@@ -61,11 +61,6 @@ const loadHome = (() => {
                 <div class="delete-project"></div>
             </div>
         </div>
-        <div id="notes">
-            <div id="notes-counter"></div>
-            <div class="notes-icon"></div>
-            <div class="notes-text"><p>Notes</p></div>
-        </div>
         <span id="add-task">+</span>
     </div>
 

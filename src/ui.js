@@ -4,6 +4,10 @@ import loadTaskCards from "./loadTaskCards.js";
 const displayUI = (() => {
 
     const taskContent = document.getElementById('task-content');
+    const home = document.getElementById('home');
+    const today = document.getElementById('today');
+    const next7Days = document.getElementById('next-seven-days');
+    const projects = document.querySelectorAll('[id^="Project-"]');
 
     const removeDOMTasks = () => {
         while (taskContent.firstChild) {
@@ -14,14 +18,15 @@ const displayUI = (() => {
     const updateTaskCompleteStatus = () => {
         const taskCheckboxes = Array.from(document.querySelectorAll('[id^="task-checkbox-"]'));
         taskCheckboxes.forEach(checkbox => checkbox.addEventListener('change', (e) => {
-            // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
-            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
+            const taskTitle = e.target.parentNode.parentNode.childNodes[1].childNodes[1].innerText;
+            // Find the index of the Task object with the matching title
+            const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
             if (e.target.checked) {
-                taskMaster.taskList[taskArrayIndex].changeCompleteStatus(true);
+                taskMaster.taskList[taskIndex].changeCompleteStatus(true);
             } else {
-                taskMaster.taskList[taskArrayIndex].changeCompleteStatus(false);
+                taskMaster.taskList[taskIndex].changeCompleteStatus(false);
             }
-            console.log(taskMaster.taskList[taskArrayIndex].task);
+            console.log(taskMaster.taskList[taskIndex].task);
         }));
     }
 
@@ -30,10 +35,11 @@ const displayUI = (() => {
         taskProjects.forEach(project => project.addEventListener('change', (e) => {
             // Set select option to match Task object project
             const selectedOption = e.target[e.target.selectedIndex].innerText;
-            // Get the id # of the Task DOM object - matches the index of Task object in taskList
-            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
-            taskMaster.taskList[taskArrayIndex].changeProject(selectedOption);
-            console.log(taskMaster.taskList[taskArrayIndex].task);
+            const taskTitle = e.target.parentNode.parentNode.childNodes[1].innerText;
+            // Find the index of the Task object with the matching title
+            const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
+            taskMaster.taskList[taskIndex].changeProject(selectedOption);
+            console.log(taskMaster.taskList[taskIndex].task);
         }));
     }
 
@@ -41,14 +47,26 @@ const displayUI = (() => {
         // Add event listener to watch for changes to dueDate
         const taskDueDates = Array.from(document.querySelectorAll('[id^="task-dueDate-"]'));
         taskDueDates.forEach(dueDate => dueDate.addEventListener('change', (e) => {
-            // Get the id # of the Task DOM object - matches the index of Task object in taskList
-            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
+            const taskTitle = e.target.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[1].childNodes[1].innerText;
+            // Find the index of the Task object with the matching title
+            const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
             const newDateFormatted = new Date(e.target.value);
             // Update the Task object dueDate
-            taskMaster.taskList[taskArrayIndex].changeDueDate(newDateFormatted);
-            console.log(taskMaster.taskList[taskArrayIndex].task);
+            taskMaster.taskList[taskIndex].changeDueDate(newDateFormatted);
+            console.log(taskMaster.taskList[taskIndex].task);
             // Reorder the taskList according to new dates
             taskMaster.dateOrderTaskList(taskMaster.taskList);
+            // Set sidebar styles
+            today.style.color = '';
+            today.style.fontWeight = '';
+            next7Days.style.color = '';
+            next7Days.style.fontWeight = '';
+            projects.forEach(project => {
+                project.style.color = '';
+                project.style.fontWeight = '';
+            });
+            home.style.color = "#d82775";
+            home.style.fontWeight = 'bold';
             // Clear the task-content DOM section
             removeDOMTasks();
             // Reload the sorted task cards
@@ -61,14 +79,16 @@ const displayUI = (() => {
     const updateTaskPriority = () => {
         const taskRadios = Array.from(document.querySelectorAll('[name^="task-radio-"]'));
         taskRadios.forEach(radio => radio.addEventListener('change', (e) => {
-            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.name)[0]);
-            const oldPriority = taskMaster.taskList[taskArrayIndex].task.priority;
-            taskMaster.taskList[taskArrayIndex].changePriority(e.target.value);
-            console.log(taskMaster.taskList[taskArrayIndex].task);
+            const taskTitle = e.target.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[1].childNodes[1].innerText;
+            // Find the index of the Task object with the matching title
+            const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
+            const oldPriority = taskMaster.taskList[taskIndex].task.priority;
+            taskMaster.taskList[taskIndex].changePriority(e.target.value);
+            console.log(taskMaster.taskList[taskIndex].task);
             const taskCard = document.getElementById(`task-card-${taskArrayIndex}`);
             // change css priority labels
             taskCard.classList.remove(`${oldPriority}`);
-            taskCard.classList.add(`${taskMaster.taskList[taskArrayIndex].task.priority}`);
+            taskCard.classList.add(`${taskMaster.taskList[taskIndex].task.priority}`);
         }));
     }
 
@@ -118,12 +138,14 @@ const displayUI = (() => {
     const deleteTask = () => {
         const taskBins = Array.from(document.querySelectorAll('[id^="task-delete-"]'));
         taskBins.forEach(bin => bin.addEventListener('mousedown', (e) => {
-            // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
-            const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(e.target.id)[0]);
+            const taskTitle = e.target.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[1].childNodes[1].innerText;
+            // Find the index of the Task object with the matching title
+            const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
+            console.log(taskTitle);
             // Remove Task DOM object
             e.target.parentNode.parentNode.remove();
             // Remove the Task object from the taskMasker.taskList
-            taskMaster.removeTask(taskArrayIndex);
+            taskMaster.removeTask(taskIndex);
             console.log(taskMaster.taskList)
         }));
     }
@@ -141,20 +163,10 @@ const displayUI = (() => {
     // counter
 
     const displayController = () => {
-        const home = document.getElementById('home');
         const homeCounter = document.getElementById('home-counter');
-        const today = document.getElementById('today');
         const todayCounter = document.getElementById('today-counter');
-        const next7Days = document.getElementById('next-seven-days');
         const next7DaysCounter = document.getElementById('next-seven-days-counter');
         const projectCounter = document.getElementById('projects-counter');
-        const projects = document.querySelectorAll('[id^="Project-"]');
-
-        const baby = document.getElementById('project-baby');
-        const babyCounter = document.getElementById('project-counter-baby');
-        const study = document.getElementById('study');
-        const workout = document.getElementById('workout');
-        const notes = document.getElementById('notes');
 
         // Run the Home Project on page load (includes all Tasks by default)
         home.style.color = "#d82775";
@@ -168,6 +180,11 @@ const displayUI = (() => {
             today.style.fontWeight = '';
             next7Days.style.color = '';
             next7Days.style.fontWeight = '';
+            projects.forEach(project => {
+                project.style.color = '';
+                project.style.fontWeight = '';
+
+            });
             home.style.color = "#d82775";
             home.style.fontWeight = 'bold';
             removeDOMTasks();
@@ -198,6 +215,10 @@ const displayUI = (() => {
             home.style.fontWeight = '';
             next7Days.style.color = '';
             next7Days.style.fontWeight = '';
+            projects.forEach(project => {
+                project.style.color = '';
+                project.style.fontWeight = '';
+            });
             today.style.color = "#d82775";
             today.style.fontWeight = 'bold'; 
             removeDOMTasks();
@@ -231,8 +252,12 @@ const displayUI = (() => {
             home.style.fontWeight = '';
             today.style.color = '';
             today.style.fontWeight = '';
+            projects.forEach(project => {
+                project.style.color = '';
+                project.style.fontWeight = '';
+            });
             next7Days.style.color = "#d82775";
-            next7Days.style.fontWeight = 'bold'; 
+            next7Days.style.fontWeight = 'bold';     
             removeDOMTasks();
             loadTaskCards.run(next7DaysTasks);
             runDOMTaskFunctions();
@@ -257,7 +282,7 @@ const displayUI = (() => {
                     project.style.color = '';
                     project.style.fontWeight = '';
                 }
-            })
+            });
             home.style.color = '';
             home.style.fontWeight = '';
             today.style.color = '';
