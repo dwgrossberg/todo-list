@@ -48,6 +48,29 @@ const displayUI = (() => {
         }));
     }
 
+    // Check to find Task dueDates that match today
+    const isToday = (date) => {
+        if (date) {
+            const today = new Date();
+            return date.getDate() == today.getDate() &&
+                date.getMonth() == today.getMonth() &&
+                date.getFullYear() == today.getFullYear();
+        }
+    }
+
+    // Check to find Task dueDates that match next7Days
+    const isNextWeek = (date) => {
+        if (date) {
+            const today = new Date();
+            const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+            if (nextWeek < date) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     const updateTaskDueDate = () => {
         // Add event listener to watch for changes to dueDate
         const taskDueDates = Array.from(document.querySelectorAll('[id^="task-dueDate-"]'));
@@ -62,17 +85,6 @@ const displayUI = (() => {
             console.log(taskMaster.taskList[taskIndex].task);
             // Reorder the taskList according to new dates
             taskMaster.dateOrderTaskList(taskMaster.taskList);
-            // Set sidebar styles
-            today.style.color = '';
-            today.style.fontWeight = '';
-            next7Days.style.color = '';
-            next7Days.style.fontWeight = '';
-            projects.forEach(project => {
-                project.style.color = '';
-                project.style.fontWeight = '';
-            });
-            home.style.color = "#d82775";
-            home.style.fontWeight = 'bold';
             // Clear the task-content DOM section
             removeDOMTasks();
             // Reload the newly sorted task cards
@@ -82,7 +94,12 @@ const displayUI = (() => {
             // Display the updated project list, unless the user is already on Home tab
             console.log(taskProject);
             const project = document.getElementById(`Project-${taskProject}`);
-            if (home.style.color === "#d82775") return;
+            if (home.style.color === "rgb(216, 39, 117)") return;
+            else if (today.style.color === "rgb(216, 39, 117)" && document.createEvent) {
+                today.dispatchEvent(new Event('mousedown'));
+            } else if (next7Days.style.color ===  "rgb(216, 39, 117)" && document.createEvent) {
+                next7Days.dispatchEvent(new Event('mousedown'));
+            }
             else if (document.createEvent) {
                 project.dispatchEvent(new Event('mousedown'));
             }
@@ -210,15 +227,6 @@ const displayUI = (() => {
         let todayTasks = [];    
         today.addEventListener('mousedown', (e) => {
             todayTasks = [];
-            // Check to find Task dueDates that match today
-            const isToday = (date) => {
-                if (date) {
-                    const today = new Date();
-                    return date.getDate() == today.getDate() &&
-                        date.getMonth() == today.getMonth() &&
-                        date.getFullYear() == today.getFullYear();
-                }
-            }
             taskMaster.taskList.forEach(task => {
                 if (isToday(task.task.dueDate) && !todayTasks.includes(task)) {;
                     todayTasks.push(task);
@@ -244,18 +252,6 @@ const displayUI = (() => {
         let next7DaysTasks = [];
         next7Days.addEventListener('mousedown', (e) => {
             next7DaysTasks = [];
-            // Check to find Task dueDates that match next7Days
-            const isNextWeek = (date) => {
-                if (date) {
-                    const today = new Date();
-                    const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-                    if (nextWeek < date) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
-            }
             taskMaster.taskList.forEach(task => {
                 if (isNextWeek(task.task.dueDate)) {
                     next7DaysTasks.push(task);
