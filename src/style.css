@@ -250,6 +250,7 @@ button:hover + input[type="search"] {
 
 #project-sidebar-list div {
     display: flex;
+    align-items: center;
     gap: 5px;
 }
 
@@ -265,6 +266,15 @@ button:hover + input[type="search"] {
 .delete-project {
     background-image: url('./assets/close.png');
     background-size: 50%;
+}
+
+.edit-project {
+    background-image: url('./assets/edit.png');
+    background-size: 90%;
+}
+
+.delete-project,
+.edit-project {
     background-repeat: no-repeat;
     background-position: center;
     align-self: center;
@@ -277,17 +287,27 @@ button:hover + input[type="search"] {
     margin-left: 5px;
 }
 
-.delete-project:hover {
+.delete-project:hover,
+.edit-project:hover {
     background-color: var(--accent-color);
     transform: scale(1.15);
 }
 
 .delete-project:hover::after {
+    content: 'delete';
+    width: 30px;
+}
+
+.edit-project:hover::after {
+    content: 'edit';
+    width: 20px;
+}
+
+.delete-project:hover::after,
+.edit-project:hover::after {
     position: absolute;
-    content: 'delete project';
-    left: 10px;
-    top: -10px;
-    width: 35px;
+    left: -20px;
+    top: -30px;
     padding: 7px 10px;
     border-radius: 5px;
     font-family: "Lato", sans-serif;
@@ -602,20 +622,26 @@ button:hover + input[type="search"] {
     margin-left: 5px;
 }
 
+.editable {
+    margin-top: 5px;
+}
+
+.project-editable {
+    padding: 5px;
+}
+
 .task-title:hover,
-.editable:hover {
+.editable:hover,
+.project-editable:hover {
     outline: 1px dotted #0F4C5C;
     border-radius: 5px;
 }
 
 .task-title:focus,
-.editable:focus {
+.editable:focus,
+.project-editable:focus {
     outline: 2px dotted #0F4C5C;
     border-radius: 5px;
-}
-
-.editable {
-    margin-top: 5px;
 }
 
 .task-title:hover::after {

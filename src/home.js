@@ -44,20 +44,23 @@ const loadHome = (() => {
         <div id="project-sidebar-list">
             <div id="Project-Baby">
                 <div id="project-counter-Baby"></div>
-                <div class="project-icon">
-                </div><p>Baby</p>
+                <div class="project-icon"></div>
+                <p class="project-editable" contenteditable="true">Baby</p>
+                <div class="edit-project"></div>
                 <div class="delete-project"></div>
             </div>
             <div id="Project-Study">
                 <div id="project-counter-Study"></div>
                 <div class="project-icon"></div>
-                <p>Study</p>
+                <p class="project-editable" contenteditable="true">Study</p>
+                <div class="edit-project"></div>
                 <div class="delete-project"></div>
             </div>
             <div id="Project-Workout">
                 <div id="project-counter-Workout"></div>
                 <div class="project-icon"></div>
-                <p>Workout</p>
+                <p class="project-editable" contenteditable="true">Workout</p>
+                <div class="edit-project"></div>
                 <div class="delete-project"></div>
             </div>
         </div>

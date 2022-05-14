@@ -204,9 +204,9 @@ const displayUI = (() => {
     }
 
     const setSidebarCounters = () => {
-        // Set Project sidebar counters for dynamic use
         const projectCounter = document.getElementById('projects-counter');
         projectCounter.innerText = taskMaster.projectList.length - 1; //Subtract one to account for Home as default Project
+        // Set project Task counters, including Home
         taskMaster.projectList.forEach(project => {
             let counterElem = document.getElementById(`project-counter-${project.project.name}`);
             counterElem.innerText = taskMaster.projectList[taskMaster.projectList.indexOf(project)].project.tasks.length;
@@ -224,11 +224,9 @@ const displayUI = (() => {
         });
     }
 
-    const addSidebarCounter = () => {
-
-    }
-
-    const deleteSidebarCounter = () => {
+    const changeSidebarCounter = (task) => {
+        
+        
 
     }
 
