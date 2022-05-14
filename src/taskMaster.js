@@ -55,14 +55,21 @@ const taskMaster = (() => {
     const funTask = createTask('Home', 'Meet up with Lou for a beer', new Date(), 'high', 'Meet at Jax Brewery near 9th street', false);
     const emptyTask = createTask('Home', 'TitleTitleTitleTitleTitleTitleTitleTitleTitleTitle TitleTitleTitle TitleTitleTitle');
 
-    // Sort the taskList so that it is ordered by date
+    // Sort the taskList so that it is ordered by date, with completed Tasks staying at the end of the array
     const dateOrderTaskList = (taskList) => {
         let sortedTaskList = taskList.sort(function(a, b) {
-
             if (a.task.dueDate < b.task.dueDate) return -1;
             if (a.task.dueDate > b.task.dueDate) return 1;
             return 0;
         });
+        // Move the complete Tasks to the end of the sorted array
+        sortedTaskList.forEach(task => {
+            if (task.task.complete === true) {
+                let taskIndex = sortedTaskList.indexOf(task);
+                sortedTaskList.push(sortedTaskList.splice(taskIndex, 1)[0]);
+            }
+        });
+
         return sortedTaskList;
     }
     

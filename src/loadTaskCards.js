@@ -98,12 +98,12 @@ const loadTaskCards = (() => {
             projectSelect.setAttribute('id', `projects-select-${taskList.indexOf(task)}`);
             // Loop through projectList to create select list values
             taskMaster.projectList.forEach(project => {
-                console.log(task.task.project);
                 let projectOption = document.createElement('option');
                 projectOption.value = `${project.project.name}`;
                 projectOption.innerText = `${project.project.name}`;
                 projectSelect.appendChild(projectOption);
             });
+            // Select the correct option for each Task
             projectSelect.value = task.task.project;
             projectLabel.appendChild(projectSelect);
             projectTitle.appendChild(projectLabel);

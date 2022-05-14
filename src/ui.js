@@ -21,12 +21,18 @@ const displayUI = (() => {
             const taskTitle = e.target.parentNode.parentNode.childNodes[1].childNodes[1].innerText;
             // Find the index of the Task object with the matching title
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
-            if (e.target.checked) {
+            console.log(taskMaster.taskList[taskIndex].task);
+            if (e.target.checked) {                
                 taskMaster.taskList[taskIndex].changeCompleteStatus(true);
+                // Move completed Task to end of the list
+
+                taskMaster.taskList.push(taskMaster.taskList.splice(taskIndex, 1)[0]);
+                removeDOMTasks();
+                loadTaskCards.run(taskMaster.taskList);
+                runDOMTaskFunctions();
             } else {
                 taskMaster.taskList[taskIndex].changeCompleteStatus(false);
             }
-            console.log(taskMaster.taskList[taskIndex].task);
         }));
     }
 
@@ -91,7 +97,7 @@ const displayUI = (() => {
             loadTaskCards.run(taskMaster.taskList);
             // Re-attach event listener functions to Task DOM objects
             runDOMTaskFunctions();
-            // Display the updated project list, unless the user is already on Home tab
+            // Display to the updated project list, unless the user is already on Home / Today /Next7Days tab
             console.log(taskProject);
             const project = document.getElementById(`Project-${taskProject}`);
             if (home.style.color === "rgb(216, 39, 117)") return;
