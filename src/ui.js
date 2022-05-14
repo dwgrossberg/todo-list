@@ -21,6 +21,8 @@ const displayUI = (() => {
             const taskTitle = e.target.parentNode.parentNode.childNodes[1].childNodes[1].innerText;
             // Find the index of the Task object with the matching title
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
+            const taskProject = taskMaster.taskList[taskIndex].task.project;
+            const project = document.getElementById(`Project-${taskProject}`);
             console.log(taskMaster.taskList[taskIndex].task);
             if (e.target.checked) {                
                 taskMaster.taskList[taskIndex].changeCompleteStatus(true);
@@ -36,7 +38,16 @@ const displayUI = (() => {
                 removeDOMTasks();
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
-
+            }
+            // Display to the updated project list, unless the user is already on Home / Today /Next7Days tab
+            if (home.style.color === "rgb(216, 39, 117)") return;
+            else if (today.style.color === "rgb(216, 39, 117)" && document.createEvent) {
+                today.dispatchEvent(new Event('mousedown'));
+            } else if (next7Days.style.color ===  "rgb(216, 39, 117)" && document.createEvent) {
+                next7Days.dispatchEvent(new Event('mousedown'));
+            }
+            else if (document.createEvent) {
+                project.dispatchEvent(new Event('mousedown'));
             }
         }));
     }
