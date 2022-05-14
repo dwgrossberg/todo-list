@@ -196,7 +196,7 @@ button:hover + input[type="search"] {
     font-weight: bold;
 }
 
-#home-counter,
+#project-counter-Home,
 #today-counter,
 #next-seven-days-counter,
 [id^="project-counter"],

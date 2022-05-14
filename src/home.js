@@ -22,7 +22,7 @@ const loadHome = (() => {
     
     <div class="sidebar">
         <div id="Project-Home">
-            <div id="home-counter"></div>
+            <div id="project-counter-Home"></div>
             <div class="home-icon"></div>
             <div class="home-text"><p>Home</p></div>
         </div>
@@ -43,19 +43,19 @@ const loadHome = (() => {
         </div>
         <div id="project-sidebar-list">
             <div id="Project-Baby">
-                <div id="project-counter-baby"></div>
+                <div id="project-counter-Baby"></div>
                 <div class="project-icon">
                 </div><p>Baby</p>
                 <div class="delete-project"></div>
             </div>
             <div id="Project-Study">
-                <div id="project-counter-study"></div>
+                <div id="project-counter-Study"></div>
                 <div class="project-icon"></div>
                 <p>Study</p>
                 <div class="delete-project"></div>
             </div>
             <div id="Project-Workout">
-                <div id="project-counter-workout"></div>
+                <div id="project-counter-Workout"></div>
                 <div class="project-icon"></div>
                 <p>Workout</p>
                 <div class="delete-project"></div>

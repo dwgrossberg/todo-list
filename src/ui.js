@@ -211,14 +211,34 @@ const displayUI = (() => {
         deleteTask();
     }
 
-    // load projects
-    // counter
+    const updateSidebarCounters = () => {
+        // Set Project sidebar counters for dynamic use
+        const projectCounter = document.getElementById('projects-counter');
+        projectCounter.innerText = taskMaster.projectList.length - 1; //Subtract one to account for Home as default Project
+        taskMaster.projectList.forEach(project => {
+            let counterElem = document.getElementById(`project-counter-${project.project.name}`);
+            counterElem.innerText = taskMaster.projectList[taskMaster.projectList.indexOf(project)].project.tasks.length;
+        });
 
-    const displayController = () => {
-        const homeCounter = document.getElementById('home-counter');
+        // Set Today and Next7Days counters
         const todayCounter = document.getElementById('today-counter');
         const next7DaysCounter = document.getElementById('next-seven-days-counter');
-        const projectCounter = document.getElementById('projects-counter');
+        taskMaster.taskList.forEach(task => {
+            if (isToday(task.task.dueDate)) {
+                todayCounter.innerText += 1;
+            } else if (isNextWeek(task.task.dueDate)) {
+                next7DaysCounter.innerText += 1;
+            }
+        });
+        
+
+        // todayCounter.innerText = todayTasks.length;
+        // next7DaysCounter.innerText = next7DaysTasks.length;
+    }
+
+    updateSidebarCounters();
+
+    const displayController = () => {
 
         // Run the Home Project on page load (includes all Tasks by default)
         home.style.color = "#d82775";
@@ -327,12 +347,6 @@ const displayUI = (() => {
             loadTaskCards.run(projectTasks);
             runDOMTaskFunctions();
         }));
-    
-
-        // homeCounter.innerText = taskMaster.taskList.length;
-        // todayCounter.innerText = todayTasks.length;
-        // next7DaysCounter.innerText = next7DaysTasks.length;
-        // projectCounter.innerText = taskMaster.projectList.length;
     }
 
     displayController();
