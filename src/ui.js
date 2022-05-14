@@ -25,13 +25,18 @@ const displayUI = (() => {
             if (e.target.checked) {                
                 taskMaster.taskList[taskIndex].changeCompleteStatus(true);
                 // Move completed Task to end of the list
-
                 taskMaster.taskList.push(taskMaster.taskList.splice(taskIndex, 1)[0]);
                 removeDOMTasks();
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
             } else {
                 taskMaster.taskList[taskIndex].changeCompleteStatus(false);
+                // Rerun dateOrderTaskList to reintegrate uncompleted Task into the normal flow
+                taskMaster.dateOrderTaskList(taskMaster.taskList);
+                removeDOMTasks();
+                loadTaskCards.run(taskMaster.taskList);
+                runDOMTaskFunctions();
+
             }
         }));
     }

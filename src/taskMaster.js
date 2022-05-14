@@ -49,11 +49,11 @@ const taskMaster = (() => {
     const workout = createProject('Workout');
     
     // Default tasks on page load
-    const workoutTask = createTask('Workout', 'Run 10k practice pace for race', '10.2.22', 'low', ' so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
+    const workoutTask = createTask('Workout', 'Run 10k practice pace for race', '8.2.22', 'low', ' so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
     const studyTask = createTask('Study', 'Review Webpack.config.js basics', '5/20/2022', 'med', 'Revist the Webpack guides page and review relevant info', false);
     const babyTask = createTask('Baby', 'Prep Baby\'s favorite chicken dumplings', '6/1/2022', 'med', 'Get the recipe from Uncle M who made it last New Year\'s', false);
     const funTask = createTask('Home', 'Meet up with Lou for a beer', new Date(), 'high', 'Meet at Jax Brewery near 9th street', false);
-    const emptyTask = createTask('Home', 'TitleTitleTitleTitleTitleTitleTitleTitleTitleTitle TitleTitleTitle TitleTitleTitle');
+    const emptyTask = createTask('Home', 'TitleTitleTitleTitleTitleTitleTitleTitleTitleTitle TitleTitleTitle TitleTitleTitle', '10.17.22');
 
     // Sort the taskList so that it is ordered by date, with completed Tasks staying at the end of the array
     const dateOrderTaskList = (taskList) => {
@@ -62,14 +62,22 @@ const taskMaster = (() => {
             if (a.task.dueDate > b.task.dueDate) return 1;
             return 0;
         });
-        // Move the complete Tasks to the end of the sorted array
+        // Collect indexes of completed Tasks
+        let completedTaskIndexes = [];
         sortedTaskList.forEach(task => {
             if (task.task.complete === true) {
-                let taskIndex = sortedTaskList.indexOf(task);
-                sortedTaskList.push(sortedTaskList.splice(taskIndex, 1)[0]);
+                completedTaskIndexes.push(sortedTaskList.indexOf(task));
             }
         });
-
+        // Remove completed Tasks in reverse order to preserve index order && save them
+        let completedTasks = [];
+        for (let i = completedTaskIndexes.length - 1; i >= 0; i--) {
+            completedTasks.push(sortedTaskList.splice(completedTaskIndexes[i], 1)[0]);
+        }
+        // Reverse order to preserve date functionality with completion status
+        completedTasks.reverse();
+        // Push them back to the taskList
+        completedTasks.forEach(task => sortedTaskList.push(task)[0])
         return sortedTaskList;
     }
     
