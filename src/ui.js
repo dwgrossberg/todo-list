@@ -260,14 +260,13 @@ const displayUI = (() => {
         const callback = function(mutationsList, observer) {
             for (const mutation of mutationsList) {
                 // Keep track of mutated DOM element and text content
-                console.log(mutation.target.textContent, mutation.target.parentNode.parentNode.id); 
                 const projectElem = mutation.target.parentNode;
                 // Update Project DOM element id to match new name
                 projectElem.setAttribute('id', `Project-${mutation.target.textContent}`)
                 // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
                 const projectIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.parentNode.id)[0]);
-                console.log(taskMaster.projectList[projectIndex].project);
                 taskMaster.projectList[projectIndex].changeName(mutation.target.textContent);
+                console.log(taskMaster.projectList[projectIndex].project);
                 // Reload the Task cards to show the updated Projects
                 removeDOMTasks(taskContent);
                 loadTaskCards.run(taskMaster.taskList);
@@ -409,7 +408,6 @@ const displayUI = (() => {
             let otherProjects = Array.from(project.parentNode.parentNode.childNodes);
             otherProjects.forEach(project => {
                 let projectTag = project.childNodes[2];
-                console.log(projectTag.innerText, e.target.innerText)
                 if (projectTag.innerText === e.target.innerText) return;
                 else {
                     projectTag.style.color = '';
