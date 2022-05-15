@@ -39,7 +39,7 @@ body {
 
 #content {
     display: grid;
-    grid-template: 100px 1fr 50px / 210px 1fr;
+    grid-template: 100px 1fr 50px / 255px 1fr;
     min-height: 100vh;
     min-width: 100vw;
 }
@@ -170,7 +170,7 @@ button:hover + input[type="search"] {
     padding-left: 20px;
     font-size: 13px;
     position: fixed;
-    width: 210px;
+    width: 250px;
     height: calc(100vh - 150px);
     top: 100px;
     border-right: .5px solid var(--accent-color);
@@ -256,6 +256,9 @@ button:hover + input[type="search"] {
 
 #project-sidebar-list p {
     padding: 5px;
+    max-width: 110px;
+    word-break: break-all;
+    white-space: normal;
 }
 
 .project-icon {
@@ -279,7 +282,7 @@ button:hover + input[type="search"] {
 
 .set-project {
     background-image: url('./assets/set.png');
-    background-size: 80%;
+    background-size: 60%;
 }
 
 .delete-project,
@@ -333,6 +336,10 @@ button:hover + input[type="search"] {
     color: #E0E0E0;
     text-align: center;
     transform: scale(.8);
+}
+
+.delete-project:hover::after {
+    left: -30px;
 }
 
 #add-task {

@@ -230,7 +230,7 @@ const displayUI = (() => {
 
     }
 
-    const updateProjectName = () => {
+    const editProjectName = () => {
         const projectEdits = Array.from(document.getElementsByClassName('edit-project'));
         projectEdits.forEach(edit => edit.addEventListener('mousedown', projectEditSet));
 
@@ -252,16 +252,9 @@ const displayUI = (() => {
             projectName.classList.remove('project-editable');
             projectName.setAttribute('contentEditable', false);
         }
-
-        
-        
-        
-        
-        
     }
 
-
-    updateProjectName();
+    editProjectName();
     
 
     const displayController = () => {
@@ -355,11 +348,17 @@ const displayUI = (() => {
                 }
             });
             // Set Project styles on sidebar && reload Tasks
-            let otherProjects = Array.from(project.parentNode.childNodes);
+            let otherProjects = Array.from(project.parentNode.parentNode.childNodes);
+            console.log(otherProjects);
             otherProjects.forEach(project => {
                 if (otherProjects.indexOf(project) % 2 !== 0) {
-                    project.style.color = '';
-                    project.style.fontWeight = '';
+                    let projectTag = project.childNodes[5];
+                    console.log(projectTag);
+                    if (projectTag.innerText === e.target.innerText) return;
+                    else {
+                        projectTag.style.color = '';
+                        projectTag.style.fontWeight = '';
+                    }
                 }
             });
             home.style.color = '';
