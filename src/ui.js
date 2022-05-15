@@ -8,9 +8,9 @@ const displayUI = (() => {
     const today = document.getElementById('today');
     const next7Days = document.getElementById('next-seven-days');
 
-    const removeDOMTasks = () => {
-        while (taskContent.firstChild) {
-            taskContent.removeChild(taskContent.lastChild);
+    const removeDOMTasks = (content) => {
+        while (content.firstChild) {
+            content.removeChild(content.lastChild);
         }
     }
 
@@ -63,14 +63,14 @@ const displayUI = (() => {
                 taskMaster.taskList[taskIndex].changeCompleteStatus(true);
                 // Move completed Task to end of the list
                 taskMaster.taskList.push(taskMaster.taskList.splice(taskIndex, 1)[0]);
-                removeDOMTasks();
+                removeDOMTasks(taskContent);
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
             } else {
                 taskMaster.taskList[taskIndex].changeCompleteStatus(false);
                 // Rerun dateOrderTaskList to reintegrate uncompleted Task into the normal flow
                 taskMaster.dateOrderTaskList(taskMaster.taskList);
-                removeDOMTasks();
+                removeDOMTasks(taskContent);
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
             }
@@ -109,7 +109,7 @@ const displayUI = (() => {
             // Reorder the taskList according to new dates
             taskMaster.dateOrderTaskList(taskMaster.taskList);
             // Clear the task-content DOM section
-            removeDOMTasks();
+            removeDOMTasks(taskContent);
             // Reload the newly sorted task cards
             loadTaskCards.run(taskMaster.taskList);
             // Re-attach event listener functions to Task DOM objects
@@ -229,6 +229,8 @@ const displayUI = (() => {
 
     }
 
+    const projectsSidebar = document.getElementById('project-sidebar-list');
+
     const editProjectStyles = () => {
         const projectEdits = Array.from(document.getElementsByClassName('edit-project'));
         projectEdits.forEach(edit => edit.addEventListener('mousedown', projectEditSet));
@@ -237,14 +239,12 @@ const displayUI = (() => {
 
     const projectEditSet = (e) => {
         if (e.target.classList[0] === 'edit-project') {
-            console.log(e.target);
             e.target.classList.remove('edit-project');
             e.target.classList.add('set-project');
             let projectName = e.target.parentNode.childNodes[2];
             projectName.classList.add('project-editable');
             projectName.setAttribute('contentEditable', true);
         } else if (e.target.classList[0] === 'set-project') {
-            console.log(e.target);
             e.target.classList.remove('set-project');
             e.target.classList.add('edit-project');
             let projectName = e.target.parentNode.childNodes[2];
@@ -253,16 +253,40 @@ const displayUI = (() => {
         }
     }
 
-    // const updateProjectName = () => {} 
-
+    const updateProjectName = () => {
+         // Setup mutation Observer to watch for changes to Project names and update the corresponding Project objects
+        const projectNames = Array.from(document.querySelectorAll('span[id^="Project-"]'));
+        const config = { characterData: true, childList: true, subtree: true };
+        const callback = function(mutationsList, observer) {
+            for (const mutation of mutationsList) {
+                // Keep track of mutated DOM element and text content
+                console.log(mutation.target.textContent, mutation.target.parentNode.parentNode.id); 
+                const projectElem = mutation.target.parentNode;
+                // Update Project DOM element id to match new name
+                projectElem.setAttribute('id', `Project-${mutation.target.textContent}`)
+                // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
+                const projectIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.parentNode.id)[0]);
+                console.log(taskMaster.projectList[projectIndex].project);
+                taskMaster.projectList[projectIndex].changeName(mutation.target.textContent);
+                // Reload the Task cards to show the updated Projects
+                removeDOMTasks(taskContent);
+                loadTaskCards.run(taskMaster.taskList);
+                runDOMTaskFunctions();
+                tabController(mutation.target.textContent);
+            }
+        }
+        const observer = new MutationObserver(callback);
+        projectNames.forEach(title => observer.observe(title, config));
+    }
 
     const loadProjects = () => {
         // Dynamically load projects to the sidebar DOM element
-        const projectsSidebar = document.getElementById('project-sidebar-list');
         taskMaster.projectList.forEach(project => {
             if (project.project.name === 'Home') return;
             else {
                 const projectDiv = document.createElement('div');
+                // Set index use for later use
+                projectDiv.setAttribute('id', `project-index-${taskMaster.projectList.indexOf(project)}`);
                 const counterDiv = document.createElement('div');
                 counterDiv.setAttribute('id', `project-counter-${project.project.name}`);
                 projectDiv.appendChild(counterDiv);
@@ -282,11 +306,11 @@ const displayUI = (() => {
                 deleteDiv.classList.add('delete-project');
                 projectDiv.appendChild(deleteDiv);
                 projectsSidebar.appendChild(projectDiv);
+                updateProjectName();
             }
         });
         // Attach DOM event handlers
         editProjectStyles();
-
     }
     
     loadProjects();
@@ -314,7 +338,7 @@ const displayUI = (() => {
             });
             home.style.color = "#d82775";
             home.style.fontWeight = 'bold';
-            removeDOMTasks();
+            removeDOMTasks(taskContent);
             console.log(taskMaster.taskList);   
             loadTaskCards.run(taskMaster.taskList);
             runDOMTaskFunctions();
@@ -340,7 +364,7 @@ const displayUI = (() => {
             });
             today.style.color = "#d82775";
             today.style.fontWeight = 'bold'; 
-            removeDOMTasks();
+            removeDOMTasks(taskContent);
             loadTaskCards.run(todayTasks);
             runDOMTaskFunctions();
         });
@@ -365,7 +389,7 @@ const displayUI = (() => {
             });
             next7Days.style.color = "#d82775";
             next7Days.style.fontWeight = 'bold';     
-            removeDOMTasks();
+            removeDOMTasks(taskContent);
             loadTaskCards.run(next7DaysTasks);
             runDOMTaskFunctions();
         });
@@ -376,7 +400,6 @@ const displayUI = (() => {
             if (e.target.innerText === 'Home') return;
             projectTasks = [];
             const projectName = (/(?<=([^-]*-)).*/.exec(project.id)[0]);
-            console.log(e.target.innerText);
             taskMaster.taskList.forEach(task => {
                 if (task.task.project === projectName) {
                     projectTasks.push(task);
@@ -384,9 +407,9 @@ const displayUI = (() => {
             });
             // Set Project styles on sidebar && reload Tasks
             let otherProjects = Array.from(project.parentNode.parentNode.childNodes);
-            console.log(otherProjects);
             otherProjects.forEach(project => {
                 let projectTag = project.childNodes[2];
+                console.log(projectTag.innerText, e.target.innerText)
                 if (projectTag.innerText === e.target.innerText) return;
                 else {
                     projectTag.style.color = '';
@@ -401,7 +424,7 @@ const displayUI = (() => {
             next7Days.style.fontWeight = ''; 
             project.style.color = "#d82775";
             project.style.fontWeight = 'bold';
-            removeDOMTasks();
+            removeDOMTasks(taskContent);
             loadTaskCards.run(projectTasks);
             runDOMTaskFunctions();
         }));
