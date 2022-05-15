@@ -226,9 +226,43 @@ const displayUI = (() => {
 
     const changeSidebarCounter = (task) => {
         
-        
+        //todo
 
     }
+
+    const updateProjectName = () => {
+        const projectEdits = Array.from(document.getElementsByClassName('edit-project'));
+        projectEdits.forEach(edit => edit.addEventListener('mousedown', projectEditSet));
+
+    }
+
+    const projectEditSet = (e) => {
+        if (e.target.classList[0] === 'edit-project') {
+            console.log(e.target);
+            e.target.classList.remove('edit-project');
+            e.target.classList.add('set-project');
+            let projectName = e.target.parentNode.childNodes[5];
+            projectName.classList.add('project-editable');
+            projectName.setAttribute('contentEditable', true);
+        } else if (e.target.classList[0] === 'set-project') {
+            console.log(e.target);
+            e.target.classList.remove('set-project');
+            e.target.classList.add('edit-project');
+            let projectName = e.target.parentNode.childNodes[5];
+            projectName.classList.remove('project-editable');
+            projectName.setAttribute('contentEditable', false);
+        }
+
+        
+        
+        
+        
+        
+    }
+
+
+    updateProjectName();
+    
 
     const displayController = () => {
 

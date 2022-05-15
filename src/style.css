@@ -175,7 +175,7 @@ button:hover + input[type="search"] {
     top: 100px;
     border-right: .5px solid var(--accent-color);
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     z-index: 100;
 }
 
@@ -254,6 +254,10 @@ button:hover + input[type="search"] {
     gap: 5px;
 }
 
+#project-sidebar-list p {
+    padding: 5px;
+}
+
 .project-icon {
     display: flex;
     gap: 20px;
@@ -273,13 +277,19 @@ button:hover + input[type="search"] {
     background-size: 90%;
 }
 
+.set-project {
+    background-image: url('./assets/set.png');
+    background-size: 80%;
+}
+
 .delete-project,
-.edit-project {
+.edit-project,
+.set-project {
     background-repeat: no-repeat;
     background-position: center;
     align-self: center;
-    height: 11px;
-    width: 11px;
+    height: 15px;
+    width: 15px;
     right: 40px;
     border-radius: 50%;
     background-color: grey;
@@ -288,7 +298,8 @@ button:hover + input[type="search"] {
 }
 
 .delete-project:hover,
-.edit-project:hover {
+.edit-project:hover,
+.set-project:hover {
     background-color: var(--accent-color);
     transform: scale(1.15);
 }
@@ -303,10 +314,16 @@ button:hover + input[type="search"] {
     width: 20px;
 }
 
+.set-project:hover::after {
+    content: 'set';
+    width: 15px;
+}
+
 .delete-project:hover::after,
-.edit-project:hover::after {
+.edit-project:hover::after,
+.set-project:hover::after {
     position: absolute;
-    left: -20px;
+    left: -10px;
     top: -30px;
     padding: 7px 10px;
     border-radius: 5px;
@@ -627,7 +644,8 @@ button:hover + input[type="search"] {
 }
 
 .project-editable {
-    padding: 5px;
+    outline: .5px dotted #0F4C5C;
+    border-radius: 5px;
 }
 
 .task-title:hover,
@@ -635,6 +653,7 @@ button:hover + input[type="search"] {
 .project-editable:hover {
     outline: 1px dotted #0F4C5C;
     border-radius: 5px;
+    cursor: text;
 }
 
 .task-title:focus,
