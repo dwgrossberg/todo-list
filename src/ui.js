@@ -7,7 +7,6 @@ const displayUI = (() => {
     const home = document.getElementById('Project-Home');
     const today = document.getElementById('today');
     const next7Days = document.getElementById('next-seven-days');
-    const projects = document.querySelectorAll('[id^="Project-"]');
 
     const removeDOMTasks = () => {
         while (taskContent.firstChild) {
@@ -230,7 +229,7 @@ const displayUI = (() => {
 
     }
 
-    const editProjectName = () => {
+    const editProjectStyles = () => {
         const projectEdits = Array.from(document.getElementsByClassName('edit-project'));
         projectEdits.forEach(edit => edit.addEventListener('mousedown', projectEditSet));
 
@@ -241,24 +240,60 @@ const displayUI = (() => {
             console.log(e.target);
             e.target.classList.remove('edit-project');
             e.target.classList.add('set-project');
-            let projectName = e.target.parentNode.childNodes[5];
+            let projectName = e.target.parentNode.childNodes[2];
             projectName.classList.add('project-editable');
             projectName.setAttribute('contentEditable', true);
         } else if (e.target.classList[0] === 'set-project') {
             console.log(e.target);
             e.target.classList.remove('set-project');
             e.target.classList.add('edit-project');
-            let projectName = e.target.parentNode.childNodes[5];
+            let projectName = e.target.parentNode.childNodes[2];
             projectName.classList.remove('project-editable');
             projectName.setAttribute('contentEditable', false);
         }
     }
 
-    editProjectName();
+    // const updateProjectName = () => {} 
+
+
+    const loadProjects = () => {
+        // Dynamically load projects to the sidebar DOM element
+        const projectsSidebar = document.getElementById('project-sidebar-list');
+        taskMaster.projectList.forEach(project => {
+            if (project.project.name === 'Home') return;
+            else {
+                const projectDiv = document.createElement('div');
+                const counterDiv = document.createElement('div');
+                counterDiv.setAttribute('id', `project-counter-${project.project.name}`);
+                projectDiv.appendChild(counterDiv);
+                const iconDiv = document.createElement('div');
+                iconDiv.classList.add('project-icon');
+                projectDiv.appendChild(iconDiv);
+                // Set projectName as span for styling purposes 
+                const projectName = document.createElement('span');
+                projectName.classList.add('project-name');
+                projectName.setAttribute('id', `Project-${project.project.name}`);
+                projectName.innerText = project.project.name;
+                projectDiv.appendChild(projectName);
+                const editDiv = document.createElement('div');
+                editDiv.classList.add('edit-project');
+                projectDiv.appendChild(editDiv);
+                const deleteDiv = document.createElement('div');
+                deleteDiv.classList.add('delete-project');
+                projectDiv.appendChild(deleteDiv);
+                projectsSidebar.appendChild(projectDiv);
+            }
+        });
+        // Attach DOM event handlers
+        editProjectStyles();
+
+    }
     
+    loadProjects();
 
     const displayController = () => {
 
+        const projects = document.querySelectorAll('[id^="Project-"]');
         // Run the Home Project on page load (includes all Tasks by default)
         home.style.color = "#d82775";
         home.style.fontWeight = 'bold';
@@ -351,14 +386,11 @@ const displayUI = (() => {
             let otherProjects = Array.from(project.parentNode.parentNode.childNodes);
             console.log(otherProjects);
             otherProjects.forEach(project => {
-                if (otherProjects.indexOf(project) % 2 !== 0) {
-                    let projectTag = project.childNodes[5];
-                    console.log(projectTag);
-                    if (projectTag.innerText === e.target.innerText) return;
-                    else {
-                        projectTag.style.color = '';
-                        projectTag.style.fontWeight = '';
-                    }
+                let projectTag = project.childNodes[2];
+                if (projectTag.innerText === e.target.innerText) return;
+                else {
+                    projectTag.style.color = '';
+                    projectTag.style.fontWeight = '';
                 }
             });
             home.style.color = '';

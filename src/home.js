@@ -41,29 +41,7 @@ const loadHome = (() => {
             <div class="projects-icon"></div>
             <div class="projects-text"><p>Projects</p></div>
         </div>
-        <div id="project-sidebar-list">
-            <div >
-                <div id="project-counter-Baby"></div>
-                <div class="project-icon"></div>
-                <p id="Project-Baby">Baby</p>
-                <div class="edit-project"></div>
-                <div class="delete-project"></div>
-            </div>
-            <div>
-                <div id="project-counter-Study"></div>
-                <div class="project-icon"></div>
-                <p id="Project-Study">Study</p>
-                <div class="edit-project"></div>
-                <div class="delete-project"></div>
-            </div>
-            <div>
-                <div id="project-counter-Workout"></div>
-                <div class="project-icon"></div>
-                <p  id="Project-Workout">Workout</p>
-                <div class="edit-project"></div>
-                <div class="delete-project"></div>
-            </div>
-        </div>
+        <div id="project-sidebar-list"></div>
         <span id="add-task">+</span>
     </div>
 
