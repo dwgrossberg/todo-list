@@ -381,9 +381,9 @@ button:hover + input[type="search"] {
 #add-task:hover::after {
     position: absolute;
     content: 'add a new task';
-    left: -90px;
-    top: -35px;
-    width: 90px;
+    left: -110px;
+    top: 10px;
+    width: 75px;
     padding: 7px 10px;
     border-radius: 5px;
     font-family: "Lato", sans-serif;

@@ -202,6 +202,20 @@ const displayUI = (() => {
         deleteTask();
     }
 
+    const addTaskDOM = document.getElementById('add-task');
+    const addTask = () => {
+        // Create a 'blank' Task card for the user to fill in
+        taskMaster.createTask('Home', 'taskTitle', new Date(), 'none', 'taskDetails', false);
+        // Resort and reload the new Task cards
+        removeDOMTasks(taskContent);
+        taskMaster.dateOrderTaskList(taskMaster.taskList);
+        loadTaskCards.run(taskMaster.taskList);
+        runDOMTaskFunctions();
+        tabController('Home');
+    }
+    addTaskDOM.addEventListener('mousedown', addTask);
+
+
     const setSidebarCounters = () => {
         const projectCounter = document.getElementById('projects-counter');
         projectCounter.innerText = taskMaster.projectList.length - 1; //Subtract one to account for Home as default Project
@@ -290,14 +304,14 @@ const displayUI = (() => {
             e.target.parentNode.remove();
             // Remove the Task objects related to that Project from the taskList
             const projectTasks = taskMaster.projectList[projectIndex].project.tasks;
-            projectTasks.forEach(task => taskMaster.removeTask(task));
+            projectTasks.forEach(task => taskMaster.removeTask(taskMaster.taskList.indexOf(task)));
+            // Remove the Project object from the taskMasker.projectList
+            taskMaster.removeProject(projectIndex);
             // Remove the Task DOM objects related to that Project and reload the Task cards
             removeDOMTasks(taskContent);
             loadTaskCards.run(taskMaster.taskList);
             runDOMTaskFunctions();
             tabController('Home');
-            // Remove the Project object from the taskMasker.projectList
-            taskMaster.removeProject(projectIndex);
         }));
     }
 
