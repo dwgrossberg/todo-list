@@ -39,7 +39,7 @@ body {
 
 #content {
     display: grid;
-    grid-template: 100px 1fr 50px / 300px 1fr;
+    grid-template: 100px 1fr 50px / minmax(250px, 25%) 1fr;
     min-height: 100vh;
     min-width: 100vw;
 }
@@ -171,7 +171,9 @@ button:hover + input[type="search"] {
     padding-right: 10px;
     font-size: 13px;
     position: fixed;
-    width: 300px;
+    min-width: 250px;
+    width: 100%;
+    max-width: 25%;
     height: calc(100vh - 150px);
     top: 100px;
     border-right: .5px solid var(--accent-color);
@@ -256,7 +258,7 @@ button:hover + input[type="search"] {
 
 .project-name {
     padding: 5px;
-    max-width: 135px;
+    max-width: 55%;
     word-break: break-all;
     white-space: normal;
 }
@@ -285,11 +287,6 @@ button:hover + input[type="search"] {
     background-size: 60%;
 }
 
-.add-project {
-    background-image: url('./assets/add-project.png');
-    background-size: 60%;
-}
-
 .delete-project,
 .edit-project,
 .set-project,
@@ -297,13 +294,21 @@ button:hover + input[type="search"] {
     background-repeat: no-repeat;
     background-position: center;
     align-self: center;
-    height: 15px;
-    width: 15px;
+    height: 13px;
+    width: 13px;
     right: 40px;
     border-radius: 50%;
     background-color: grey;
     justify-content: center;
     margin-left: 5px;
+    cursor: pointer;
+}
+
+.add-project {
+    background-image: url('./assets/add-project.png');
+    background-size: 60%;
+    height: 17px;
+    width: 17px;
 }
 
 .delete-project:hover,
@@ -329,11 +334,6 @@ button:hover + input[type="search"] {
     width: 15px;
 }
 
-.add-project:hover::after {
-    content: 'add';
-    width: 15px;
-}
-
 .delete-project:hover::after,
 .edit-project:hover::after,
 .set-project:hover::after,
@@ -350,6 +350,13 @@ button:hover + input[type="search"] {
     color: #E0E0E0;
     text-align: center;
     transform: scale(.8);
+}
+
+.add-project:hover::after {
+    content: 'add project';
+    width: 50px;
+    top: -6px;
+    left: 20px;
 }
 
 .project-editable:hover::after {
@@ -417,7 +424,7 @@ button:hover + input[type="search"] {
     gap: 20px;
     justify-content: flex-start;
     background-color: white;
-    padding: 20px;
+    padding: 30px;
     padding-top: 30px;
     max-height: 100%;
     overflow: auto;

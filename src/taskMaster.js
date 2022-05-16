@@ -55,8 +55,6 @@ const taskMaster = (() => {
     const inTenDays = date.setDate(date.getDate() + 10);
     const in30Days = date.setDate(date.getDate() + 30);
     const in60Days = date.setDate(date.getDate() + 10);
-
-
     
     // Default tasks on page load
     const workoutTask = createTask('Workout', 'Run 10k practice pace for race', in30Days, 'low', ' so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);

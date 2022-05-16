@@ -202,13 +202,20 @@ const displayUI = (() => {
         deleteTask();
     }
 
+    const addTaskList = [];
     const addTaskDOM = document.getElementById('add-task');
     const addTask = () => {
         // Create a 'blank' Task card for the user to fill in
-        taskMaster.createTask('Home', 'taskTitle', new Date(), 'none', 'taskDetails', false);
+        addTaskList.push('task')
+        let newTask = taskMaster.createTask('Home', `newTask ${addTaskList.length}`, new Date(Date.now()), 'none', 'taskDetails', false);
         // Resort and reload the new Task cards
         removeDOMTasks(taskContent);
         taskMaster.dateOrderTaskList(taskMaster.taskList);
+        let newTaskIndex = taskMaster.taskList.indexOf(newTask);
+        let taskToFront = taskMaster.taskList.splice(newTaskIndex, 1);
+        taskMaster.taskList.unshift(taskToFront[0]);
+        console.log(newTaskIndex, taskToFront, taskMaster.taskList);
+        // taskMaster.taskList.unshift(;
         loadTaskCards.run(taskMaster.taskList);
         runDOMTaskFunctions();
         tabController('Home');
@@ -343,9 +350,6 @@ const displayUI = (() => {
                 const editDiv = document.createElement('div');
                 editDiv.classList.add('edit-project');
                 projectDiv.appendChild(editDiv);
-                const addDiv = document.createElement('div');
-                addDiv.classList.add('add-project');
-                projectDiv.appendChild(addDiv);
                 const deleteDiv = document.createElement('div');
                 deleteDiv.classList.add('delete-project');
                 projectDiv.appendChild(deleteDiv);
