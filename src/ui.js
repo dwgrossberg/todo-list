@@ -212,6 +212,11 @@ const displayUI = (() => {
         loadTaskCards.run(taskMaster.taskList);
         runDOMTaskFunctions();
         tabController('Home');
+        // Expand the new Task card
+        const taskExpander = document.querySelector('[id="task-expand-0"]');
+        if (document.createEvent) {
+            taskExpander.dispatchEvent(new Event('mousedown'));
+        }
     }
     addTaskDOM.addEventListener('mousedown', addTask);
 
@@ -338,6 +343,9 @@ const displayUI = (() => {
                 const editDiv = document.createElement('div');
                 editDiv.classList.add('edit-project');
                 projectDiv.appendChild(editDiv);
+                const addDiv = document.createElement('div');
+                addDiv.classList.add('add-project');
+                projectDiv.appendChild(addDiv);
                 const deleteDiv = document.createElement('div');
                 deleteDiv.classList.add('delete-project');
                 projectDiv.appendChild(deleteDiv);

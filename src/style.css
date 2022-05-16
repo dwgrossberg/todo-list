@@ -39,7 +39,7 @@ body {
 
 #content {
     display: grid;
-    grid-template: 100px 1fr 50px / 255px 1fr;
+    grid-template: 100px 1fr 50px / 300px 1fr;
     min-height: 100vh;
     min-width: 100vw;
 }
@@ -168,9 +168,10 @@ button:hover + input[type="search"] {
     align-items: flex-start;
     padding-top: 35px;
     padding-left: 20px;
+    padding-right: 10px;
     font-size: 13px;
     position: fixed;
-    width: 250px;
+    width: 300px;
     height: calc(100vh - 150px);
     top: 100px;
     border-right: .5px solid var(--accent-color);
@@ -255,7 +256,7 @@ button:hover + input[type="search"] {
 
 .project-name {
     padding: 5px;
-    max-width: 110px;
+    max-width: 135px;
     word-break: break-all;
     white-space: normal;
 }
@@ -284,9 +285,15 @@ button:hover + input[type="search"] {
     background-size: 60%;
 }
 
+.add-project {
+    background-image: url('./assets/add-project.png');
+    background-size: 60%;
+}
+
 .delete-project,
 .edit-project,
-.set-project {
+.set-project,
+.add-project {
     background-repeat: no-repeat;
     background-position: center;
     align-self: center;
@@ -301,7 +308,8 @@ button:hover + input[type="search"] {
 
 .delete-project:hover,
 .edit-project:hover,
-.set-project:hover {
+.set-project:hover,
+.add-project:hover {
     background-color: var(--accent-color);
     transform: scale(1.15);
 }
@@ -321,10 +329,16 @@ button:hover + input[type="search"] {
     width: 15px;
 }
 
+.add-project:hover::after {
+    content: 'add';
+    width: 15px;
+}
+
 .delete-project:hover::after,
 .edit-project:hover::after,
 .set-project:hover::after,
-.project-editable:hover::after {
+.project-editable:hover::after,
+.add-project:hover::after {
     position: absolute;
     left: -10px;
     top: -30px;
