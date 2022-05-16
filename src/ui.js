@@ -267,7 +267,7 @@ const displayUI = (() => {
                 const projectIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.parentNode.id)[0]);
                 taskMaster.projectList[projectIndex].changeName(mutation.target.textContent);
                 console.log(taskMaster.projectList[projectIndex].project);
-                // Reload the Task cards to show the updated Projects
+                // Reload the Task cards to show the updated Project
                 removeDOMTasks(taskContent);
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
@@ -276,6 +276,29 @@ const displayUI = (() => {
         }
         const observer = new MutationObserver(callback);
         projectNames.forEach(title => observer.observe(title, config));
+    }
+
+    const deleteProject = () => {
+        const projectBins = Array.from(document.getElementsByClassName('delete-project'));
+        projectBins.forEach(bin => bin.addEventListener('mousedown', (e) => {
+            const projectName = e.target.parentNode.childNodes[2].textContent;
+            console.log(projectName);
+            // Find the index of the Task object with the matching title
+            const projectIndex = taskMaster.projectList.findIndex(project => project.project.name === projectName);
+            console.log(projectIndex);
+            // Remove Task DOM object
+            e.target.parentNode.remove();
+            // Remove the Task objects related to that Project from the taskList
+            const projectTasks = taskMaster.projectList[projectIndex].project.tasks;
+            projectTasks.forEach(task => taskMaster.removeTask(task));
+            // Remove the Task DOM objects related to that Project and reload the Task cards
+            removeDOMTasks(taskContent);
+            loadTaskCards.run(taskMaster.taskList);
+            runDOMTaskFunctions();
+            tabController('Home');
+            // Remove the Project object from the taskMasker.projectList
+            taskMaster.removeProject(projectIndex);
+        }));
     }
 
     const loadProjects = () => {
@@ -310,6 +333,7 @@ const displayUI = (() => {
         });
         // Attach DOM event handlers
         editProjectStyles();
+        deleteProject();
     }
     
     loadProjects();

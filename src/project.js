@@ -16,7 +16,6 @@ const Project = (name) => {
     const updateTaskProjectNames = (oldName, newName) => {
         taskMaster.taskList.forEach(task => {
             if (task.task.project === oldName) {
-                console.log(task.task.project, oldName)
                 task.changeProject(newName);
                 console.log(task);
             }

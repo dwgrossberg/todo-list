@@ -323,7 +323,8 @@ button:hover + input[type="search"] {
 
 .delete-project:hover::after,
 .edit-project:hover::after,
-.set-project:hover::after {
+.set-project:hover::after,
+.project-editable:hover::after {
     position: absolute;
     left: -10px;
     top: -30px;
@@ -335,6 +336,13 @@ button:hover + input[type="search"] {
     color: #E0E0E0;
     text-align: center;
     transform: scale(.8);
+}
+
+.project-editable:hover::after {
+    content: 'rename';
+    width: 35px;
+    top: -2px;
+    left: -85px;
 }
 
 .delete-project:hover::after {
@@ -652,6 +660,7 @@ button:hover + input[type="search"] {
 .project-editable {
     outline: .5px dotted #0F4C5C;
     border-radius: 5px;
+    position: relative;
 }
 
 .task-title:hover,
