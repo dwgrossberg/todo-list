@@ -204,13 +204,22 @@ const displayUI = (() => {
 
     const addTaskList = [];
     const addTaskDOM = document.getElementById('add-task');
-    const addTask = () => {
+    const addTask = (e) => {
+        const projects = Array.from(e.target.parentNode.childNodes[9].childNodes);
+        let projectName = 'Home';
+        projects.forEach(project => {
+            let projectSpan = project.childNodes[2];
+            if (projectSpan.style.color === "rgb(216, 39, 117)") {
+                projectName = projectSpan.textContent;
+            }
+        });
         // Create a 'blank' Task card for the user to fill in
         addTaskList.push('task')
-        let newTask = taskMaster.createTask('Home', `newTask ${addTaskList.length}`, new Date(Date.now()), 'none', 'taskDetails', false);
+        let newTask = taskMaster.createTask(`${projectName}`, `newTask ${addTaskList.length}`, new Date(Date.now()), 'none', 'taskDetails', false);
         // Resort and reload the new Task cards
         removeDOMTasks(taskContent);
         taskMaster.dateOrderTaskList(taskMaster.taskList);
+        // Ensure that the new Task always displays first
         let newTaskIndex = taskMaster.taskList.indexOf(newTask);
         let taskToFront = taskMaster.taskList.splice(newTaskIndex, 1);
         taskMaster.taskList.unshift(taskToFront[0]);
@@ -218,7 +227,7 @@ const displayUI = (() => {
         // taskMaster.taskList.unshift(;
         loadTaskCards.run(taskMaster.taskList);
         runDOMTaskFunctions();
-        tabController('Home');
+        tabController(projectName);
         // Expand the new Task card
         const taskExpander = document.querySelector('[id="task-expand-0"]');
         if (document.createEvent) {
