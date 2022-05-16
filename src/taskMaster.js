@@ -61,7 +61,6 @@ const taskMaster = (() => {
     const studyTask = createTask('Study', 'Review Webpack.config.js basics', inTenDays, 'med', 'Revist the Webpack guides page and review relevant info', false);
     const babyTask = createTask('Baby', 'Prep Baby\'s favorite chicken dumplings', inThreeDays, 'med', 'Get the recipe from Uncle M who made it last New Year\'s', false);
     const funTask = createTask('Home', 'Meet up with Lou for a beer', tomorrow, 'high', 'Meet at Jax Brewery near 9th street', false);
-    const emptyTask = createTask('Home', 'TitleTitleTitleTitleTitleTitleTitleTitleTitleTitle TitleTitleTitle TitleTitleTitle', in60Days);
 
     // Sort the taskList so that it is ordered by date, with completed Tasks staying at the end of the array
     const dateOrderTaskList = (taskList) => {

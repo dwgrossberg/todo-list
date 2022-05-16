@@ -8,7 +8,7 @@ const displayUI = (() => {
     const today = document.getElementById('today');
     const next7Days = document.getElementById('next-seven-days');
 
-    const removeDOMTasks = (content) => {
+    const removeDOMContent = (content) => {
         while (content.firstChild) {
             content.removeChild(content.lastChild);
         }
@@ -63,14 +63,14 @@ const displayUI = (() => {
                 taskMaster.taskList[taskIndex].changeCompleteStatus(true);
                 // Move completed Task to end of the list
                 taskMaster.taskList.push(taskMaster.taskList.splice(taskIndex, 1)[0]);
-                removeDOMTasks(taskContent);
+                removeDOMContent(taskContent);
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
             } else {
                 taskMaster.taskList[taskIndex].changeCompleteStatus(false);
                 // Rerun dateOrderTaskList to reintegrate uncompleted Task into the normal flow
                 taskMaster.dateOrderTaskList(taskMaster.taskList);
-                removeDOMTasks(taskContent);
+                removeDOMContent(taskContent);
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
             }
@@ -109,7 +109,7 @@ const displayUI = (() => {
             // Reorder the taskList according to new dates
             taskMaster.dateOrderTaskList(taskMaster.taskList);
             // Clear the task-content DOM section
-            removeDOMTasks(taskContent);
+            removeDOMContent(taskContent);
             // Reload the newly sorted task cards
             loadTaskCards.run(taskMaster.taskList);
             // Re-attach event listener functions to Task DOM objects
@@ -213,17 +213,17 @@ const displayUI = (() => {
                 projectName = projectSpan.textContent;
             }
         });
+        // Keep track of the number of new tasks
+        addTaskList.push('task');
         // Create a 'blank' Task card for the user to fill in
-        addTaskList.push('task')
         let newTask = taskMaster.createTask(`${projectName}`, `newTask ${addTaskList.length}`, new Date(Date.now()), 'none', 'taskDetails', false);
         // Resort and reload the new Task cards
-        removeDOMTasks(taskContent);
+        removeDOMContent(taskContent);
         taskMaster.dateOrderTaskList(taskMaster.taskList);
         // Ensure that the new Task always displays first
         let newTaskIndex = taskMaster.taskList.indexOf(newTask);
         let taskToFront = taskMaster.taskList.splice(newTaskIndex, 1);
         taskMaster.taskList.unshift(taskToFront[0]);
-        console.log(newTaskIndex, taskToFront, taskMaster.taskList);
         // taskMaster.taskList.unshift(;
         loadTaskCards.run(taskMaster.taskList);
         runDOMTaskFunctions();
@@ -303,7 +303,7 @@ const displayUI = (() => {
                 taskMaster.projectList[projectIndex].changeName(mutation.target.textContent);
                 console.log(taskMaster.projectList[projectIndex].project);
                 // Reload the Task cards to show the updated Project
-                removeDOMTasks(taskContent);
+                removeDOMContent(taskContent);
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
                 tabController(mutation.target.textContent);
@@ -329,7 +329,7 @@ const displayUI = (() => {
             // Remove the Project object from the taskMasker.projectList
             taskMaster.removeProject(projectIndex);
             // Remove the Task DOM objects related to that Project and reload the Task cards
-            removeDOMTasks(taskContent);
+            removeDOMContent(taskContent);
             loadTaskCards.run(taskMaster.taskList);
             runDOMTaskFunctions();
             tabController('Home');
@@ -358,6 +358,7 @@ const displayUI = (() => {
                 projectDiv.appendChild(projectName);
                 const editDiv = document.createElement('div');
                 editDiv.classList.add('edit-project');
+                editDiv.setAttribute('id', `edit-${taskMaster.projectList.indexOf(project)}`);
                 projectDiv.appendChild(editDiv);
                 const deleteDiv = document.createElement('div');
                 deleteDiv.classList.add('delete-project');
@@ -373,16 +374,39 @@ const displayUI = (() => {
     
     loadProjects();
 
-    const displayController = () => {
+    const newProjects =[];
+    const addProjectDOM = document.getElementsByClassName('add-project')[0];
+    const addProject = (e) => {
+        newProjects.push('project');
+        taskMaster.createProject(`Project-${newProjects.length}`);
+        removeDOMContent(projectsSidebar);
+        loadProjects();
+        const editProject = document.getElementById(`edit-${taskMaster.projectList.length - 1}`);
+        console.log(editProject);
+        if (document.createEvent) {
+            editProject.dispatchEvent(new Event('mousedown'));
+        }
+        displayController('newProject');
+        if (document.createEvent) {
+            document.getElementById(`Project-Project-${newProjects.length}`).dispatchEvent(new Event('mousedown'));
+        }
+        addTask();
+    }
+
+    addProjectDOM.addEventListener('mousedown', addProject);
+    
+
+    const displayController = (newProject) => {
 
         const projects = document.querySelectorAll('[id^="Project-"]');
-        // Run the Home Project on page load (includes all Tasks by default)
-        home.style.color = "#d82775";
-        home.style.fontWeight = 'bold';
-        loadTaskCards.run(taskMaster.taskList);
-        runDOMTaskFunctions();
-        setSidebarCounters();
-
+        if (newProject !== 'newProject') {
+            // Run the Home Project on page load (includes all Tasks by default)
+            home.style.color = "#d82775";
+            home.style.fontWeight = 'bold';
+            loadTaskCards.run(taskMaster.taskList);
+            runDOMTaskFunctions();
+            setSidebarCounters();
+        }
         // Home
         home.addEventListener('mousedown', (e) => {
             today.style.color = '';
@@ -396,7 +420,7 @@ const displayUI = (() => {
             });
             home.style.color = "#d82775";
             home.style.fontWeight = 'bold';
-            removeDOMTasks(taskContent);
+            removeDOMContent(taskContent);
             console.log(taskMaster.taskList);   
             loadTaskCards.run(taskMaster.taskList);
             runDOMTaskFunctions();
@@ -422,7 +446,7 @@ const displayUI = (() => {
             });
             today.style.color = "#d82775";
             today.style.fontWeight = 'bold'; 
-            removeDOMTasks(taskContent);
+            removeDOMContent(taskContent);
             loadTaskCards.run(todayTasks);
             runDOMTaskFunctions();
         });
@@ -447,7 +471,7 @@ const displayUI = (() => {
             });
             next7Days.style.color = "#d82775";
             next7Days.style.fontWeight = 'bold';     
-            removeDOMTasks(taskContent);
+            removeDOMContent(taskContent);
             loadTaskCards.run(next7DaysTasks);
             runDOMTaskFunctions();
         });
@@ -481,7 +505,7 @@ const displayUI = (() => {
             next7Days.style.fontWeight = ''; 
             project.style.color = "#d82775";
             project.style.fontWeight = 'bold';
-            removeDOMTasks(taskContent);
+            removeDOMContent(taskContent);
             loadTaskCards.run(projectTasks);
             runDOMTaskFunctions();
         }));
