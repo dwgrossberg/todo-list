@@ -1,3 +1,5 @@
+import taskMaster from "./taskMaster.js";
+
 const Task = (project, title, dueDate, priority, details, complete) => {
 
     const task = {
@@ -21,8 +23,15 @@ const Task = (project, title, dueDate, priority, details, complete) => {
         task.dueDate = new Date(dueDate)
     }
 
-    const changeProject = (project) => {
-        return task.project = project;
+    const changeProject = (oldProject, newProject, obj) => {
+        const oldProjectTasks = taskMaster.projectList.filter(project => project.project.name === oldProject)[0].project.tasks;
+        const taskIndex = oldProjectTasks.indexOf(obj);
+        const taskToChange = oldProjectTasks.splice(taskIndex, 1)[0];
+        const newProjectTasks = taskMaster.projectList.filter(project => project.project.name === newProject)[0].project.tasks;
+        newProjectTasks.push(taskToChange);
+        console.log(oldProjectTasks, newProjectTasks);
+        
+        return task.project = newProject;
     }
 
     const changeTitle = (title) => {

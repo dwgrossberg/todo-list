@@ -87,8 +87,9 @@ const displayUI = (() => {
             const taskTitle = e.target.parentNode.parentNode.childNodes[1].innerText;
             // Find the index of the Task object with the matching title
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
+            const task = taskMaster.taskList[taskIndex];
             const taskProject = taskMaster.taskList[taskIndex].task.project;
-            taskMaster.taskList[taskIndex].changeProject(selectedOption);
+            taskMaster.taskList[taskIndex].changeProject(taskProject, selectedOption, task);
             console.log(taskMaster.taskList[taskIndex].task);
             // Display the updated project list
             tabController(taskProject);
