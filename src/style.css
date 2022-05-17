@@ -579,8 +579,8 @@ button:hover + input[type="search"] {
 .container:hover::after {
     position: absolute;
     content: 'mark complete';
-    left: -5px;
-    top: -50px;
+    left: -30px;
+    top: -35px;
     width: 70px;
     padding: 7px 10px;
     border-radius: 5px;

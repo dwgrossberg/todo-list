@@ -3,11 +3,8 @@ A simple Todo List App built using vanilla JavaScript and Webpack
 
 todo
 - item counter
-
-- add project / delete project
-- add task
-- undo
 - search
+- memory
 
 
 ui features 

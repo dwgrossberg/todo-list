@@ -186,14 +186,12 @@ const displayUI = (() => {
             const taskTitle = e.target.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[1].childNodes[1].innerText;
             // Find the index of the Task object with the matching title
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
-            console.log(taskTitle);
             // Remove Task DOM object
             e.target.parentNode.parentNode.remove();
             // Save the deleted Task for later use
             deletedItems.push(taskMaster.taskList[taskIndex]);
             // Remove the Task object from the taskMasker.taskList
             taskMaster.removeTask(taskIndex);
-            console.log(taskMaster.taskList);
         }));
     }
     
@@ -413,6 +411,11 @@ const displayUI = (() => {
     const undoDOM = document.getElementById('undo');
     const undo = () => {
         if (deletedItems.length > 0) {
+            if (undoDOM.style.transform === 'rotate(-360deg)') {
+                undoDOM.style.transform = '';
+                undoDOM.style.transition = '';
+                window.getComputedStyle(undoDOM).transform;
+            }
             undoDOM.style.transition = 'transform 0.3s ease-in-out';
             undoDOM.style.transform = 'rotate(-360deg)';
             let undoItem = deletedItems.pop();
@@ -440,11 +443,34 @@ const displayUI = (() => {
         }
     }
     undoDOM.addEventListener('mousedown', undo);
+
+    let projects = document.querySelectorAll('[id^="Project-"]');
+    const searchDOM = document.getElementById('search');
+    const runSearch = () => {
+        const searchTitle = searchDOM.value.toLowerCase();
+        const matchingTask = taskMaster.taskList.filter(task => task.task.title.toLowerCase().includes(searchTitle));
+        removeDOMContent(taskContent);
+        loadTaskCards.run(matchingTask);
+        runDOMTaskFunctions();
+        home.style.color = '';
+        home.style.fontWeight = '';
+        today.style.color = '';
+        today.style.fontWeight = '';
+        next7Days.style.color = '';
+        next7Days.style.fontWeight = '';
+        projects.forEach(project => {
+            project.style.color = '';
+            project.style.fontWeight = '';
+        });
+
+
+    }
+    searchDOM.addEventListener('search', runSearch);
     
     // Handles the running of the different sidebar tabs
     const displayController = (newProject) => {
 
-        const projects = document.querySelectorAll('[id^="Project-"]');
+        let projects = document.querySelectorAll('[id^="Project-"]');
         if (newProject !== 'newProject') {
             // Run the Home Project on page load (includes all Tasks by default)
             home.style.color = "#d82775";
@@ -538,7 +564,6 @@ const displayUI = (() => {
                 let otherProjects = Array.from(project.parentNode.parentNode.childNodes);
                 otherProjects.forEach(project => {
                     let projectTag = project.childNodes[2];
-                    console.log(projectTag);
                     if (projectTag.innerText === e.target.innerText) return;
                     else {
                         projectTag.style.color = '';
