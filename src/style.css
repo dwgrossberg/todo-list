@@ -137,14 +137,13 @@ button:hover + input[type="search"] {
 #undo:hover {
     background-image: url('./assets/undopink.png');
     cursor: pointer;
-    transform: rotate(-90deg);
 }
 
 #undo:hover::after {
     position: absolute;
     content: 'undo delete';
-    left: 2px;
-    top: -4px;
+    left: -30px;
+    top: -35px;
     width: 60px;
     padding: 7px 10px;
     border-radius: 5px;
@@ -152,7 +151,6 @@ button:hover + input[type="search"] {
     font-size: 10px;
     background-color: #E0E0E0;
     color: var(--main-color);
-    transform: rotate(90deg);
     text-align: center;
 }
 

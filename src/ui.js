@@ -7,6 +7,7 @@ const displayUI = (() => {
     const home = document.getElementById('Project-Home');
     const today = document.getElementById('today');
     const next7Days = document.getElementById('next-seven-days');
+    const deletedItems = [];
 
     const removeDOMContent = (content) => {
         while (content.firstChild) {
@@ -69,7 +70,7 @@ const displayUI = (() => {
             } else {
                 taskMaster.taskList[taskIndex].changeCompleteStatus(false);
                 // Rerun dateOrderTaskList to reintegrate uncompleted Task into the normal flow
-                taskMaster.dateOrderTaskList(taskMaster.taskList);
+                taskMaster.dateOrderTaskList();
                 removeDOMContent(taskContent);
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
@@ -107,7 +108,7 @@ const displayUI = (() => {
             taskMaster.taskList[taskIndex].changeDueDate(newDateFormatted);
             console.log(taskMaster.taskList[taskIndex].task);
             // Reorder the taskList according to new dates
-            taskMaster.dateOrderTaskList(taskMaster.taskList);
+            taskMaster.dateOrderTaskList();
             // Clear the task-content DOM section
             removeDOMContent(taskContent);
             // Reload the newly sorted task cards
@@ -187,6 +188,8 @@ const displayUI = (() => {
             console.log(taskTitle);
             // Remove Task DOM object
             e.target.parentNode.parentNode.remove();
+            // Save the deleted Task for later use
+            deletedItems.push(taskMaster.taskList[taskIndex]);
             // Remove the Task object from the taskMasker.taskList
             taskMaster.removeTask(taskIndex);
             console.log(taskMaster.taskList);
@@ -219,7 +222,6 @@ const displayUI = (() => {
         let newTask = taskMaster.createTask(`${projectName}`, `newTask ${addTaskList.length}`, new Date(Date.now()), 'none', 'taskDetails', false);
         // Resort and reload the new Task cards
         removeDOMContent(taskContent);
-        taskMaster.dateOrderTaskList(taskMaster.taskList);
         // Ensure that the new Task always displays first
         let newTaskIndex = taskMaster.taskList.indexOf(newTask);
         let taskToFront = taskMaster.taskList.splice(newTaskIndex, 1);
@@ -317,15 +319,15 @@ const displayUI = (() => {
         const projectBins = Array.from(document.getElementsByClassName('delete-project'));
         projectBins.forEach(bin => bin.addEventListener('mousedown', (e) => {
             const projectName = e.target.parentNode.childNodes[2].textContent;
-            console.log(projectName);
             // Find the index of the Task object with the matching title
             const projectIndex = taskMaster.projectList.findIndex(project => project.project.name === projectName);
-            console.log(projectIndex);
             // Remove Task DOM object
             e.target.parentNode.remove();
             // Remove the Task objects related to that Project from the taskList
             const projectTasks = taskMaster.projectList[projectIndex].project.tasks;
             projectTasks.forEach(task => taskMaster.removeTask(taskMaster.taskList.indexOf(task)));
+            // Save the deleted Project for later use
+            deletedItems.push(taskMaster.projectList[projectIndex]);
             // Remove the Project object from the taskMasker.projectList
             taskMaster.removeProject(projectIndex);
             // Remove the Task DOM objects related to that Project and reload the Task cards
@@ -387,15 +389,49 @@ const displayUI = (() => {
             editProject.dispatchEvent(new Event('mousedown'));
         }
         displayController('newProject');
+        // Display the new Project
         if (document.createEvent) {
             document.getElementById(`Project-Project-${newProjects.length}`).dispatchEvent(new Event('mousedown'));
         }
-        addTask();
+        // Add a blank Task card
+        if (document.createEvent) {
+            document.getElementById('add-task').dispatchEvent(new Event('mousedown'));
+        }
     }
-
     addProjectDOM.addEventListener('mousedown', addProject);
-    
 
+    const undoDOM = document.getElementById('undo');
+    const undo = () => {
+        if (deletedItems.length > 0) {
+            let undoItem = deletedItems.splice(deletedItems[0]);
+            if ((undoItem)[0].type === 'task') {
+                taskMaster.taskList.push(undoItem[0]);
+                taskMaster.dateOrderTaskList();
+                removeDOMContent(taskContent);
+                loadTaskCards.run(taskMaster.taskList);
+                runDOMTaskFunctions();
+                tabController(undoItem[0].task.project);
+            }  else if ((undoItem)[0].type === 'project') {
+                taskMaster.projectList.push(undoItem[0]);
+                removeDOMContent(projectsSidebar);
+                loadProjects();
+                const projectTasks = undoItem[0].project.tasks;
+                projectTasks.forEach(task => taskMaster.taskList.push(task));
+                taskMaster.dateOrderTaskList();
+                removeDOMContent(taskContent);
+                loadTaskCards.run(taskMaster.taskList);
+                runDOMTaskFunctions();
+                displayController('newProject');
+                // Display the restored Project
+                if (document.createEvent) {
+                    document.getElementById(`Project-${undoItem[0].project.name}`).dispatchEvent(new Event('mousedown'));
+                }            
+            }
+        }
+    }
+    undoDOM.addEventListener('mousedown', undo);
+    
+    // Handles the running of the different sidebar tabs
     const displayController = (newProject) => {
 
         const projects = document.querySelectorAll('[id^="Project-"]');
@@ -491,7 +527,7 @@ const displayUI = (() => {
             let otherProjects = Array.from(project.parentNode.parentNode.childNodes);
             otherProjects.forEach(project => {
                 let projectTag = project.childNodes[2];
-                if (projectTag.innerText === e.target.innerText) return;
+                if (projectTag && projectTag.innerText === e.target.innerText) return;
                 else {
                     projectTag.style.color = '';
                     projectTag.style.fontWeight = '';

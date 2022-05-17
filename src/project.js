@@ -7,6 +7,8 @@ const Project = (name) => {
         tasks : []
     }
 
+    const type = 'project';
+
     const changeName = (name) => {
         let oldName = project.name;
         project.name = name
@@ -32,6 +34,7 @@ const Project = (name) => {
 
     return {
         project,
+        type,
         changeName,
         addTask,
         delTask

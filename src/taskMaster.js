@@ -63,7 +63,7 @@ const taskMaster = (() => {
     const funTask = createTask('Home', 'Meet up with Lou for a beer', tomorrow, 'high', 'Meet at Jax Brewery near 9th street', false);
 
     // Sort the taskList so that it is ordered by date, with completed Tasks staying at the end of the array
-    const dateOrderTaskList = (taskList) => {
+    const dateOrderTaskList = () => {
         let sortedTaskList = taskList.sort(function(a, b) {
             if (a.task.dueDate < b.task.dueDate) return -1;
             if (a.task.dueDate > b.task.dueDate) return 1;

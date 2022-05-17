@@ -8,6 +8,8 @@ const Task = (project, title, dueDate, priority, details, complete) => {
         details : (details || ''),
         complete : complete
     }
+
+    const type = 'task';
     
     // Change project name if project variable is not undefined
     if (project !== undefined) {
@@ -45,6 +47,7 @@ const Task = (project, title, dueDate, priority, details, complete) => {
 
     return {
         task,
+        type,
         changeProject,
         changeTitle,
         changeDueDate,
