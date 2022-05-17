@@ -413,19 +413,21 @@ const displayUI = (() => {
     const undoDOM = document.getElementById('undo');
     const undo = () => {
         if (deletedItems.length > 0) {
-            let undoItem = deletedItems.splice(deletedItems[0]);
-            if ((undoItem)[0].type === 'task') {
-                taskMaster.taskList.push(undoItem[0]);
+            undoDOM.style.transition = 'transform 0.3s ease-in-out';
+            undoDOM.style.transform = 'rotate(-360deg)';
+            let undoItem = deletedItems.pop();
+            if ((undoItem).type === 'task') {
+                taskMaster.taskList.push(undoItem);
                 taskMaster.dateOrderTaskList();
                 removeDOMContent(taskContent);
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
-                tabController(undoItem[0].task.project);
-            }  else if ((undoItem)[0].type === 'project') {
-                taskMaster.projectList.push(undoItem[0]);
+                tabController(undoItem.task.project);
+            }  else if ((undoItem).type === 'project') {
+                taskMaster.projectList.push(undoItem);
                 removeDOMContent(projectsSidebar);
                 loadProjects();
-                const projectTasks = undoItem[0].project.tasks;
+                const projectTasks = undoItem.project.tasks;
                 projectTasks.forEach(task => taskMaster.taskList.push(task));
                 taskMaster.dateOrderTaskList();
                 removeDOMContent(taskContent);
@@ -433,7 +435,7 @@ const displayUI = (() => {
                 runDOMTaskFunctions();
                 displayController('newProject');
                 // Display the restored Project
-                tabController(`Project-${undoItem[0].project.name}`);
+                tabController(`Project-${undoItem.project.name}`);
             }
         }
     }
