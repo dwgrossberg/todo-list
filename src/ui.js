@@ -321,6 +321,9 @@ const displayUI = (() => {
             const projectName = e.target.parentNode.childNodes[2].textContent;
             // Find the index of the Task object with the matching title
             const projectIndex = taskMaster.projectList.findIndex(project => project.project.name === projectName);
+            const otherProjects = Array.from(e.target.parentNode.parentNode.childNodes);
+            otherProjects.splice(projectIndex - 1, 1);
+            otherProjects.forEach(project => console.log(project.style.color));
             // Remove Task DOM object
             e.target.parentNode.remove();
             // Remove the Task objects related to that Project from the taskList
@@ -335,6 +338,12 @@ const displayUI = (() => {
             loadTaskCards.run(taskMaster.taskList);
             runDOMTaskFunctions();
             tabController('Home');
+            // if (today.style.color === 'rgb(216, 39, 117)' || next7Days.style.color === 'rgb(216, 39, 117)') {
+                // tabController();
+            // } else if (false) {
+                // tabController()
+            // } 
+            
         }));
     }
 
@@ -423,9 +432,7 @@ const displayUI = (() => {
                 runDOMTaskFunctions();
                 displayController('newProject');
                 // Display the restored Project
-                if (document.createEvent) {
-                    document.getElementById(`Project-${undoItem[0].project.name}`).dispatchEvent(new Event('mousedown'));
-                }            
+                tabController(`Project-${undoItem[0].project.name}`);
             }
         }
     }
@@ -524,15 +531,18 @@ const displayUI = (() => {
                 }
             });
             // Set Project styles on sidebar && reload Tasks
-            let otherProjects = Array.from(project.parentNode.parentNode.childNodes);
-            otherProjects.forEach(project => {
-                let projectTag = project.childNodes[2];
-                if (projectTag && projectTag.innerText === e.target.innerText) return;
-                else {
-                    projectTag.style.color = '';
-                    projectTag.style.fontWeight = '';
-                }
-            });
+            if (e.isTrusted) {
+                let otherProjects = Array.from(project.parentNode.parentNode.childNodes);
+                otherProjects.forEach(project => {
+                    let projectTag = project.childNodes[2];
+                    console.log(projectTag);
+                    if (projectTag.innerText === e.target.innerText) return;
+                    else {
+                        projectTag.style.color = '';
+                        projectTag.style.fontWeight = '';
+                    }
+                });
+            }
             home.style.color = '';
             home.style.fontWeight = '';
             today.style.color = '';
