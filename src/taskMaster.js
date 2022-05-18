@@ -57,7 +57,7 @@ const taskMaster = (() => {
     const in60Days = date.setDate(date.getDate() + 10);
     
     // Default tasks on page load
-    const workoutTask = createTask('Workout', 'Run 10k practice pace for race', in30Days, 'low', ' so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
+    const workoutTask = createTask('Workout', 'Run 10k practice pace for race', in30Days, 'low', 'so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
     const studyTask = createTask('Study', 'Review Webpack.config.js basics', inTenDays, 'med', 'Revist the Webpack guides page and review relevant info', false);
     const babyTask = createTask('Baby', 'Prep Baby\'s favorite chicken dumplings', inThreeDays, 'med', 'Get the recipe from Uncle M who made it last New Year\'s', false);
     const funTask = createTask('Home', 'Meet up with Lou for a beer', tomorrow, 'high', 'Meet at Jax Brewery near 9th street', false);

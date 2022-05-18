@@ -9,12 +9,11 @@ const loadTaskCards = (() => {
         const config = { characterData: true, childList: true, subtree: true };
         const callback = function(mutationsList, observer) {
             for (const mutation of mutationsList) {
-                // Keep track of mutated DOM element and text content
-                console.log(mutation.target.parentNode.id, mutation.target.textContent); 
-                // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
-                const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.id)[0]);
-                console.log(taskMaster.taskList[taskArrayIndex].task);
-                taskMaster.taskList[taskArrayIndex].changeTitle(mutation.target.textContent);
+                // Find the Task card details to match with the correct Task obj
+                const taskDetails = mutation.target.parentNode.parentNode.parentNode.parentNode.childNodes[2].innerText;
+                const taskIndex = taskMaster.taskList.findIndex(task => task.task.details === taskDetails);
+                taskMaster.taskList[taskIndex].changeTitle(mutation.target.textContent);
+                console.log(taskMaster.taskList[taskIndex].task);
             }
         }
         const observer = new MutationObserver(callback);
@@ -27,12 +26,11 @@ const loadTaskCards = (() => {
         const config = { characterData: true, childList: true, subtree: true };
         const callback = function(mutationsList, observer) {
             for (const mutation of mutationsList) {
-                // Keep track of mutated DOM element and text content
-                console.log(mutation.target.parentNode.id, mutation.target.textContent); 
-                // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
-                const taskArrayIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.id)[0]);
-                console.log(taskMaster.taskList[taskArrayIndex].task);
-                taskMaster.taskList[taskArrayIndex].changeDetails(mutation.target.textContent);
+                // Find the Task card title to match with the correct Task obj
+                const taskTitle = mutation.target.parentNode.parentNode.childNodes[1].childNodes[1].childNodes[1].innerText;
+                const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
+                taskMaster.taskList[taskIndex].changeDetails(mutation.target.textContent);
+                console.log(taskMaster.taskList[taskIndex].task);
             }
         }
         const observer = new MutationObserver(callback);
