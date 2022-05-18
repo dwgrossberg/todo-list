@@ -563,7 +563,12 @@ const displayUI = (() => {
             if (e.isTrusted) {
                 let otherProjects = Array.from(project.parentNode.parentNode.childNodes);
                 otherProjects.forEach(project => {
-                    let projectTag = project.childNodes[2];
+                    let projectTag;
+                    if (e.target.classList[0] === 'home-icon') {
+                        projectTag = home;
+                    } else {
+                        projectTag = project.childNodes[2];
+                    }
                     if (projectTag.innerText === e.target.innerText) return;
                     else {
                         projectTag.style.color = '';
