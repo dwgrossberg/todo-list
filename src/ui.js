@@ -68,8 +68,11 @@ const displayUI = (() => {
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
             const task = taskMaster.taskList[taskIndex];
             const taskProject = taskMaster.taskList[taskIndex].task.project;
-            taskMaster.taskList[taskIndex].changeProject(taskProject, selectedOption, task);
+            taskMaster.taskList[taskIndex].changeProject(taskProject, selectedOption);
             console.log(taskMaster.taskList[taskIndex].task);
+            console.log(taskMaster.projectList);
+            
+            // loadTaskCards.setSidebarCounters();
             // Display the updated project list
             tabController(taskProject);
         }));
@@ -171,6 +174,7 @@ const displayUI = (() => {
             deletedItems.push(taskMaster.taskList[taskIndex]);
             // Remove the Task object from the taskMasker.taskList
             taskMaster.removeTask(taskIndex);
+            loadTaskCards.setSidebarCounters();
         }));
     }
     
@@ -249,8 +253,10 @@ const displayUI = (() => {
             for (const mutation of mutationsList) {
                 // Keep track of mutated DOM element and text content
                 const projectElem = mutation.target.parentNode;
+                const projectCounter = mutation.target.parentNode.parentNode.childNodes[0];
                 // Update Project DOM element id to match new name
                 projectElem.setAttribute('id', `Project-${mutation.target.textContent}`);
+                projectCounter.setAttribute('id', `project-counter-${mutation.target.textContent}`);
                 // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
                 const projectIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.parentNode.id)[0]);
                 taskMaster.projectList[projectIndex].changeName(mutation.target.textContent);
@@ -274,7 +280,6 @@ const displayUI = (() => {
             const projectIndex = taskMaster.projectList.findIndex(project => project.project.name === projectName);
             const otherProjects = Array.from(e.target.parentNode.parentNode.childNodes);
             otherProjects.splice(projectIndex - 1, 1);
-            otherProjects.forEach(project => console.log(project.style.color));
             // Remove Task DOM object
             e.target.parentNode.remove();
             // Remove the Task objects related to that Project from the taskList

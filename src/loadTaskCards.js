@@ -25,8 +25,32 @@ const loadTaskCards = (() => {
             }
         }
     }
+    
+     // Set sidebar Task & Project counters
+    const setSidebarCounters = () => {
+        const projectCounter = document.getElementById('projects-counter');
+        projectCounter.innerText = taskMaster.projectList.length - 1; //Subtract one to account for Home as default Project
+        taskMaster.projectList.forEach(project => {
+            let counterElem = document.getElementById(`project-counter-${project.project.name}`);
+            counterElem.innerText = taskMaster.projectList[taskMaster.projectList.indexOf(project)].project.tasks.length;
+        });
+        const todayCounter = document.getElementById('today-counter');
+        const next7DaysCounter = document.getElementById('next-seven-days-counter');
+        let todayList = [];
+        let weekList = [];
+        taskMaster.taskList.forEach(task => {
+            if (isToday(task.task.dueDate)) {
+                todayList.push('today');
+            } 
+            if (isNextWeek(task.task.dueDate)) {
+                weekList.push('week');
+            }
+            todayCounter.innerText = todayList.length;
+            next7DaysCounter.innerText = weekList.length;
+        });
+    }   
 
-    const updateTaskTitle = () => {
+       const updateTaskTitle = () => {
         // Setup mutation Observer to watch for changes to Task titles and update the corresponding Task objects
         const taskTitles = Array.from(document.querySelectorAll('[id^="task-title-"]'));
         const config = { characterData: true, childList: true, subtree: true };
@@ -269,31 +293,12 @@ const loadTaskCards = (() => {
             updateTaskTitle();
             updateTaskDetails();
 
-            // Set sidebar Task & Project counters
-            const projectCounter = document.getElementById('projects-counter');
-            projectCounter.innerText = taskMaster.projectList.length - 1; //Subtract one to account for Home as default Project
-            taskMaster.projectList.forEach(project => {
-                let counterElem = document.getElementById(`project-counter-${project.project.name}`);
-                counterElem.innerText = taskMaster.projectList[taskMaster.projectList.indexOf(project)].project.tasks.length;
-            });
-            const todayCounter = document.getElementById('today-counter');
-            const next7DaysCounter = document.getElementById('next-seven-days-counter');
-            let todayList = [];
-            let weekList = [];
-            taskMaster.taskList.forEach(task => {
-                if (isToday(task.task.dueDate)) {
-                    todayList.push('today');
-                } 
-                if (isNextWeek(task.task.dueDate)) {
-                    weekList.push('week');
-                }
-                todayCounter.innerText = todayList.length;
-                next7DaysCounter.innerText = weekList.length;
-            });
+            setSidebarCounters();
         });
     }
 
     return {
+        setSidebarCounters,
         isToday,
         isNextWeek,
         run

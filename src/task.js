@@ -23,16 +23,12 @@ const Task = (project, title, dueDate, priority, details, complete) => {
         task.dueDate = new Date(dueDate)
     }
 
-    const changeProject = (oldProject, newProject, obj) => {
-        // const oldProjectTasks = taskMaster.projectList.filter(project => project.project.name === newProject)[0].project.tasks;
-        // const taskIndex = oldProjectTasks.indexOf(obj);
-        // console.log(oldProjectTasks, oldProject, newProject);
-        // const taskToChange = oldProjectTasks.splice(taskIndex, 1)[0];
-        // console.log(taskToChange);
-        // const newProjectTasks = taskMaster.projectList.filter(project => project.project.name === newProject)[0].project.tasks;
-        // newProjectTasks.push(taskToChange);
-        // console.log(newProjectTasks);
-        
+    const changeProject = (oldProject, newProject) => {
+        const oldProjectTasks = taskMaster.projectList[taskMaster.projectList.findIndex(project => project.project.name === newProject)].project.tasks[0];
+        console.log(oldProjectTasks);
+
+
+
         return task.project = newProject;
     }
 
