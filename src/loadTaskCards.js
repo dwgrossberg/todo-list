@@ -3,6 +3,29 @@ import { format } from "date-fns";
 
 const loadTaskCards = (() => {
 
+    // Check if a date is today
+    const isToday = (date) => {
+        if (date) {
+            const today = new Date();
+            return date.getDate() == today.getDate() &&
+                date.getMonth() == today.getMonth() &&
+                date.getFullYear() == today.getFullYear();
+        }
+    }
+
+    // Check if a date is within the next 7 days
+    const isNextWeek = (date) => {
+        if (date) {
+            const today = new Date();
+            const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+            if (nextWeek < date) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     const updateTaskTitle = () => {
         // Setup mutation Observer to watch for changes to Task titles and update the corresponding Task objects
         const taskTitles = Array.from(document.querySelectorAll('[id^="task-title-"]'));
@@ -246,13 +269,34 @@ const loadTaskCards = (() => {
             updateTaskTitle();
             updateTaskDetails();
 
+            // Set sidebar Task & Project counters
+            const projectCounter = document.getElementById('projects-counter');
+            projectCounter.innerText = taskMaster.projectList.length - 1; //Subtract one to account for Home as default Project
+            taskMaster.projectList.forEach(project => {
+                let counterElem = document.getElementById(`project-counter-${project.project.name}`);
+                counterElem.innerText = taskMaster.projectList[taskMaster.projectList.indexOf(project)].project.tasks.length;
+            });
+            const todayCounter = document.getElementById('today-counter');
+            const next7DaysCounter = document.getElementById('next-seven-days-counter');
+            let todayList = [];
+            let weekList = [];
+            taskMaster.taskList.forEach(task => {
+                if (isToday(task.task.dueDate)) {
+                    todayList.push('today');
+                } 
+                if (isNextWeek(task.task.dueDate)) {
+                    weekList.push('week');
+                }
+                todayCounter.innerText = todayList.length;
+                next7DaysCounter.innerText = weekList.length;
+            });
         });
     }
 
     return {
-        run,
-        updateTaskTitle,
-        updateTaskDetails  
+        isToday,
+        isNextWeek,
+        run
     }
 
 })();

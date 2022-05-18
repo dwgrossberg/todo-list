@@ -15,29 +15,6 @@ const displayUI = (() => {
         }
     }
 
-    // Check if a date is today
-    const isToday = (date) => {
-        if (date) {
-            const today = new Date();
-            return date.getDate() == today.getDate() &&
-                date.getMonth() == today.getMonth() &&
-                date.getFullYear() == today.getFullYear();
-        }
-    }
-    
-    // Check if a date is within the next 7 days
-    const isNextWeek = (date) => {
-        if (date) {
-            const today = new Date();
-            const nextWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
-            if (nextWeek < date) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }
-
     const tabController = (taskProject) => {
         // Display to the updated project list, unless the user is already on Home / Today /Next7Days tab
         const project = document.getElementById(`Project-${taskProject}`);
@@ -51,6 +28,8 @@ const displayUI = (() => {
             project.dispatchEvent(new Event('mousedown'));
         }
     }
+
+    // Tasks
 
     const updateTaskCompleteStatus = () => {
         const taskCheckboxes = Array.from(document.querySelectorAll('[id^="task-checkbox-"]'));
@@ -237,40 +216,13 @@ const displayUI = (() => {
     }
     addTaskDOM.addEventListener('mousedown', addTask);
 
-
-    const setSidebarCounters = () => {
-        const projectCounter = document.getElementById('projects-counter');
-        projectCounter.innerText = taskMaster.projectList.length - 1; //Subtract one to account for Home as default Project
-        // Set project Task counters, including Home
-        taskMaster.projectList.forEach(project => {
-            let counterElem = document.getElementById(`project-counter-${project.project.name}`);
-            counterElem.innerText = taskMaster.projectList[taskMaster.projectList.indexOf(project)].project.tasks.length;
-        });
-        // Set Today and Next7Days counters
-        const todayCounter = document.getElementById('today-counter');
-        const next7DaysCounter = document.getElementById('next-seven-days-counter');
-        taskMaster.taskList.forEach(task => {
-            if (isToday(task.task.dueDate)) {
-                todayCounter.innerText++;
-            } 
-            if (isNextWeek(task.task.dueDate)) {
-                next7DaysCounter.innerText++;
-            }
-        });
-    }
-
-    const changeSidebarCounter = (task) => {
-        
-        //todo
-
-    }
+    // Projects 
 
     const projectsSidebar = document.getElementById('project-sidebar-list');
 
     const editProjectStyles = () => {
         const projectEdits = Array.from(document.getElementsByClassName('edit-project'));
         projectEdits.forEach(edit => edit.addEventListener('mousedown', projectEditSet));
-
     }
 
     const projectEditSet = (e) => {
@@ -298,7 +250,7 @@ const displayUI = (() => {
                 // Keep track of mutated DOM element and text content
                 const projectElem = mutation.target.parentNode;
                 // Update Project DOM element id to match new name
-                projectElem.setAttribute('id', `Project-${mutation.target.textContent}`)
+                projectElem.setAttribute('id', `Project-${mutation.target.textContent}`);
                 // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
                 const projectIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.parentNode.id)[0]);
                 taskMaster.projectList[projectIndex].changeName(mutation.target.textContent);
@@ -337,12 +289,6 @@ const displayUI = (() => {
             loadTaskCards.run(taskMaster.taskList);
             runDOMTaskFunctions();
             tabController('Home');
-            // if (today.style.color === 'rgb(216, 39, 117)' || next7Days.style.color === 'rgb(216, 39, 117)') {
-                // tabController();
-            // } else if (false) {
-                // tabController()
-            // } 
-            
         }));
     }
 
@@ -444,13 +390,21 @@ const displayUI = (() => {
     }
     undoDOM.addEventListener('mousedown', undo);
 
-    let projects = document.querySelectorAll('[id^="Project-"]');
+    const projects = document.querySelectorAll('[id^="Project-"]');
     const searchDOM = document.getElementById('search');
     const runSearch = () => {
         const searchTitle = searchDOM.value.toLowerCase();
         const matchingTask = taskMaster.taskList.filter(task => task.task.title.toLowerCase().includes(searchTitle));
         removeDOMContent(taskContent);
-        loadTaskCards.run(matchingTask);
+        const searchResults = document.createTextNode('Search results:');
+        taskContent.appendChild(searchResults);
+        if (matchingTask.length === 0) {
+            const imgDiv = document.createElement('div');
+            imgDiv.classList.add('not-found');
+            taskContent.appendChild(imgDiv);
+        } else {
+            loadTaskCards.run(matchingTask);
+        }
         runDOMTaskFunctions();
         home.style.color = '';
         home.style.fontWeight = '';
@@ -467,7 +421,7 @@ const displayUI = (() => {
     }
     searchDOM.addEventListener('search', runSearch);
     
-    // Handles the running of the different sidebar tabs
+    // displayController handles the running of the different sidebar tabs
     const displayController = (newProject) => {
 
         let projects = document.querySelectorAll('[id^="Project-"]');
@@ -477,7 +431,6 @@ const displayUI = (() => {
             home.style.fontWeight = 'bold';
             loadTaskCards.run(taskMaster.taskList);
             runDOMTaskFunctions();
-            setSidebarCounters();
         }
         // Home
         home.addEventListener('mousedown', (e) => {
@@ -493,7 +446,6 @@ const displayUI = (() => {
             home.style.color = "#d82775";
             home.style.fontWeight = 'bold';
             removeDOMContent(taskContent);
-            console.log(taskMaster.taskList);   
             loadTaskCards.run(taskMaster.taskList);
             runDOMTaskFunctions();
         });
@@ -503,7 +455,7 @@ const displayUI = (() => {
         today.addEventListener('mousedown', (e) => {
             todayTasks = [];
             taskMaster.taskList.forEach(task => {
-                if (isToday(task.task.dueDate) && !todayTasks.includes(task)) {;
+                if (loadTaskCards.isToday(task.task.dueDate) && !todayTasks.includes(task)) {;
                     todayTasks.push(task);
                 } ;
             });
@@ -528,7 +480,7 @@ const displayUI = (() => {
         next7Days.addEventListener('mousedown', (e) => {
             next7DaysTasks = [];
             taskMaster.taskList.forEach(task => {
-                if (isNextWeek(task.task.dueDate)) {
+                if (loadTaskCards.isNextWeek(task.task.dueDate)) {
                     next7DaysTasks.push(task);
                 } ;
             });

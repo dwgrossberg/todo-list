@@ -919,6 +919,13 @@ button:hover + input[type="search"] {
   background: white;
 }
 
+.not-found {
+    background-image: url('./assets/problem-solving.png');
+    background-size: 100%;
+    width: 100px;
+    height: 100px;
+    opacity: .7;
+}
 
 /* Footer */
 
