@@ -551,7 +551,7 @@ const displayUI = (() => {
         // Projects
         let projectTasks = [];
         projects.forEach(project => project.addEventListener('mousedown', (e) => {
-            if (e.target.innerText === 'Home') return;
+            if (e.target.innerText === 'Home' || e.target.classList[0] === 'home-icon' || e.target.id === 'Project-Home') return;
             projectTasks = [];
             const projectName = (/(?<=([^-]*-)).*/.exec(project.id)[0]);
             taskMaster.taskList.forEach(task => {
@@ -561,14 +561,9 @@ const displayUI = (() => {
             });
             // Set Project styles on sidebar && reload Tasks
             if (e.isTrusted) {
-                let otherProjects = Array.from(project.parentNode.parentNode.childNodes);
+                const otherProjects = Array.from(project.parentNode.parentNode.childNodes);
                 otherProjects.forEach(project => {
-                    let projectTag;
-                    if (e.target.classList[0] === 'home-icon') {
-                        projectTag = home;
-                    } else {
-                        projectTag = project.childNodes[2];
-                    }
+                    const projectTag = project.childNodes[2];
                     if (projectTag.innerText === e.target.innerText) return;
                     else {
                         projectTag.style.color = '';
