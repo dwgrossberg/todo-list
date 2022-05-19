@@ -9,16 +9,16 @@ const Project = (name) => {
 
     const type = 'project';
 
-    const changeName = (name) => {
-        let oldName = project.name;
-        project.name = name;
-        updateTaskProjectNames(oldName, name);
+    const changeName = (oldName, newName) => {
+        project.name = newName;
+        updateTaskProjectNames(oldName, newName);
     }
 
     const updateTaskProjectNames = (oldName, newName) => {
+        console.log(oldName, newName);
         taskMaster.taskList.forEach(task => {
             if (task.task.project === oldName) {
-                task.changeProject(oldName, newName);
+                task.task.project = newName;
             }
         });
     }

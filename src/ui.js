@@ -68,7 +68,7 @@ const displayUI = (() => {
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
             const task = taskMaster.taskList[taskIndex];
             const taskProject = taskMaster.taskList[taskIndex].task.project;
-            taskMaster.taskList[taskIndex].changeProject(taskProject, selectedOption, task);
+            taskMaster.taskList[taskIndex].changeTaskProject(taskProject, selectedOption, task);
             console.log(taskMaster.taskList[taskIndex].task);
             loadTaskCards.setSidebarCounters();
             // Display the updated project list
@@ -257,7 +257,9 @@ const displayUI = (() => {
                 projectCounter.setAttribute('id', `project-counter-${mutation.target.textContent}`);
                 // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
                 const projectIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.parentNode.id)[0]);
-                taskMaster.projectList[projectIndex].changeName(mutation.target.textContent);
+                const oldProjectName = taskMaster.projectList[projectIndex].project.name;
+                console.log(projectIndex);
+                taskMaster.projectList[projectIndex].changeName(oldProjectName, mutation.target.textContent);
                 console.log(taskMaster.projectList[projectIndex].project);
                 // Reload the Task cards to show the updated Project
                 removeDOMContent(taskContent);
@@ -282,8 +284,6 @@ const displayUI = (() => {
             e.target.parentNode.remove();
             // Save the deleted Project for later use
             deletedItems.push(taskMaster.projectList[projectIndex]);
-            // Save the deleted Project for later use
-            deletedItems.push(taskMaster.projectList[projectIndex]);
             // Remove the Task objects related to that Project from the taskList
             const projectTasks = taskMaster.projectList[projectIndex].project.tasks;
             console.log(projectTasks);
@@ -295,6 +295,7 @@ const displayUI = (() => {
             loadTaskCards.run(taskMaster.taskList);
             runDOMTaskFunctions();
             tabController('Home');
+            loadTaskCards.setSidebarCounters();
         }));
     }
 
@@ -370,7 +371,9 @@ const displayUI = (() => {
             }
             undoDOM.style.transition = 'transform 0.3s ease-in-out';
             undoDOM.style.transform = 'rotate(-360deg)';
-            let undoItem = deletedItems.pop();
+            const undoItem = deletedItems.pop();
+            // deletedItems.splice(deletedItems - 1, 1);
+            console.log(deletedItems, undoItem);
             if ((undoItem).type === 'task') {
                 taskMaster.taskList.push(undoItem);
                 taskMaster.dateOrderTaskList();
@@ -378,7 +381,7 @@ const displayUI = (() => {
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
                 tabController(undoItem.task.project);
-                deletedItems = [];
+                // deletedItems = [];
             }  else if ((undoItem).type === 'project') {
                 taskMaster.projectList.push(undoItem);
                 removeDOMContent(projectsSidebar);
@@ -392,7 +395,7 @@ const displayUI = (() => {
                 displayController('newProject');
                 // Display the restored Project
                 tabController(`Project-${undoItem.project.name}`);
-                deletedItems = [];
+                // deletedItems = [];
             }
         }
     }
@@ -424,8 +427,7 @@ const displayUI = (() => {
             project.style.color = '';
             project.style.fontWeight = '';
         });
-
-
+        searchDOM.value = '';
     }
     searchDOM.addEventListener('search', runSearch);
     
