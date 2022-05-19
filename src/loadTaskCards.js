@@ -31,8 +31,13 @@ const loadTaskCards = (() => {
         const projectCounter = document.getElementById('projects-counter');
         projectCounter.innerText = taskMaster.projectList.length - 1; //Subtract one to account for Home as default Project
         taskMaster.projectList.forEach(project => {
-            let counterElem = document.getElementById(`project-counter-${project.project.name}`);
-            counterElem.innerText = taskMaster.projectList[taskMaster.projectList.indexOf(project)].project.tasks.length;
+            if (project.project.name === 'Home') {
+                const homeCounter = document.getElementById('project-counter-Home');
+                homeCounter.innerText = taskMaster.taskList.length;
+            } else {
+                const counterElem = document.getElementById(`project-counter-${project.project.name}`);
+                counterElem.innerText = taskMaster.projectList[taskMaster.projectList.indexOf(project)].project.tasks.length;
+            }
         });
         const todayCounter = document.getElementById('today-counter');
         const next7DaysCounter = document.getElementById('next-seven-days-counter');

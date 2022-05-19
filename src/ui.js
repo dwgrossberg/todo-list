@@ -7,7 +7,7 @@ const displayUI = (() => {
     const home = document.getElementById('Project-Home');
     const today = document.getElementById('today');
     const next7Days = document.getElementById('next-seven-days');
-    const deletedItems = [];
+    let deletedItems = [];
 
     const removeDOMContent = (content) => {
         while (content.firstChild) {
@@ -70,8 +70,7 @@ const displayUI = (() => {
             const taskProject = taskMaster.taskList[taskIndex].task.project;
             taskMaster.taskList[taskIndex].changeProject(taskProject, selectedOption, task);
             console.log(taskMaster.taskList[taskIndex].task);
-
-            // loadTaskCards.setSidebarCounters();
+            loadTaskCards.setSidebarCounters();
             // Display the updated project list
             tabController(taskProject);
         }));
@@ -379,6 +378,7 @@ const displayUI = (() => {
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
                 tabController(undoItem.task.project);
+                deletedItems = [];
             }  else if ((undoItem).type === 'project') {
                 taskMaster.projectList.push(undoItem);
                 removeDOMContent(projectsSidebar);
@@ -392,6 +392,7 @@ const displayUI = (() => {
                 displayController('newProject');
                 // Display the restored Project
                 tabController(`Project-${undoItem.project.name}`);
+                deletedItems = [];
             }
         }
     }
