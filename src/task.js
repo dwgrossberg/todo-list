@@ -30,7 +30,6 @@ const Task = (project, title, dueDate, priority, details, complete) => {
         const taskToMove = taskMaster.projectList[oldProjectIndex].delTask(taskIndex)[0];
         const newProjectIndex = taskMaster.projectList.findIndex(project => project.project.name === newProject);
         taskMaster.projectList[newProjectIndex].addTask(taskToMove);
-        console.log(taskToMove, taskMaster.projectList[newProjectIndex]);
         return task.project = newProject;
     }
 

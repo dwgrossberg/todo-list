@@ -38,11 +38,6 @@ const taskMaster = (() => {
     }   
     
     const removeTask = (index) => {
-        // projectList.forEach(project => {
-            // if (project.project.tasks.includes(taskList[index])) {
-                // project.project.tasks.splice(project.project.tasks.indexOf(taskList[index]), 1);
-            // }
-        // });
         taskList.splice(index, 1);
         return taskList;
     }
