@@ -71,7 +71,7 @@ const displayUI = (() => {
             taskMaster.taskList[taskIndex].changeProject(taskProject, selectedOption);
             console.log(taskMaster.taskList[taskIndex].task);
             console.log(taskMaster.projectList);
-            
+
             // loadTaskCards.setSidebarCounters();
             // Display the updated project list
             tabController(taskProject);
@@ -282,13 +282,22 @@ const displayUI = (() => {
             otherProjects.splice(projectIndex - 1, 1);
             // Remove Task DOM object
             e.target.parentNode.remove();
-            // Remove the Task objects related to that Project from the taskList
-            const projectTasks = taskMaster.projectList[projectIndex].project.tasks;
-            projectTasks.forEach(task => taskMaster.removeTask(taskMaster.taskList.indexOf(task)));
             // Save the deleted Project for later use
             deletedItems.push(taskMaster.projectList[projectIndex]);
+            // Remove the Task objects related to that Project from the taskList
+            const projectTasks = taskMaster.projectList[projectIndex].project.tasks;
+            // Save the deleted Project for later use
+            deletedItems.push(taskMaster.projectList[projectIndex]);
+
+            projectTasks.forEach(task => {
+                console.log(task);
+                taskMaster.removeTask(taskMaster.taskList.indexOf(task))
+            });
+            
+            
             // Remove the Project object from the taskMasker.projectList
             taskMaster.removeProject(projectIndex);
+
             // Remove the Task DOM objects related to that Project and reload the Task cards
             removeDOMContent(taskContent);
             loadTaskCards.run(taskMaster.taskList);

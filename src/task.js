@@ -24,8 +24,8 @@ const Task = (project, title, dueDate, priority, details, complete) => {
     }
 
     const changeProject = (oldProject, newProject) => {
-        const oldProjectTasks = taskMaster.projectList[taskMaster.projectList.findIndex(project => project.project.name === newProject)].project.tasks[0];
-        console.log(oldProjectTasks);
+        // const oldProjectTasks = taskMaster.projectList[taskMaster.projectList.findIndex(project => project.project.name === newProject)].project.tasks[0];
+        // console.log(oldProjectTasks);
 
 
 
