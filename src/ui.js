@@ -68,9 +68,8 @@ const displayUI = (() => {
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
             const task = taskMaster.taskList[taskIndex];
             const taskProject = taskMaster.taskList[taskIndex].task.project;
-            taskMaster.taskList[taskIndex].changeProject(taskProject, selectedOption);
+            taskMaster.taskList[taskIndex].changeProject(taskProject, selectedOption, task);
             console.log(taskMaster.taskList[taskIndex].task);
-            console.log(taskMaster.projectList);
 
             // loadTaskCards.setSidebarCounters();
             // Display the updated project list
@@ -284,20 +283,14 @@ const displayUI = (() => {
             e.target.parentNode.remove();
             // Save the deleted Project for later use
             deletedItems.push(taskMaster.projectList[projectIndex]);
-            // Remove the Task objects related to that Project from the taskList
-            const projectTasks = taskMaster.projectList[projectIndex].project.tasks;
             // Save the deleted Project for later use
             deletedItems.push(taskMaster.projectList[projectIndex]);
-
-            projectTasks.forEach(task => {
-                console.log(task);
-                taskMaster.removeTask(taskMaster.taskList.indexOf(task))
-            });
-            
-            
+            // Remove the Task objects related to that Project from the taskList
+            const projectTasks = taskMaster.projectList[projectIndex].project.tasks;
+            console.log(projectTasks);
+            projectTasks.forEach(task => {taskMaster.removeTask(taskMaster.taskList.indexOf(task))});
             // Remove the Project object from the taskMasker.projectList
             taskMaster.removeProject(projectIndex);
-
             // Remove the Task DOM objects related to that Project and reload the Task cards
             removeDOMContent(taskContent);
             loadTaskCards.run(taskMaster.taskList);

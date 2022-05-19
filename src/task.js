@@ -23,12 +23,14 @@ const Task = (project, title, dueDate, priority, details, complete) => {
         task.dueDate = new Date(dueDate)
     }
 
-    const changeProject = (oldProject, newProject) => {
-        // const oldProjectTasks = taskMaster.projectList[taskMaster.projectList.findIndex(project => project.project.name === newProject)].project.tasks[0];
-        // console.log(oldProjectTasks);
-
-
-
+    const changeProject = (oldProject, newProject, taskToChange) => {
+        // Update  the taskMaster projectList when a Task changes projects
+        const oldProjectIndex = taskMaster.projectList.findIndex(project => project.project.name === oldProject);
+        const taskIndex = Array.from(taskMaster.projectList[oldProjectIndex].project.tasks).indexOf(taskToChange);
+        const taskToMove = taskMaster.projectList[oldProjectIndex].delTask(taskIndex)[0];
+        const newProjectIndex = taskMaster.projectList.findIndex(project => project.project.name === newProject);
+        taskMaster.projectList[newProjectIndex].addTask(taskToMove);
+        console.log(taskToMove, taskMaster.projectList[newProjectIndex]);
         return task.project = newProject;
     }
 

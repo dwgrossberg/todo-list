@@ -24,11 +24,13 @@ const Project = (name) => {
     }
 
     const addTask = (task) => {
-        project.tasks.push(task)
+        project.tasks.push(task);
+        return task;
     }
 
     const delTask = (title) => {
-        project.tasks.splice(project.tasks.findIndex(task => task.title === title), 1);
+        let oldTask = project.tasks.splice(project.tasks.findIndex(task => task.title === title), 1);
+        return oldTask;
     }
 
     return {
