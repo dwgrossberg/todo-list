@@ -114,6 +114,7 @@ const taskMaster = (() => {
         removeProject,
         taskList,
         createTask,
+        createTask_Default,
         removeTask,
         dateOrderTaskList
     }

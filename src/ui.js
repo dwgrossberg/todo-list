@@ -1,6 +1,7 @@
 import taskMaster from "./taskMaster.js";
 import loadTaskCards from "./loadTaskCards.js";
 import storage from "./storage.js";
+import Task from "./task.js";
 
 const displayUI = (() => {
 
@@ -443,8 +444,14 @@ const displayUI = (() => {
             // Check for localStorage
             const localTaskList = storage.getLocalTasks();
             if (localTaskList.length > 0) {
-                console.log('hi', localTaskList);
-                loadTaskCards.run(localTaskList);
+                // Load stored Tasks to the taskList & DOM
+                localTaskList.forEach(task => {
+                    let args = Object.values(Object.values(task)[0])
+                    console.log(...args);
+                    taskMaster.createTask_Default(...args);
+                });
+                taskMaster.dateOrderTaskList(taskMaster.taskList);                
+                loadTaskCards.run(taskMaster.taskList);
             } else {
                 loadTaskCards.run(taskMaster.taskList);
             }
