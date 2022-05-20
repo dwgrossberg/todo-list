@@ -442,8 +442,8 @@ const displayUI = (() => {
             home.style.fontWeight = 'bold';
             // Check for localStorage
             const localTaskList = storage.getLocalTasks();
-            console.log(localTaskList);
-            if (localTaskList) {
+            if (localTaskList.length > 0) {
+                console.log('hi', localTaskList);
                 loadTaskCards.run(localTaskList);
             } else {
                 loadTaskCards.run(taskMaster.taskList);

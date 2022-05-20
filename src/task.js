@@ -8,7 +8,8 @@ const Task = (project, title, dueDate, priority, details, complete) => {
         dueDate : dueDate,
         priority : (priority || 'none'),
         details : (details || ''),
-        complete : complete
+        complete : complete,
+        default : ''
     }
 
     const type = 'task';

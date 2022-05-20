@@ -41,6 +41,16 @@ const taskMaster = (() => {
 
         return newTask;
     }   
+
+    const createTask_Default = (...args) => {
+        if (!args[0]) { args[0] = 'Home'; }
+        const newTask = Task(...args);
+        taskList.push(newTask); 
+        if (args[0] !== 'Home') { home.addTask(newTask); }
+        let taskProject = projectList.find(project => project.project.name === args[0]);
+        taskProject.addTask(newTask);
+        return newTask;
+    }   
     
     const removeTask = (index) => {
         const task = taskList.splice(index, 1);
@@ -64,10 +74,10 @@ const taskMaster = (() => {
     const in30Days = date.setDate(date.getDate() + 30);
     
     // Default tasks on page load
-    createTask('Workout', 'Run 10k practice pace for race', in30Days, 'low', 'so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
-    createTask('Study', 'Review Webpack.config.js basics', inTenDays, 'med', 'Revist the Webpack guides page and review relevant info', false);
-    createTask('Baby', 'Prep Baby\'s favorite chicken dumplings', inThreeDays, 'med', 'Get the recipe from Uncle M who made it last New Year\'s', false);
-    createTask('Home', 'Meet up with Lou for a beer', tomorrow, 'high', 'Meet at Jax Brewery near 9th street', false);
+    const workoutTask = createTask_Default('Workout', 'Run 10k practice pace for race', in30Days, 'low', 'so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
+    const studyTask = createTask_Default('Study', 'Review Webpack.config.js basics', inTenDays, 'med', 'Revist the Webpack guides page and review relevant info', false);
+    const babyTask = createTask_Default('Baby', 'Prep Baby\'s favorite chicken dumplings', inThreeDays, 'med', 'Get the recipe from Uncle M who made it last New Year\'s', false);
+    const homeTask = createTask_Default('Home', 'Meet up with Lou for a beer', tomorrow, 'high', 'Meet at Jax Brewery near 9th street', false);
     
 
     // Sort the taskList so that it is ordered by date, with completed Tasks staying at the end of the array
