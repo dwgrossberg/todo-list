@@ -5,7 +5,10 @@ import taskMaster from "./taskMaster.js";
 
 const storage = (() => {
 
-    localStorage.setItem('userTasks', '[]');
+    if (localStorage.length === 0) {
+        localStorage.setItem('userTasks', '[]');
+    } 
+
 
     // see if local storage exists
     const getLocalTasks = () => {
@@ -24,13 +27,16 @@ const storage = (() => {
     // save Task and Project objects
     // save modifications to each Object
     const saveLocalTask = (item) => {
-        if (localStorage.length > 0) {
-            let userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
-            userList.push(item);
-            localStorage.setItem('userTasks', JSON.stringify(userList));
-        } else {
-            localStorage.setItem('userTasks', JSON.stringify(item));
-        }
+        let userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
+        userList.push(item);
+        localStorage.setItem('userTasks', JSON.stringify(userList));
+    }
+
+    const removeLocalTask = (item) => {
+        let userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
+        let index = userList.findIndex(task => task === item);
+        userList.splice(index, 1);
+        localStorage.setItem('userTasks', JSON.stringify(userList));
     }
 
     const saveLocalProject = () => {
@@ -41,6 +47,7 @@ const storage = (() => {
         getLocalTasks,
         getLocalProjects,
         saveLocalTask,
+        removeLocalTask,
         saveLocalProject
     }
 

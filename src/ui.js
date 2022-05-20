@@ -1,5 +1,6 @@
 import taskMaster from "./taskMaster.js";
 import loadTaskCards from "./loadTaskCards.js";
+import storage from "./storage.js";
 
 const displayUI = (() => {
 
@@ -439,7 +440,14 @@ const displayUI = (() => {
             // Run the Home Project on page load (includes all Tasks by default)
             home.style.color = "#d82775";
             home.style.fontWeight = 'bold';
-            loadTaskCards.run(taskMaster.taskList);
+            // Check for localStorage
+            const localTaskList = storage.getLocalTasks();
+            console.log(localTaskList);
+            if (localTaskList) {
+                loadTaskCards.run(localTaskList);
+            } else {
+                loadTaskCards.run(taskMaster.taskList);
+            }
             runDOMTaskFunctions();
         }
         // Home

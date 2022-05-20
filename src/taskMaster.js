@@ -43,7 +43,9 @@ const taskMaster = (() => {
     }   
     
     const removeTask = (index) => {
-        taskList.splice(index, 1);
+        const task = taskList.splice(index, 1);
+        // Remove Task from localStorage
+        storage.removeLocalTask(task);
         return taskList;
     }
 
@@ -66,6 +68,7 @@ const taskMaster = (() => {
     createTask('Study', 'Review Webpack.config.js basics', inTenDays, 'med', 'Revist the Webpack guides page and review relevant info', false);
     createTask('Baby', 'Prep Baby\'s favorite chicken dumplings', inThreeDays, 'med', 'Get the recipe from Uncle M who made it last New Year\'s', false);
     createTask('Home', 'Meet up with Lou for a beer', tomorrow, 'high', 'Meet at Jax Brewery near 9th street', false);
+    
 
     // Sort the taskList so that it is ordered by date, with completed Tasks staying at the end of the array
     const dateOrderTaskList = () => {
