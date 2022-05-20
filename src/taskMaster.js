@@ -1,5 +1,6 @@
 import Task from "./task.js";
 import Project from "./project.js";
+import storage from "./storage.js";
 
 // Control the creation and manipulation of Projects & Tasks
 // Module to be called from the DOM 
@@ -31,9 +32,13 @@ const taskMaster = (() => {
         if (args[0] !== 'Home') { 
             home.addTask(newTask); //Add all new Tasks to the Home Project by default without duplicating
         }
-        // match the arg[0] string with the correct Project object via the name property
+        // Match the arg[0] string with the correct Project object via the name property
         let taskProject = projectList.find(project => project.project.name === args[0]);
         taskProject.addTask(newTask);
+
+        // Save the Task to localStorage
+        storage.saveLocalTask(newTask);
+
         return newTask;
     }   
     
@@ -45,9 +50,9 @@ const taskMaster = (() => {
 
     // Default Projects on page load
     const home = createProject('Home');
-    const baby = createProject('Baby');
-    const study = createProject('Study');
-    const workout = createProject('Workout');
+    createProject('Baby');
+    createProject('Study');
+    createProject('Workout');
 
     // Default dates
     const date = new Date();
@@ -55,13 +60,12 @@ const taskMaster = (() => {
     const inThreeDays = date.setDate(date.getDate() + 3);
     const inTenDays = date.setDate(date.getDate() + 10);
     const in30Days = date.setDate(date.getDate() + 30);
-    const in60Days = date.setDate(date.getDate() + 10);
     
     // Default tasks on page load
-    const workoutTask = createTask('Workout', 'Run 10k practice pace for race', in30Days, 'low', 'so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
-    const studyTask = createTask('Study', 'Review Webpack.config.js basics', inTenDays, 'med', 'Revist the Webpack guides page and review relevant info', false);
-    const babyTask = createTask('Baby', 'Prep Baby\'s favorite chicken dumplings', inThreeDays, 'med', 'Get the recipe from Uncle M who made it last New Year\'s', false);
-    const funTask = createTask('Home', 'Meet up with Lou for a beer', tomorrow, 'high', 'Meet at Jax Brewery near 9th street', false);
+    createTask('Workout', 'Run 10k practice pace for race', in30Days, 'low', 'so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om so looonngngngngnng i am so long it is amazing how long i am omg omg om gomgo mgomgomgom ogm ogmogm om', false);
+    createTask('Study', 'Review Webpack.config.js basics', inTenDays, 'med', 'Revist the Webpack guides page and review relevant info', false);
+    createTask('Baby', 'Prep Baby\'s favorite chicken dumplings', inThreeDays, 'med', 'Get the recipe from Uncle M who made it last New Year\'s', false);
+    createTask('Home', 'Meet up with Lou for a beer', tomorrow, 'high', 'Meet at Jax Brewery near 9th street', false);
 
     // Sort the taskList so that it is ordered by date, with completed Tasks staying at the end of the array
     const dateOrderTaskList = () => {
