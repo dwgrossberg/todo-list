@@ -5,27 +5,17 @@ import taskMaster from "./taskMaster.js";
 
 const storage = (() => {
 
+    // If no localStorage, set an empty array with the name of userTasks
     if (localStorage.length === 0) {
         localStorage.setItem('userTasks', '[]');
     } 
 
-
-    // see if local storage exists
     const getLocalTasks = () => {
-        const userTasks = JSON.parse(localStorage.getItem('userTasks'));
-        console.log(userTasks);
-        return userTasks;
+        const userList = JSON.parse(localStorage.getItem('userTasks'));
+        const userTasks = Object.assign(userList, Task)
+        return userList;
     }
 
-    const getLocalProjects = () => {
-
-    }
-    // if so parse the json string
-    // else launch the app with default tasks / projects
-
-
-    // save Task and Project objects
-    // save modifications to each Object
     const saveLocalTask = (item) => {
         let userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
         userList.push(item);
@@ -39,6 +29,18 @@ const storage = (() => {
         localStorage.setItem('userTasks', JSON.stringify(userList));
     }
 
+    const updateLocalTaskTitle = (taskDetails, title) => {
+        let userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
+        let index = userList.findIndex(task => task.task.details === taskDetails);
+        console.log(userList);
+
+        userList[index].changeTitle(title);
+    }
+
+    const getLocalProjects = () => {
+
+    }
+
     const saveLocalProject = () => {
 
     }
@@ -48,6 +50,7 @@ const storage = (() => {
         getLocalProjects,
         saveLocalTask,
         removeLocalTask,
+        updateLocalTaskTitle,
         saveLocalProject
     }
 

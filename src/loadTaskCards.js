@@ -1,5 +1,6 @@
 import taskMaster from "./taskMaster.js";
 import { format } from "date-fns";
+import storage from "./storage.js";
 
 const loadTaskCards = (() => {
 
@@ -66,6 +67,8 @@ const loadTaskCards = (() => {
                 const taskIndex = taskMaster.taskList.findIndex(task => task.task.details === taskDetails);
                 taskMaster.taskList[taskIndex].changeTitle(mutation.target.textContent);
                 console.log(taskMaster.taskList[taskIndex].task);
+                // Save changes to localStorage
+                storage.updateLocalTaskTitle(taskDetails, mutation.target.textContent);
             }
         }
         const observer = new MutationObserver(callback);

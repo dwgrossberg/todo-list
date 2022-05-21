@@ -5,24 +5,13 @@ const Task = (project, title, dueDate, priority, details, complete) => {
     const task = {
         project : 'Home', //default
         title : title,
-        dueDate : dueDate,
+        dueDate : new Date(dueDate),
         priority : (priority || 'none'),
         details : (details || ''),
         complete : complete,
-        default : ''
     }
 
     const type = 'task';
-    
-    // Change project name if project variable is not undefined
-    if (project !== undefined) {
-        task.project = project;
-    } 
-
-    // Set dueDate to date-fns format if dueDate variable is not undefined 
-    if (dueDate !== undefined) {
-        task.dueDate = new Date(dueDate)
-    }
 
     const changeTaskProject = (oldProject, newProject, taskToChange) => {
         // Update  the taskMaster projectList when a Task changes projects

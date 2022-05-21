@@ -1,7 +1,6 @@
 import taskMaster from "./taskMaster.js";
 import loadTaskCards from "./loadTaskCards.js";
 import storage from "./storage.js";
-import Task from "./task.js";
 
 const displayUI = (() => {
 
@@ -172,6 +171,8 @@ const displayUI = (() => {
             e.target.parentNode.parentNode.remove();
             // Save the deleted Task for later use
             deletedItems.push(taskMaster.taskList[taskIndex]);
+            // Remove Task from localStorage
+            storage.removeLocalTask(taskMaster.taskList[taskIndex]);
             // Remove the Task object from the taskMasker.taskList
             taskMaster.removeTask(taskIndex);
             loadTaskCards.setSidebarCounters();
@@ -208,7 +209,6 @@ const displayUI = (() => {
         let newTaskIndex = taskMaster.taskList.indexOf(newTask);
         let taskToFront = taskMaster.taskList.splice(newTaskIndex, 1);
         taskMaster.taskList.unshift(taskToFront[0]);
-        // taskMaster.taskList.unshift(;
         loadTaskCards.run(taskMaster.taskList);
         runDOMTaskFunctions();
         tabController(projectName);
@@ -217,6 +217,8 @@ const displayUI = (() => {
         if (document.createEvent) {
             taskExpander.dispatchEvent(new Event('mousedown'));
         }
+        // Save Task to localStorage
+        storage.saveLocalTask(newTask);
     }
     addTaskDOM.addEventListener('mousedown', addTask);
 
@@ -441,14 +443,13 @@ const displayUI = (() => {
             // Run the Home Project on page load (includes all Tasks by default)
             home.style.color = "#d82775";
             home.style.fontWeight = 'bold';
-            // Check for localStorage
+            // Check for localStorage && load Tasks
             const localTaskList = storage.getLocalTasks();
             if (localTaskList.length > 0) {
                 // Load stored Tasks to the taskList & DOM
                 localTaskList.forEach(task => {
                     let args = Object.values(Object.values(task)[0])
-                    console.log(...args);
-                    taskMaster.createTask_Default(...args);
+                    taskMaster.createTask(...args);
                 });
                 taskMaster.dateOrderTaskList(taskMaster.taskList);                
                 loadTaskCards.run(taskMaster.taskList);
