@@ -12,8 +12,29 @@ const storage = (() => {
 
     const getLocalTasks = () => {
         const userList = JSON.parse(localStorage.getItem('userTasks'));
-        const userTasks = Object.assign(userList, Task)
-        return userList;
+        const TaskObj = Task();
+        delete TaskObj.task;   
+        // Map Task Methods to JSON objects
+        const userTasks = userList.map(task => {
+            console.log(task);
+            console.log(Object.getOwnPropertyNames(task));
+            const TaskMethods = Object.getOwnPropertyNames(TaskObj);
+            
+            
+            
+
+            return {...task, ...TaskObj};
+            
+            
+        });
+       
+
+        console.log(userList, userTasks);
+
+
+
+
+        return userTasks;
     }
 
     const saveLocalTask = (item) => {
@@ -24,7 +45,7 @@ const storage = (() => {
 
     const removeLocalTask = (item) => {
         let userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
-        let index = userList.findIndex(task => task === item);
+        let index = userList.findIndex(task => task.task.title === item.task.title);
         userList.splice(index, 1);
         localStorage.setItem('userTasks', JSON.stringify(userList));
     }

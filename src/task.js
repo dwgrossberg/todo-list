@@ -3,7 +3,7 @@ import taskMaster from "./taskMaster.js";
 const Task = (project, title, dueDate, priority, details, complete) => {
 
     const task = {
-        project : 'Home', //default
+        project : project,
         title : title,
         dueDate : new Date(dueDate),
         priority : (priority || 'none'),

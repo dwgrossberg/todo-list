@@ -173,8 +173,8 @@ const displayUI = (() => {
             deletedItems.push(taskMaster.taskList[taskIndex]);
             // Remove Task from localStorage
             storage.removeLocalTask(taskMaster.taskList[taskIndex]);
-            // Remove the Task object from the taskMasker.taskList
-            taskMaster.removeTask(taskIndex);
+            // Remove the Task object from the taskMasker.taskList -- unnecessary with localStorage
+            // taskMaster.removeTask(taskIndex);
             loadTaskCards.setSidebarCounters();
         }));
     }
