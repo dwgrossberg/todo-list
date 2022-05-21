@@ -68,7 +68,7 @@ const loadTaskCards = (() => {
                 taskMaster.taskList[taskIndex].changeTitle(mutation.target.textContent);
                 console.log(taskMaster.taskList[taskIndex].task);
                 // Save changes to localStorage
-                storage.updateLocalTaskTitle(taskDetails, mutation.target.textContent);
+                storage.updateLocalTaskTitle(taskMaster.taskList[taskIndex]);
             }
         }
         const observer = new MutationObserver(callback);

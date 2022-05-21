@@ -11,51 +11,45 @@ const storage = (() => {
     } 
 
     const getLocalTasks = () => {
-        const userList = JSON.parse(localStorage.getItem('userTasks'));
+        const userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
         const TaskObj = Task();
+        // Remove task property in order to not overwrite
         delete TaskObj.task;   
-        // Map Task Methods to JSON objects
+        // Map other Task Methods to new JSON objects
         const userTasks = userList.map(task => {
-            console.log(task);
-            console.log(Object.getOwnPropertyNames(task));
-            const TaskMethods = Object.getOwnPropertyNames(TaskObj);
-            
-            
-            
-
-            return {...task, ...TaskObj};
-            
-            
+            return {...task, ...TaskObj}
         });
-       
-
-        console.log(userList, userTasks);
-
-
-
-
         return userTasks;
     }
 
     const saveLocalTask = (item) => {
-        let userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
-        userList.push(item);
-        localStorage.setItem('userTasks', JSON.stringify(userList));
+        const userTasks = getLocalTasks();
+        if (userTasks.some(task => task.task.title === item.task.title)) {
+            return
+        } else {
+            userTasks.push(item);
+            localStorage.setItem('userTasks', JSON.stringify(userTasks));
+            console.log(item, userTasks);
+        }
     }
 
     const removeLocalTask = (item) => {
-        let userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
-        let index = userList.findIndex(task => task.task.title === item.task.title);
+        const userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
+        const index = userList.findIndex(task => task.task.title === item.task.title);
         userList.splice(index, 1);
         localStorage.setItem('userTasks', JSON.stringify(userList));
     }
 
-    const updateLocalTaskTitle = (taskDetails, title) => {
-        let userList = JSON.parse(localStorage.getItem('userTasks', '[]'));
-        let index = userList.findIndex(task => task.task.details === taskDetails);
-        console.log(userList);
+    const updateLocalTaskTitle = (task) => {
+        const userTasks = getLocalTasks();
+        const index = userTasks.findIndex(item => item.task.details === task.task.details);
+        userTasks[index].changeTitle(task);
+        userTasks.splice(userTasks[index], 1, userTasks[index].changeTitle(task));
+        localStorage.setItem('userTasks', JSON.stringify(userTasks));
 
-        userList[index].changeTitle(title);
+        // saveLocalTask(userTasks[index].changeTitle(task));
+
+
     }
 
     const getLocalProjects = () => {
