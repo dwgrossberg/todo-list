@@ -60,11 +60,12 @@ const loadTaskCards = (() => {
         // Setup mutation Observer to watch for changes to Task titles and update the corresponding Task objects
         const taskTitles = Array.from(document.querySelectorAll('[id^="task-title-"]'));
         const config = { characterData: true, childList: true, subtree: true };
+        let taskIndex;
         const callback = function(mutationsList, observer) {
             for (const mutation of mutationsList) {
                 // Find the Task card details to match with the correct Task obj
                 const taskDetails = mutation.target.parentNode.parentNode.parentNode.parentNode.childNodes[2].innerText;
-                const taskIndex = taskMaster.taskList.findIndex(task => task.task.details === taskDetails);
+                taskIndex = taskMaster.taskList.findIndex(task => task.task.details === taskDetails);
                 taskMaster.taskList[taskIndex].changeTitle(mutation.target.textContent);
                 console.log(taskMaster.taskList[taskIndex].task);
                 // Save changes to localStorage

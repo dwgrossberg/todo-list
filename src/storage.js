@@ -24,9 +24,8 @@ const storage = (() => {
 
     const saveLocalTask = (item) => {
         const userTasks = getLocalTasks();
-        if (userTasks.some(task => task.task.title === item.task.title)) {
-            return
-        } else {
+        if (userTasks.some(task => task.task.title === item.task.title && task.task.details === item.task.details)) return;
+        else {
             userTasks.push(item);
             localStorage.setItem('userTasks', JSON.stringify(userTasks));
             console.log(item, userTasks);
@@ -43,11 +42,8 @@ const storage = (() => {
     const updateLocalTaskTitle = (task) => {
         const userTasks = getLocalTasks();
         const index = userTasks.findIndex(item => item.task.details === task.task.details);
-        userTasks[index].changeTitle(task);
-        userTasks.splice(userTasks[index], 1, userTasks[index].changeTitle(task));
+        userTasks[index].task.title = userTasks[index].changeTitle(task.task.title);
         localStorage.setItem('userTasks', JSON.stringify(userTasks));
-
-        // saveLocalTask(userTasks[index].changeTitle(task));
 
 
     }
