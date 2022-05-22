@@ -70,6 +70,8 @@ const displayUI = (() => {
             const task = taskMaster.taskList[taskIndex];
             const taskProject = taskMaster.taskList[taskIndex].task.project;
             taskMaster.taskList[taskIndex].changeTaskProject(taskProject, selectedOption, task);
+            // Update localStorage
+
             console.log(taskMaster.taskList[taskIndex].task);
             loadTaskCards.setSidebarCounters();
             // Display the updated project list
@@ -165,8 +167,10 @@ const displayUI = (() => {
         const taskBins = Array.from(document.querySelectorAll('[id^="task-delete-"]'));
         taskBins.forEach(bin => bin.addEventListener('mousedown', (e) => {
             const taskTitle = e.target.parentNode.parentNode.childNodes[0].childNodes[1].childNodes[1].childNodes[1].innerText;
+            const taskDetails = e.target.parentNode.parentNode.childNodes[0].childNodes[2].innerText;
+            console.log(taskDetails);
             // Find the index of the Task object with the matching title
-            const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
+            const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle && task.task.details === taskDetails);
             // Remove Task DOM object
             e.target.parentNode.parentNode.remove();
             // Save the deleted Task for later use
@@ -339,7 +343,7 @@ const displayUI = (() => {
         deleteProject();
     }
     
-    loadProjects();
+    // loadProjects();
 
     const newProjects =[];
     const addProjectDOM = document.getElementsByClassName('add-project')[0];
@@ -443,12 +447,24 @@ const displayUI = (() => {
             // Run the Home Project on page load (includes all Tasks by default)
             home.style.color = "#d82775";
             home.style.fontWeight = 'bold';
+            // Check for localStorage && load Projects
+            const localProjectList = storage.getLocalProjects();
+            if (localProjectList.length > 0) {
+                // Load stored Projects to the projectList & DOM
+                localProjectList.forEach(project => {
+                    let name = (Object.values(Object.values(project)[0].name)).join('');
+                    taskMaster.createProject(name);
+                });
+                loadProjects();
+            } else {
+                loadProjects();
+            }
             // Check for localStorage && load Tasks
             const localTaskList = storage.getLocalTasks();
             if (localTaskList.length > 0) {
                 // Load stored Tasks to the taskList & DOM
                 localTaskList.forEach(task => {
-                    let args = Object.values(Object.values(task)[0])
+                    let args = Object.values(Object.values(task)[0]);
                     taskMaster.createTask(...args);
                 });
                 taskMaster.dateOrderTaskList(taskMaster.taskList);                

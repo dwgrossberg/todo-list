@@ -30,7 +30,7 @@ const taskMaster = (() => {
         const newTask = Task(...args);
         taskList.push(newTask); //Keep track of all new Tasks in the taskList array
         if (args[0] !== 'Home') { 
-            home.addTask(newTask); //Add all new Tasks to the Home Project by default without duplicating
+            homeProject.addTask(newTask); //Add all new Tasks to the Home Project by default without duplicating
         }
         // Match the arg[0] string with the correct Project object via the name property
         let taskProject = projectList.find(project => project.project.name === args[0]);
@@ -46,12 +46,22 @@ const taskMaster = (() => {
         return taskList;
     }
 
-
     // Default Projects on page load
-    const home = createProject('Home');
-    createProject('Baby');
-    createProject('Study');
-    createProject('Workout');
+    const homeProject = Project('Home');
+    const babyProject = Project('Baby');
+    const studyProject = Project('Study');
+    const workoutProject = Project('Workout');
+
+     // If localStorage is empty, save a copy of the default Projects
+     const storeDefaultProjects = () => {
+        if (storage.getLocalProjects().length === 0) {
+            storage.saveLocalProject(homeProject);
+            storage.saveLocalProject(babyProject);
+            storage.saveLocalProject(studyProject);
+            storage.saveLocalProject(workoutProject);            
+        }
+    }
+    storeDefaultProjects();    
 
     // Default dates
     const date = new Date();
