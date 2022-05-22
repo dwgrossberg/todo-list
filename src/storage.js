@@ -55,19 +55,20 @@ const storage = (() => {
 
     const getLocalProjects = () => {
         const userList = JSON.parse(localStorage.getItem('userProjects', '[]'));
-        // const ProjectObj = Project('home');
+        const ProjectObj = Object.create(Project());
         // Remove name property in order to not overwrite
         // delete ProjectObj.name;   
         // Map other Project Methods to new JSON objects
-        // const userProjects = userList.map(project => {
-            // console.log(project.tasks);
-            // return {...project, ...ProjectObj}
-        // });
-        return userList;
+        const userProjects = userList.map(project => {
+            return {...project, ...ProjectObj}
+        });
+        return userProjects;
     }
 
     const saveLocalProject = (item) => {
-        const userList = JSON.parse(localStorage.getItem('userProjects', '[]'));
+        // const userList = JSON.parse(localStorage.getItem('userProjects', '[]'));
+        const userList = getLocalProjects();
+
         // Ignore duplicate Projects
         if (userList.some(project => project.project.name === item.project.name && project.project.tasks === item.project.tasks)) return;
         else {
@@ -77,13 +78,24 @@ const storage = (() => {
         }
     }
 
+    const removeLocalProject = (item) => {
+        // const userList = JSON.parse(localStorage.getItem('userProjects', '[]'));
+        const userList = getLocalProjects();
+        const index = userList.findIndex(project => project.project.name === item.project.name);
+        userList.splice(index, 1);
+        console.log(userList);
+        localStorage.setItem('userProjects', JSON.stringify(userList));
+    }
+
+
     return {
         getLocalTasks,
         getLocalProjects,
         saveLocalTask,
         removeLocalTask,
         updateLocalTaskTitle,
-        saveLocalProject
+        saveLocalProject,
+        removeLocalProject
     }
 
 })();

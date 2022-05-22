@@ -34,6 +34,12 @@ const taskMaster = (() => {
         }
         // Match the arg[0] string with the correct Project object via the name property
         let taskProject = projectList.find(project => project.project.name === args[0]);
+        projectList.forEach(project => {
+            console.log(project.project.name, args[0]);
+            project.project.name === args[0];
+        });
+
+        // console.log(projectList, taskProject);
         taskProject.addTask(newTask);
 
         return newTask;
@@ -42,12 +48,13 @@ const taskMaster = (() => {
     const removeTask = (index) => {
         const task = taskList.splice(index, 1);
         // Remove Task from localStorage
-        storage.removeLocalTask(task);
+        // storage.removeLocalTask(task);
         return taskList;
     }
 
+    // Home Project 
+    const homeProject = createProject('Home');
     // Default Projects on page load
-    const homeProject = Project('Home');
     const babyProject = Project('Baby');
     const studyProject = Project('Study');
     const workoutProject = Project('Workout');
@@ -55,7 +62,6 @@ const taskMaster = (() => {
      // If localStorage is empty, save a copy of the default Projects
      const storeDefaultProjects = () => {
         if (storage.getLocalProjects().length === 0) {
-            storage.saveLocalProject(homeProject);
             storage.saveLocalProject(babyProject);
             storage.saveLocalProject(studyProject);
             storage.saveLocalProject(workoutProject);            

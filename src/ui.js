@@ -292,9 +292,15 @@ const displayUI = (() => {
             e.target.parentNode.remove();
             // Save the deleted Project for later use
             deletedItems.push(taskMaster.projectList[projectIndex]);
-            // Remove the Task objects related to that Project from the taskList
+            // Remove the Project from localStorage
+            storage.removeLocalProject(taskMaster.projectList[projectIndex]);
+            // ---Remove relevant Project Tasks from localStorage
             const projectTasks = taskMaster.projectList[projectIndex].project.tasks;
             console.log(projectTasks);
+            projectTasks.forEach(task => {
+                storage.removeLocalTask(task);
+            });
+            // Remove the Task objects related to that Project from the taskList
             projectTasks.forEach(task => {taskMaster.removeTask(taskMaster.taskList.indexOf(task))});
             // Remove the Project object from the taskMasker.projectList
             taskMaster.removeProject(projectIndex);
@@ -403,7 +409,6 @@ const displayUI = (() => {
                 displayController('newProject');
                 // Display the restored Project
                 tabController(`Project-${undoItem.project.name}`);
-                // deletedItems = [];
             }
         }
     }
@@ -453,11 +458,16 @@ const displayUI = (() => {
                 // Load stored Projects to the projectList & DOM
                 localProjectList.forEach(project => {
                     let name = (Object.values(Object.values(project)[0].name)).join('');
+                    console.log(name, project);
                     taskMaster.createProject(name);
                 });
                 loadProjects();
+            console.log(taskMaster.projectList);
+
             } else {
                 loadProjects();
+            console.log(taskMaster.projectList);
+
             }
             // Check for localStorage && load Tasks
             const localTaskList = storage.getLocalTasks();
