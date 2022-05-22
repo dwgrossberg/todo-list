@@ -42,6 +42,8 @@ const displayUI = (() => {
             console.log(taskMaster.taskList[taskIndex].task);
             if (e.target.checked) {                
                 taskMaster.taskList[taskIndex].changeCompleteStatus(true);
+                // Update localStorage
+                storage.updateLocalTaskCompleteStatus(taskMaster.taskList[taskIndex], true);
                 // Move completed Task to end of the list
                 taskMaster.taskList.push(taskMaster.taskList.splice(taskIndex, 1)[0]);
                 removeDOMContent(taskContent);
@@ -49,6 +51,8 @@ const displayUI = (() => {
                 runDOMTaskFunctions();
             } else {
                 taskMaster.taskList[taskIndex].changeCompleteStatus(false);
+                // Update localStorage
+                storage.updateLocalTaskCompleteStatus(taskMaster.taskList[taskIndex], false);
                 // Rerun dateOrderTaskList to reintegrate uncompleted Task into the normal flow
                 taskMaster.dateOrderTaskList();
                 removeDOMContent(taskContent);
@@ -71,7 +75,7 @@ const displayUI = (() => {
             const taskProject = taskMaster.taskList[taskIndex].task.project;
             taskMaster.taskList[taskIndex].changeTaskProject(taskProject, selectedOption, task);
             // Update localStorage
-
+            storage.updateLocalTaskProject(selectedOption, task);
             console.log(taskMaster.taskList[taskIndex].task);
             loadTaskCards.setSidebarCounters();
             // Display the updated project list
@@ -91,6 +95,8 @@ const displayUI = (() => {
             // Update the Task object dueDate
             taskMaster.taskList[taskIndex].changeDueDate(newDateFormatted);
             console.log(taskMaster.taskList[taskIndex].task);
+            // Update localStorage
+            storage.updateLocalTaskDueDate(taskMaster.taskList[taskIndex]);
             // Reorder the taskList according to new dates
             taskMaster.dateOrderTaskList();
             // Clear the task-content DOM section
@@ -113,6 +119,8 @@ const displayUI = (() => {
             const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
             const oldPriority = taskMaster.taskList[taskIndex].task.priority;
             taskMaster.taskList[taskIndex].changePriority(e.target.value);
+            // Update localStorage
+            storage.updateLocalTaskPriority(taskMaster.taskList[taskIndex]);
             console.log(taskMaster.taskList[taskIndex].task);
             // change css priority labels
             taskCard.classList.remove(`${oldPriority}`);
@@ -274,6 +282,7 @@ const displayUI = (() => {
                 loadTaskCards.run(taskMaster.taskList);
                 runDOMTaskFunctions();
                 tabController(mutation.target.textContent);
+
             }
         }
         const observer = new MutationObserver(callback);
@@ -294,7 +303,7 @@ const displayUI = (() => {
             deletedItems.push(taskMaster.projectList[projectIndex]);
             // Remove the Project from localStorage
             storage.removeLocalProject(taskMaster.projectList[projectIndex]);
-            // ---Remove relevant Project Tasks from localStorage
+            // Remove relevant Project Tasks from localStorage
             const projectTasks = taskMaster.projectList[projectIndex].project.tasks;
             console.log(projectTasks);
             projectTasks.forEach(task => {

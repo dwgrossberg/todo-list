@@ -23,6 +23,10 @@ const Task = (project, title, dueDate, priority, details, complete) => {
         return task.project = newProject;
     }
 
+    const changeProject = (project) => {
+        return task.project = project;
+    }
+
     const changeTitle = (title) => {
         return task.title = title;
     }
@@ -47,6 +51,7 @@ const Task = (project, title, dueDate, priority, details, complete) => {
         task,
         type,
         changeTaskProject,
+        changeProject,
         changeTitle,
         changeDueDate,
         changePriority,

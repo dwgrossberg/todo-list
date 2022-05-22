@@ -87,6 +87,8 @@ const loadTaskCards = (() => {
                 const taskIndex = taskMaster.taskList.findIndex(task => task.task.title === taskTitle);
                 taskMaster.taskList[taskIndex].changeDetails(mutation.target.textContent);
                 console.log(taskMaster.taskList[taskIndex].task);
+                // Save changes to localStorage
+                storage.updateLocalTaskDetails(taskMaster.taskList[taskIndex]);
             }
         }
         const observer = new MutationObserver(callback);
