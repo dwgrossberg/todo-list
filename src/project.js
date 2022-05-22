@@ -15,12 +15,15 @@ const Project = (name) => {
     }
 
     const updateTaskProjectNames = (oldName, newName) => {
-        console.log(oldName, newName);
         taskMaster.taskList.forEach(task => {
             if (task.task.project === oldName) {
                 task.task.project = newName;
             }
         });
+    }
+
+    const changeLocalName = (name) => {
+        project.name = name;
     }
 
     const addTask = (task) => {
@@ -37,6 +40,7 @@ const Project = (name) => {
         project,
         type,
         changeName,
+        changeLocalName,
         addTask,
         delTask
     }

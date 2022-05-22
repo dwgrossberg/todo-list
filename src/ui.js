@@ -274,9 +274,10 @@ const displayUI = (() => {
                 // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
                 const projectIndex = (/(?<=([^-]*-){2}).*/.exec(mutation.target.parentNode.parentNode.id)[0]);
                 const oldProjectName = taskMaster.projectList[projectIndex].project.name;
-                console.log(projectIndex);
                 taskMaster.projectList[projectIndex].changeName(oldProjectName, mutation.target.textContent);
                 console.log(taskMaster.projectList[projectIndex].project);
+                // Update localStorage
+                storage.updateLocalProjectName(oldProjectName, mutation.target.textContent);
                 // Reload the Task cards to show the updated Project
                 removeDOMContent(taskContent);
                 loadTaskCards.run(taskMaster.taskList);
@@ -364,11 +365,12 @@ const displayUI = (() => {
     const addProjectDOM = document.getElementsByClassName('add-project')[0];
     const addProject = (e) => {
         newProjects.push('project');
-        taskMaster.createProject(`Project-${newProjects.length}`);
+        let createProject = taskMaster.createProject(`Project-${newProjects.length}`);
+        // Save to localStorage
+        storage.saveLocalProject(createProject);
         removeDOMContent(projectsSidebar);
         loadProjects();
         const editProject = document.getElementById(`edit-${taskMaster.projectList.length - 1}`);
-        console.log(editProject);
         if (document.createEvent) {
             editProject.dispatchEvent(new Event('mousedown'));
         }
@@ -467,16 +469,11 @@ const displayUI = (() => {
                 // Load stored Projects to the projectList & DOM
                 localProjectList.forEach(project => {
                     let name = (Object.values(Object.values(project)[0].name)).join('');
-                    console.log(name, project);
                     taskMaster.createProject(name);
                 });
                 loadProjects();
-            console.log(taskMaster.projectList);
-
             } else {
                 loadProjects();
-            console.log(taskMaster.projectList);
-
             }
             // Check for localStorage && load Tasks
             const localTaskList = storage.getLocalTasks();
@@ -493,6 +490,7 @@ const displayUI = (() => {
             }
             runDOMTaskFunctions();
         }
+
         // Home
         home.addEventListener('mousedown', (e) => {
             today.style.color = '';

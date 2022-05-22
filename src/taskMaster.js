@@ -36,7 +36,6 @@ const taskMaster = (() => {
         let taskProject = projectList.find(project => project.project.name === args[0]);
         // console.log(projectList, taskProject);
         taskProject.addTask(newTask);
-
         return newTask;
     }   
 
