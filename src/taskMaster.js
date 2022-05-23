@@ -36,12 +36,15 @@ const taskMaster = (() => {
       (project) => project.project.name === args[0]
     );
     // console.log(projectList, taskProject);
+    console.log(newTask);
     taskProject.addTask(newTask);
     return newTask;
   };
 
   const removeTask = (index) => {
     taskList.splice(index, 1);
+    // Remove Task from localStorage
+    // storage.removeLocalTask(task);
     return taskList;
   };
 
@@ -106,12 +109,37 @@ const taskMaster = (() => {
   // If localStorage is empty, save a copy of the default Tasks
   const storeDefaultTasks = () => {
     if (storage.getLocalTasks().length === 0) {
-      storage.saveLocalTask(workoutTask);
-      storage.saveLocalTask(studyTask);
-      storage.saveLocalTask(babyTask);
-      storage.saveLocalTask(homeTask);
+      if (
+        storage
+          .getLocalProjects()
+          .filter((project) => project.project.name === "Home").length > 0
+      ) {
+        storage.saveLocalTask(homeTask);
+      }
+      if (
+        storage
+          .getLocalProjects()
+          .filter((project) => project.project.name === "Workout").length > 0
+      ) {
+        storage.saveLocalTask(workoutTask);
+      }
+      if (
+        storage
+          .getLocalProjects()
+          .filter((project) => project.project.name === "Baby").length > 0
+      ) {
+        storage.saveLocalTask(babyTask);
+      }
+      if (
+        storage
+          .getLocalProjects()
+          .filter((project) => project.project.name === "Baby").length > 0
+      ) {
+        storage.saveLocalTask(studyTask);
+      }
     }
   };
+
   storeDefaultTasks();
 
   // Sort the taskList so that it is ordered by date, with completed Tasks staying at the end of the array

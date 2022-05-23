@@ -252,7 +252,7 @@ const displayUI = (() => {
         // Remove Task from localStorage
         storage.removeLocalTask(taskMaster.taskList[taskIndex]);
         // Remove the Task object from the taskMasker.taskList -- unnecessary with localStorage
-        // taskMaster.removeTask(taskIndex);
+        taskMaster.removeTask(taskIndex);
         loadTaskCards.setSidebarCounters();
       })
     );
@@ -518,7 +518,6 @@ const displayUI = (() => {
       undoDOM.style.transition = "transform 0.3s ease-in-out";
       undoDOM.style.transform = "rotate(-360deg)";
       const undoItem = deletedItems.pop();
-      // deletedItems.splice(deletedItems - 1, 1);
       console.log(deletedItems, undoItem);
       if (undoItem.type === "task") {
         taskMaster.taskList.push(undoItem);

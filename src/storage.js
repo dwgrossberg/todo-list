@@ -30,7 +30,8 @@ const storage = (() => {
     const index = userTasks.findIndex(
       (task) =>
         task.task.title === item.task.title &&
-        task.task.details === item.task.details
+        task.task.details === item.task.details &&
+        task.task.project === item.task.project
     );
     userTasks.splice(index, 1);
     localStorage.setItem("userTasks", JSON.stringify(userTasks));

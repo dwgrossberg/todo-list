@@ -1,13 +1,12 @@
-import favicon from './assets/favicon.ico';
+import favicon from "./assets/favicon.ico";
 
 const loadHome = (() => {
-    
-    // Set favicon icon
-    const faviconDOM = document.querySelector('link[rel~="icon"]');
-    faviconDOM.href = favicon;
-    // Basic html setup for toDo notes
-    const content = document.getElementById('content');
-    content.innerHTML = `
+  // Set favicon icon
+  const faviconDOM = document.querySelector('link[rel~="icon"]');
+  faviconDOM.href = favicon;
+  // Basic html setup for toDo notes
+  const content = document.getElementById("content");
+  content.innerHTML = `
     <div class="header">
         <div class="header-left">
             <div class="icon"></div>
@@ -58,10 +57,9 @@ const loadHome = (() => {
             </a>
             <p>Made by Dan Grossberg</p>
         </div>
-    </div>`
+    </div>`;
 
-    return {}
-
+  return {};
 })();
 
 export default loadHome;
