@@ -61,7 +61,7 @@ const loadTaskCards = (() => {
         const taskTitles = Array.from(document.querySelectorAll('[id^="task-title-"]'));
         const config = { characterData: true, childList: true, subtree: true };
         let taskIndex;
-        const callback = function(mutationsList, observer) {
+        const callback = function(mutationsList) {
             for (const mutation of mutationsList) {
                 // Find the Task card details to match with the correct Task obj
                 const taskDetails = mutation.target.parentNode.parentNode.parentNode.parentNode.childNodes[2].innerText;
@@ -80,7 +80,7 @@ const loadTaskCards = (() => {
         // Setup mutation Observer to watch for changes to Task titles and update the corresponding Task objects
         const taskDetails = Array.from(document.querySelectorAll('[id^="task-details-"]'));
         const config = { characterData: true, childList: true, subtree: true };
-        const callback = function(mutationsList, observer) {
+        const callback = function(mutationsList) {
             for (const mutation of mutationsList) {
                 // Find the Task card title to match with the correct Task obj
                 const taskTitle = mutation.target.parentNode.parentNode.childNodes[1].childNodes[1].childNodes[1].innerText;

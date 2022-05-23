@@ -40,9 +40,7 @@ const taskMaster = (() => {
     }   
 
     const removeTask = (index) => {
-        const task = taskList.splice(index, 1);
-        // Remove Task from localStorage
-        // storage.removeLocalTask(task);
+        taskList.splice(index, 1);
         return taskList;
     }
 

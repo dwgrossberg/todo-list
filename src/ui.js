@@ -263,7 +263,7 @@ const displayUI = (() => {
          // Setup mutation Observer to watch for changes to Project names and update the corresponding Project objects
         const projectNames = Array.from(document.querySelectorAll('span[id^="Project-"]'));
         const config = { characterData: true, childList: true, subtree: true };
-        const callback = function(mutationsList, observer) {
+        const callback = function(mutationsList) {
             for (const mutation of mutationsList) {
                 // Keep track of mutated DOM element and text content
                 const projectElem = mutation.target.parentNode;
@@ -363,7 +363,7 @@ const displayUI = (() => {
 
     const newProjects =[];
     const addProjectDOM = document.getElementsByClassName('add-project')[0];
-    const addProject = (e) => {
+    const addProject = () => {
         newProjects.push('project');
         let createProject = taskMaster.createProject(`Project-${newProjects.length}`);
         // Save to localStorage
@@ -489,7 +489,7 @@ const displayUI = (() => {
         }
 
         // Home
-        home.addEventListener('mousedown', (e) => {
+        home.addEventListener('mousedown', () => {
             today.style.color = '';
             today.style.fontWeight = '';
             next7Days.style.color = '';
@@ -508,12 +508,12 @@ const displayUI = (() => {
 
         // Today    
         let todayTasks = [];    
-        today.addEventListener('mousedown', (e) => {
+        today.addEventListener('mousedown', () => {
             todayTasks = [];
             taskMaster.taskList.forEach(task => {
-                if (loadTaskCards.isToday(task.task.dueDate) && !todayTasks.includes(task)) {;
+                if (loadTaskCards.isToday(task.task.dueDate) && !todayTasks.includes(task)) {
                     todayTasks.push(task);
-                } ;
+                }
             });
             // Set sidebar styles && reload Tasks
             home.style.color = '';
@@ -533,12 +533,12 @@ const displayUI = (() => {
 
         // Next 7 Days
         let next7DaysTasks = [];
-        next7Days.addEventListener('mousedown', (e) => {
+        next7Days.addEventListener('mousedown', () => {
             next7DaysTasks = [];
             taskMaster.taskList.forEach(task => {
                 if (loadTaskCards.isNextWeek(task.task.dueDate)) {
                     next7DaysTasks.push(task);
-                } ;
+                }
             });
             // Set sidebar styles && reload Tasks
             home.style.color = '';
