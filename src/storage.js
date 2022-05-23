@@ -33,7 +33,7 @@ const storage = (() => {
         const userTasks = JSON.parse(localStorage.getItem('userTasks', '[]'));
         const index = userTasks.findIndex(task => task.task.title === item.task.title && task.task.details === item.task.details);
         userTasks.splice(index, 1);
-        localStorage.setItem('userTasks', JSON.stringify(useruserTasksList));
+        localStorage.setItem('userTasks', JSON.stringify(userTasks));
     }
 
     const updateLocalTaskProject = (projectName, item) => {
@@ -80,12 +80,7 @@ const storage = (() => {
 
     const getLocalProjects = () => {
         const userList = JSON.parse(localStorage.getItem('userProjects', '[]'));
-        const ProjectObj = Object.create(Project());
-        // Map other Project Methods to new JSON objects
-        const userProjects = userList.map(project => {
-            return {...project, ...ProjectObj}
-        });
-        return userProjects;
+        return userList;
     }
 
     const saveLocalProject = (item) => {
@@ -115,6 +110,7 @@ const storage = (() => {
             userProjects[index].changeLocalName(newName);
             localStorage.setItem('userProjects', JSON.stringify(userProjects));
         }
+        // Update localStorage Tasks as well
         const userTasks = getLocalTasks();
         userTasks.forEach(task => {
             if (task.task.project === oldName) {

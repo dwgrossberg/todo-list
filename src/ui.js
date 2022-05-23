@@ -370,6 +370,7 @@ const displayUI = (() => {
         storage.saveLocalProject(createProject);
         removeDOMContent(projectsSidebar);
         loadProjects();
+        loadTaskCards.setSidebarCounters();
         const editProject = document.getElementById(`edit-${taskMaster.projectList.length - 1}`);
         if (document.createEvent) {
             editProject.dispatchEvent(new Event('mousedown'));
@@ -458,23 +459,19 @@ const displayUI = (() => {
     // displayController handles the running of the different sidebar tabs
     const displayController = (newProject) => {
 
-        let projects = document.querySelectorAll('[id^="Project-"]');
         if (newProject !== 'newProject') {
             // Run the Home Project on page load (includes all Tasks by default)
             home.style.color = "#d82775";
             home.style.fontWeight = 'bold';
             // Check for localStorage && load Projects
             const localProjectList = storage.getLocalProjects();
-            if (localProjectList.length > 0) {
-                // Load stored Projects to the projectList & DOM
-                localProjectList.forEach(project => {
-                    let name = (Object.values(Object.values(project)[0].name)).join('');
-                    taskMaster.createProject(name);
-                });
-                loadProjects();
-            } else {
-                loadProjects();
-            }
+            // Load stored Projects to the projectList & DOM
+            localProjectList.forEach(project => {
+                let name = Object.values(project)[0].name;
+                taskMaster.createProject(name);
+            });
+            loadProjects();
+            console.log(localProjectList);
             // Check for localStorage && load Tasks
             const localTaskList = storage.getLocalTasks();
             if (localTaskList.length > 0) {
@@ -560,6 +557,7 @@ const displayUI = (() => {
         });
 
         // Projects
+        let projects = document.querySelectorAll('[id^="Project-"]');
         let projectTasks = [];
         projects.forEach(project => project.addEventListener('mousedown', (e) => {
             if (e.target.innerText === 'Home' || e.target.classList[0] === 'home-icon' || e.target.id === 'Project-Home') return;
