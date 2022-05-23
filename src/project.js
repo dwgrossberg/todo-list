@@ -31,7 +31,7 @@ const Project = (name) => {
   };
 
   const delTask = (title) => {
-    let oldTask = project.tasks.splice(
+    const oldTask = project.tasks.splice(
       project.tasks.findIndex((task) => task.title === title),
       1
     );

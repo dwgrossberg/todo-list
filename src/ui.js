@@ -239,7 +239,6 @@ const displayUI = (() => {
             .childNodes[1].childNodes[1].innerText;
         const taskDetails =
           e.target.parentNode.parentNode.childNodes[0].childNodes[2].innerText;
-        console.log(taskDetails);
         // Find the index of the Task object with the matching title
         const taskIndex = taskMaster.taskList.findIndex(
           (task) =>
@@ -251,6 +250,14 @@ const displayUI = (() => {
         deletedItems.push(taskMaster.taskList[taskIndex]);
         // Remove Task from localStorage
         storage.removeLocalTask(taskMaster.taskList[taskIndex]);
+        // Remove Tasks from appropriate Project Objects
+        const projectIndex = taskMaster.projectList.findIndex(
+          (project) =>
+            project.project.name === taskMaster.taskList[taskIndex].task.project
+        );
+        taskMaster.projectList[projectIndex].delTask(
+          taskMaster.taskList[taskIndex]
+        );
         // Remove the Task object from the taskMasker.taskList -- unnecessary with localStorage
         taskMaster.removeTask(taskIndex);
         loadTaskCards.setSidebarCounters();
@@ -591,7 +598,6 @@ const displayUI = (() => {
         taskMaster.createProject(name);
       });
       loadProjects();
-      console.log(localProjectList);
       // Check for localStorage && load Tasks
       const localTaskList = storage.getLocalTasks();
       if (localTaskList.length > 0) {
