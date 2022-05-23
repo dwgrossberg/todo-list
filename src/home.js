@@ -10,7 +10,7 @@ const loadHome = (() => {
     <div class="header">
         <div class="header-left">
             <div class="icon"></div>
-            <h1>toDo notes</h1>
+            <h1>toDo lists</h1>
         </div>
         <div class="header-right">
             <div id="undo"></div>

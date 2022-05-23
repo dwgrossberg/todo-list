@@ -365,10 +365,12 @@ const displayUI = (() => {
           "id",
           `project-counter-${mutation.target.textContent}`
         );
-        // Regex parse string to get final id # - corresponds with Task array index in taskMaster.taskList
-        const projectIndex = /(?<=([^-]*-){2}).*/.exec(
-          mutation.target.parentNode.parentNode.id
-        )[0];
+        console.log(mutation.target.parentNode.parentNode.id);
+        const projectIndex = taskMaster.projectList.findIndex(
+          (project) =>
+            `project-origName-${project.project.origName}` ===
+            mutation.target.parentNode.parentNode.id
+        );
         const oldProjectName =
           taskMaster.projectList[projectIndex].project.name;
         taskMaster.projectList[projectIndex].changeName(
@@ -444,7 +446,7 @@ const displayUI = (() => {
         // Set index use for later use
         projectDiv.setAttribute(
           "id",
-          `project-index-${taskMaster.projectList.indexOf(project)}`
+          `project-origName-${project.project.origName}`
         );
         const counterDiv = document.createElement("div");
         counterDiv.setAttribute(
@@ -481,13 +483,22 @@ const displayUI = (() => {
   };
 
   // loadProjects();
-
   const newProjects = [];
   const addProjectDOM = document.getElementsByClassName("add-project")[0];
   const addProject = () => {
+    const projectNumber = () => {
+      let number = storage.getLocalProjects().length;
+      taskMaster.projectList.forEach((project) => {
+        if (project.project.name === `Project-${number}`) {
+          number += 1;
+        }
+      });
+      return number;
+    };
     newProjects.push("project");
-    let createProject = taskMaster.createProject(
-      `Project-${newProjects.length}`
+    const thisProjectNumber = projectNumber();
+    const createProject = taskMaster.createProject(
+      `Project-${thisProjectNumber}`
     );
     // Save to localStorage
     storage.saveLocalProject(createProject);
@@ -504,7 +515,7 @@ const displayUI = (() => {
     // Display the new Project
     if (document.createEvent) {
       document
-        .getElementById(`Project-Project-${newProjects.length}`)
+        .getElementById(`Project-Project-${thisProjectNumber}`)
         .dispatchEvent(new Event("mousedown"));
     }
     // Add a blank Task card

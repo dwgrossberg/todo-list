@@ -3,6 +3,7 @@ import taskMaster from "./taskMaster.js";
 const Project = (name) => {
   const project = {
     name: name || "",
+    origName: name,
     tasks: [],
   };
 
