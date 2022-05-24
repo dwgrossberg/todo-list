@@ -11,7 +11,7 @@ A simple [toDo List App](https://github.com/dwgrossberg/todo-list) built using v
 - Fully customisable task cards allow users to easily modify each task's title, details, dueDate, priority, and completion status
   ![taskTitle](src/assets/taskTitle.png)
   ![taskDetails](src/assets/taskDetails.png)
-  ![taskDueDate](src/assets/taskDueDate.png)
+  ![taskDueDate](src/assets/taskDate.png)
 
 - Task cards automatically sort by dueDate
 
@@ -24,7 +24,7 @@ A simple [toDo List App](https://github.com/dwgrossberg/todo-list) built using v
 - An undo button that restores deleted tasks and projects
   ![taskComplete](src/assets/undoSearch.png)
 
-- Keeps track of each user's tasks and projects with `localStorage`
+- Keeps track of each user's tasks and projects with HTML 5's built-in `localStorage`
   ![taskComplete](src/assets/localStorage.png)
 
 ---
@@ -41,4 +41,4 @@ A simple [toDo List App](https://github.com/dwgrossberg/todo-list) built using v
 
 Built as part of the open-source [Odin Project](https://www.theodinproject.com/) curriculum
 
-Icon image credit: flaticon
+Icon image credit: [flaticon](https://www.flaticon.com/)
