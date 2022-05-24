@@ -274,13 +274,13 @@ const displayUI = (() => {
     deleteTask();
   };
 
-  const addTaskList = [];
   const addTaskDOM = document.getElementById("add-task");
   const addTask = (e) => {
     const taskNumber = () => {
-      let number = addTaskList.length;
+      let number = storage.getLocalTasks().length + 1;
       taskMaster.taskList.forEach((task) => {
         if (task.task.title === `newTask ${number}`) {
+          console.log(task);
           number += 1;
         }
       });
@@ -294,8 +294,6 @@ const displayUI = (() => {
         projectName = projectSpan.textContent;
       }
     });
-    // Keep track of the number of new tasks
-    addTaskList.push("task");
     // Create a 'blank' Task card for the user to fill in
     let newTask = taskMaster.createTask(
       `${projectName}`,
@@ -492,7 +490,6 @@ const displayUI = (() => {
   };
 
   // loadProjects();
-  const newProjects = [];
   const addProjectDOM = document.getElementsByClassName("add-project")[0];
   const addProject = () => {
     const projectNumber = () => {
@@ -507,7 +504,6 @@ const displayUI = (() => {
       });
       return number;
     };
-    newProjects.push("project");
     const thisProjectNumber = projectNumber();
     const createProject = taskMaster.createProject(
       `Project-${thisProjectNumber}`
