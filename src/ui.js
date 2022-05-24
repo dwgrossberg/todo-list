@@ -277,6 +277,15 @@ const displayUI = (() => {
   const addTaskList = [];
   const addTaskDOM = document.getElementById("add-task");
   const addTask = (e) => {
+    const taskNumber = () => {
+      let number = addTaskList.length;
+      taskMaster.taskList.forEach((task) => {
+        if (task.task.title === `newTask ${number}`) {
+          number += 1;
+        }
+      });
+      return number;
+    };
     const projects = Array.from(e.target.parentNode.childNodes[9].childNodes);
     let projectName = "Home";
     projects.forEach((project) => {
@@ -290,7 +299,7 @@ const displayUI = (() => {
     // Create a 'blank' Task card for the user to fill in
     let newTask = taskMaster.createTask(
       `${projectName}`,
-      `newTask ${addTaskList.length}`,
+      `newTask ${taskNumber()}`,
       new Date(Date.now()),
       "none",
       "taskDetails",
@@ -489,7 +498,10 @@ const displayUI = (() => {
     const projectNumber = () => {
       let number = storage.getLocalProjects().length;
       taskMaster.projectList.forEach((project) => {
-        if (project.project.name === `Project-${number}`) {
+        if (
+          project.project.name === `Project-${number}` ||
+          project.project.origName === `Project-${number}`
+        ) {
           number += 1;
         }
       });
