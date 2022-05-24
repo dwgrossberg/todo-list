@@ -7,8 +7,6 @@ A simple [toDo List App](https://github.com/dwgrossberg/todo-list) built using v
 ## Key Features :
 
 - Simple to use: add a task or a project with only one-click
-  ![addTask](src/assets/addTask.png)
-  ![addProject](src/assets/addProject.png)
 
 - Fully customisable task cards allow users to easily modify each task's title, details, dueDate, priority, and completion status
   ![taskTitle](src/assets/taskTitle.png)
