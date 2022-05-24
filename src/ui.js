@@ -126,22 +126,25 @@ const displayUI = (() => {
           (task) => task.task.title === taskTitle
         );
         const taskProject = taskMaster.taskList[taskIndex].task.project;
-        const newDateFormatted = new Date(e.target.value);
-        // Update the Task object dueDate
-        taskMaster.taskList[taskIndex].changeDueDate(newDateFormatted);
-        console.log(taskMaster.taskList[taskIndex].task);
-        // Update localStorage
-        storage.updateLocalTaskDueDate(taskMaster.taskList[taskIndex]);
-        // Reorder the taskList according to new dates
-        taskMaster.dateOrderTaskList();
-        // Clear the task-content DOM section
-        removeDOMContent(taskContent);
-        // Reload the newly sorted task cards
-        loadTaskCards.run(taskMaster.taskList);
-        // Re-attach event listener functions to Task DOM objects
-        runDOMTaskFunctions();
-        // Display to the updated project list, unless the user is already on Home / Today /Next7Days tab
-        tabController(taskProject);
+        console.log(e.target.value);
+        if (e.target.value !== "") {
+          const newDateFormatted = new Date(e.target.value);
+          // Update the Task object dueDate
+          taskMaster.taskList[taskIndex].changeDueDate(newDateFormatted);
+          console.log(taskMaster.taskList[taskIndex].task);
+          // Update localStorage
+          storage.updateLocalTaskDueDate(taskMaster.taskList[taskIndex]);
+          // Reorder the taskList according to new dates
+          taskMaster.dateOrderTaskList();
+          // Clear the task-content DOM section
+          removeDOMContent(taskContent);
+          // Reload the newly sorted task cards
+          loadTaskCards.run(taskMaster.taskList);
+          // Re-attach event listener functions to Task DOM objects
+          runDOMTaskFunctions();
+          // Display to the updated project list, unless the user is already on Home / Today /Next7Days tab
+          tabController(taskProject);
+        }
       })
     );
   };

@@ -10,12 +10,13 @@ A simple [toDo List App](https://github.com/dwgrossberg/todo-list) built using v
 
 - Fully customisable task cards allow users to easily modify each task's title, details, dueDate, priority, and completion status
   ![taskTitle](src/assets/taskTitle.png)
-  ![taskTitle](src/assets/taskLong.png)
+  ![taskDetails](src/assets/taskDetails.png)
+  ![taskDueDate](src/assets/taskDueDate.png)
 
 - Task cards automatically sort by dueDate
 
 - Completed tasks are moved to the bottom of their respective list for visual clarity, regardless of dueDate
-  ![taskComplete](src/assets/taskComplete.png)
+  ![taskComplete](src/assets/taskCompleteDate.png)
 
 - Filter tasks by dueDate or project name, or search for tasks directly in the searchbar
   ![taskComplete](src/assets/taskSearch.png)
