@@ -1,0 +1,974 @@
+:root {
+  --main-color: #5f0f40;
+  --accent-color: #d82775;
+}
+
+@font-face {
+  font-family: "retroFunks";
+  src: url("./assets/Retrofunkscriptpersonaluse-v6XO.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("./assets/Lato-Regular.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("./assets/Lato-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: bold;
+}
+
+/* Body */
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  overflow-x: hidden;
+}
+
+#content {
+  display: grid;
+  grid-template: 100px 1fr 50px / minmax(250px, 25%) 1fr;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+/* Header */
+
+.header {
+  grid-area: 1 / 1 / 2 / 3;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  background-color: var(--main-color);
+  align-items: center;
+  padding-left: 50px;
+  position: fixed;
+  height: 100px;
+  width: 100%;
+  z-index: 10;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon {
+  height: 60px;
+  width: 60px;
+  background-image: url("./assets/list.png");
+  background-size: 100%;
+}
+
+.header h1 {
+  font-family: "retroFunks", cursive;
+  font-size: 32px;
+  color: ghostwhite;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-right: 20px;
+  gap: 20px;
+}
+
+input[type="search"] {
+  padding: 3px 7px;
+  border-radius: 5px;
+  position: relative;
+  background-color: ghostwhite;
+  font-family: "Lato", sans-serif;
+  font-size: 12px;
+  width: 190px;
+  height: 25px;
+  border: none;
+}
+
+input[type="search"]:hover {
+  outline: 3px solid var(--accent-color);
+}
+
+input[type="search"]:focus {
+  outline: 2px solid var(--accent-color);
+}
+
+button {
+  position: absolute;
+  right: 23px;
+  background-image: url("./assets/search.png");
+  background-size: 100%;
+  background-position: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: ghostwhite;
+  z-index: 1;
+}
+
+button:hover + input[type="search"] {
+  outline: 3px solid var(--accent-color);
+}
+
+#undo {
+  width: 20px;
+  height: 20px;
+  background-image: url("./assets/undo.png");
+  background-size: 100%;
+  position: relative;
+}
+
+#undo:hover {
+  background-image: url("./assets/undopink.png");
+  cursor: pointer;
+}
+
+#undo:hover::after {
+  position: absolute;
+  content: "undo delete";
+  left: -30px;
+  top: -35px;
+  width: 60px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 10px;
+  background-color: #e0e0e0;
+  color: var(--main-color);
+  text-align: center;
+}
+
+/* Sidebar */
+
+.sidebar {
+  grid-area: 2 / 1 / 3 / 2;
+  background-color: #e0e0e0;
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 35px;
+  padding-left: 20px;
+  padding-right: 10px;
+  font-size: 13px;
+  position: fixed;
+  min-width: 250px;
+  width: 100%;
+  max-width: 25%;
+  height: calc(100vh - 150px);
+  top: 100px;
+  border-right: 0.5px solid var(--accent-color);
+  overflow-y: auto;
+  overflow-x: auto;
+  z-index: 100;
+}
+
+#Project-Home,
+#today,
+#next-seven-days,
+#projects {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#Project-Home:hover,
+#today:hover,
+#next-seven-days:hover,
+#project-sidebar-list div:hover {
+  cursor: pointer;
+  color: var(--accent-color);
+}
+
+#project-counter-Home,
+#today-counter,
+#next-seven-days-counter,
+[id^="project-counter"],
+#projects-counter {
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  margin-right: -5px;
+}
+
+.home-icon,
+.today-icon,
+.next-seven-days-icon,
+.projects-icon {
+  height: 20px;
+  width: 20px;
+}
+
+.home-icon {
+  background-image: url("./assets/home.png");
+  background-size: 100%;
+}
+
+.today-icon {
+  background-image: url("./assets/today.png");
+  background-size: 100%;
+}
+
+.next-seven-days-icon {
+  background-image: url("./assets/week.png");
+  background-size: 100%;
+}
+
+.projects-icon {
+  background-image: url("./assets/projects.png");
+  background-size: 100%;
+}
+
+#project-sidebar-list {
+  margin-top: -15px;
+  padding-left: 30px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#project-sidebar-list div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.project-name {
+  padding: 5px;
+  max-width: 55%;
+  word-break: break-all;
+  white-space: normal;
+}
+
+.project-icon {
+  display: flex;
+  gap: 20px;
+  background-image: url("./assets/project.png");
+  background-size: 100%;
+  width: 15px;
+  height: 15px;
+}
+
+.delete-project {
+  background-image: url("./assets/close.png");
+  background-size: 50%;
+}
+
+.edit-project {
+  background-image: url("./assets/edit.png");
+  background-size: 90%;
+}
+
+.set-project {
+  background-image: url("./assets/set.png");
+  background-size: 60%;
+}
+
+.delete-project,
+.edit-project,
+.set-project,
+.add-project {
+  background-repeat: no-repeat;
+  background-position: center;
+  align-self: center;
+  height: 13px;
+  width: 13px;
+  right: 40px;
+  border-radius: 50%;
+  background-color: grey;
+  justify-content: center;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.add-project {
+  background-image: url("./assets/add-project.png");
+  background-size: 60%;
+  height: 17px;
+  width: 17px;
+}
+
+.delete-project:hover,
+.edit-project:hover,
+.set-project:hover,
+.add-project:hover {
+  background-color: var(--accent-color);
+  transform: scale(1.15);
+}
+
+.delete-project:hover::after {
+  content: "delete";
+  width: 30px;
+}
+
+.edit-project:hover::after {
+  content: "edit";
+  width: 20px;
+}
+
+.set-project:hover::after {
+  content: "set";
+  width: 15px;
+}
+
+.delete-project:hover::after,
+.edit-project:hover::after,
+.set-project:hover::after,
+.project-editable:hover::after,
+.add-project:hover::after {
+  position: absolute;
+  left: -10px;
+  top: -30px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 10px;
+  background-color: var(--main-color);
+  color: #e0e0e0;
+  text-align: center;
+  transform: scale(0.8);
+}
+
+.add-project:hover::after {
+  content: "add project";
+  width: 50px;
+  top: -6px;
+  left: 20px;
+}
+
+.project-editable:hover::after {
+  content: "rename";
+  width: 35px;
+  top: -2px;
+  left: -85px;
+}
+
+.delete-project:hover::after {
+  left: -30px;
+}
+
+#add-task {
+  font-family: "Lato", sans-serif;
+  font-weight: bold;
+  font-size: 35px;
+  color: var(--accent-color);
+  position: sticky;
+  margin-left: auto;
+  margin-top: auto;
+  bottom: 40px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: ghostwhite;
+  box-shadow: 0.5px 0.5px var(--accent-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 3px;
+  cursor: pointer;
+}
+
+#add-task:hover {
+  box-shadow: 1px 1px ghostwhite;
+  background-color: var(--accent-color);
+  color: white;
+}
+
+#add-task:hover::after {
+  position: absolute;
+  content: "add a new task";
+  left: -110px;
+  top: 10px;
+  width: 75px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 10px;
+  background-color: var(--main-color);
+  color: #e0e0e0;
+  text-align: center;
+}
+
+/* Task Content  */
+
+#task-content {
+  grid-area: 2 / 2 / 3 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  justify-content: flex-start;
+  background-color: white;
+  padding: 30px;
+  padding-top: 30px;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.task {
+  padding: 10px;
+  padding-left: 15px;
+  font-size: 11px;
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 400px;
+  height: fit-content;
+  background-color: ghostwhite;
+}
+
+.task:hover {
+  background-color: #f5f5f5;
+  box-shadow: 1px 1px #e0e0e0;
+}
+
+.none .priority-label {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  border-radius: 3px 0 0 3px;
+  height: 100%;
+  width: 5px;
+  background-color: #e0e0e0;
+}
+
+.low .priority-label {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  border-radius: 3px 0 0 3px;
+  height: 100%;
+  width: 5px;
+  background-color: #fcab5f;
+}
+
+.med .priority-label {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  border-radius: 3px 0 0 3px;
+  height: 100%;
+  width: 5px;
+  background-color: #e36414;
+}
+
+.high .priority-label {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  border-radius: 3px 0 0 3px;
+  height: 100%;
+  width: 5px;
+  background-color: #9a031e;
+}
+
+.complete {
+  background-color: #e0e0e0;
+}
+
+.complete .priority-label {
+  background-color: #0f4c5c;
+}
+
+.complete .task-project {
+  color: #0f4c5c;
+  text-decoration: line-through;
+}
+
+.complete select {
+  text-decoration: line-through;
+  color: #0f4c5c;
+}
+
+.complete .task-title {
+  color: grey;
+  text-decoration: line-through;
+}
+
+.complete .task-details {
+  color: #a9a9a9;
+  text-decoration: line-through;
+}
+
+.complete .due-date {
+  color: grey;
+}
+
+.complete #expand {
+  color: #a9a9a9;
+}
+
+.task-card-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 65%;
+}
+
+.task-card-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+  min-width: 35%;
+}
+
+.checkbox-title {
+  display: flex;
+  align-items: center;
+  min-width: fit-content;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: 22px;
+  height: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  height: 15px;
+  width: 15px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+}
+
+.container:hover::after {
+  position: absolute;
+  content: "mark complete";
+  left: -30px;
+  top: -35px;
+  width: 70px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 10px;
+  background-color: var(--main-color);
+  color: #e0e0e0;
+  text-align: center;
+}
+
+.container:hover input ~ .checkmark {
+  background-color: #c8c8c8;
+}
+
+.container input:checked ~ .checkmark {
+  background-color: #0f4c5c;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container input:checked ~ .checkmark::after {
+  display: block;
+}
+
+.container .checkmark:after {
+  content: "";
+  left: 5px;
+  top: 2px;
+  width: 3px;
+  height: 7px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.task-project {
+  font-size: 12.5px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.task-project select {
+  margin-left: 5px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #e0e0e0;
+  text-align: center;
+  font-family: "Lato", sans-serif;
+  font-size: 11px;
+}
+
+.task-project select:hover {
+  outline: 1px solid #0f4c5c;
+}
+
+.task-project select:focus {
+  outline: 2px solid #0f4c5c;
+}
+
+.task-project:hover::after {
+  position: absolute;
+  content: "edit task project";
+  left: 190px;
+  top: 9px;
+  width: 80px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 10px;
+  background-color: var(--main-color);
+  color: #e0e0e0;
+  text-align: center;
+}
+
+.task-title,
+.editable,
+.task-project {
+  padding: 5px;
+  margin-left: 5px;
+}
+
+.editable {
+  margin-top: 5px;
+}
+
+.project-editable {
+  outline: 0.5px dotted #0f4c5c;
+  border-radius: 5px;
+  position: relative;
+}
+
+.task-title:hover,
+.editable:hover,
+.project-editable:hover {
+  outline: 1px dotted #0f4c5c;
+  border-radius: 5px;
+  cursor: text;
+}
+
+.task-title:focus,
+.editable:focus,
+.project-editable:focus {
+  outline: 2px dotted #0f4c5c;
+  border-radius: 5px;
+}
+
+.task-title:hover::after {
+  position: absolute;
+  content: "edit task title";
+  left: 200px;
+  top: 10px;
+  width: 60px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 10px;
+  background-color: var(--main-color);
+  color: #e0e0e0;
+  text-align: center;
+}
+
+.editable:hover::after {
+  position: absolute;
+  content: "edit task details";
+  left: 200px;
+  top: 30px;
+  width: 70px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 10px;
+  background-color: var(--main-color);
+  color: #e0e0e0;
+  text-align: center;
+}
+
+.task-details {
+  min-width: 0px;
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 9.5px;
+  color: grey;
+}
+
+.due-date {
+  font-size: 10px;
+  min-width: 80px;
+  padding: 5px;
+  border-radius: 5px;
+  justify-content: end;
+  text-align: end;
+  border: none;
+  background-color: transparent;
+  color: grey;
+}
+
+.due-date:hover {
+  outline: 1px dotted #0f4c5c;
+}
+
+.due-date:focus {
+  outline: 2px dotted #0f4c5c;
+  font-size: 10px;
+  font-family: "Lato", sans-serif;
+  color: grey;
+}
+
+.due-date:hover::after {
+  position: absolute;
+  content: "edit due date";
+  right: 145px;
+  top: -22px;
+  width: 60px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  background-color: var(--main-color);
+  color: #e0e0e0;
+  text-align: center;
+}
+
+[class^="expand"] {
+  /* background-image: url('./assets/chevron.png'); */
+  font-family: "Lato", sans-serif;
+  font-weight: bold;
+  font-size: 13px;
+  color: grey;
+  background-size: 100%;
+  min-width: 10px;
+  min-height: 10px;
+  transform: scale(1, 2);
+}
+
+[class^="expand"]:hover {
+  cursor: pointer;
+  transform: rotate(-90deg) scale(1, 2);
+  color: var(--accent-color);
+}
+
+[class^="expand"]:hover::after {
+  position: absolute;
+  content: "show details / edit";
+  left: -20px;
+  top: -20px;
+  width: 90px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  background-color: var(--main-color);
+  color: #e0e0e0;
+  text-align: center;
+  transform: rotate(90deg) scale(0.5, 1);
+}
+
+[id^="task-delete"] {
+  background-image: url("./assets/trash.png");
+  background-size: 100%;
+  min-width: 12px;
+  min-height: 12px;
+}
+
+[id^="task-delete"]:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+[id^="task-delete"]:hover::after {
+  position: absolute;
+  content: "delete task";
+  left: -42px;
+  top: -30px;
+  width: 50px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 10px;
+  background-color: var(--main-color);
+  color: #e0e0e0;
+  text-align: center;
+  transform: scale(0.8);
+}
+
+.task-priority {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 7px;
+  width: 35%;
+  height: 30px;
+  border-radius: 5px;
+  position: absolute;
+  right: 5px;
+  bottom: 20%;
+  font-size: 11px;
+}
+
+.radio-container {
+  position: relative;
+  padding-left: 13px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 10px;
+  text-align: center;
+}
+
+.radio-buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.radio-checkmark {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 11px;
+  width: 11px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+}
+
+.radio-container:hover input ~ .radio-checkmark {
+  background-color: #ccc;
+}
+
+.radio-container input:checked ~ .radio-checkmark {
+  background-color: var(--main-color);
+}
+
+.radio-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.radio-container input:checked ~ .radio-checkmark:after {
+  display: block;
+}
+
+.radio-container .radio-checkmark:after {
+  top: 3.5px;
+  left: 3.5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: white;
+}
+
+.not-found {
+  background-image: url("./assets/problem-solving.png");
+  background-size: 100%;
+  width: 100px;
+  height: 100px;
+  opacity: 0.7;
+}
+
+/* Footer */
+
+.footer {
+  grid-area: 3 / 1 / 4 / 3;
+  display: flex;
+  align-items: center;
+  background-color: #5f0f40;
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+}
+
+.made-by {
+  font-family: "Lato", sans-serif;
+  color: ghostwhite;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 12px;
+  padding: 7px;
+  border-radius: 7px;
+  width: 100%;
+}
+
+.made-by a {
+  text-decoration: none;
+  color: ghostwhite;
+}
+
+.made-by img {
+  height: 16px;
+  transition: transform 0.3s ease-in-out;
+}
+
+#github-icon {
+  content: url("./assets/gitHubIconWhite.png");
+  max-height: 16px;
+}
+
+.made-by img:hover {
+  transform: rotate(360deg) scale(1.2);
+}
