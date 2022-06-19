@@ -41,7 +41,7 @@ body {
   display: grid;
   grid-template: 100px 1fr 50px / minmax(250px, 25%) 1fr;
   min-height: 100vh;
-  min-width: 100vw;
+  min-width: 500px;
 }
 
 /* Header */
@@ -64,6 +64,7 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;
+  min-width: 226px;
 }
 
 .icon {
@@ -254,9 +255,14 @@ button:hover + input[type="search"] {
   gap: 5px;
 }
 
-.project-name {
+.project-name-container {
+  min-width: 70px;
   padding: 5px;
-  max-width: 55%;
+  font-size: 10px;
+}
+
+.project-name {
+  width: fit-content;
   word-break: break-all;
   white-space: normal;
 }
@@ -668,6 +674,13 @@ button:hover + input[type="search"] {
 .task-title,
 .editable,
 .task-project {
+  padding: 5px;
+  margin-left: 5px;
+}
+
+.task-title:empty,
+.editable:empty,
+.task-project:empty {
   padding: 5px;
   margin-left: 5px;
 }

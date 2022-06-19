@@ -10,7 +10,7 @@ module.exports = {
     static: "./dist",
   },
   entry: {
-    index: "./src/index.js",
+    index: "./lib/index.js",
   },
   output: {
     filename: "main.js",
