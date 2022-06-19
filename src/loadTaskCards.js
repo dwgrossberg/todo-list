@@ -76,14 +76,16 @@ const loadTaskCards = (() => {
     const callback = function (mutationsList) {
       for (const mutation of mutationsList) {
         // Find the Task card details to match with the correct Task obj
+        console.log(mutation.target.parentNode);
         const taskDetails =
           mutation.target.parentNode.parentNode.parentNode.parentNode
             .childNodes[2].innerText;
+
+        //Protect against removal of all content by user
         taskIndex = taskMaster.taskList.findIndex(
           (task) => task.task.details === taskDetails
         );
         taskMaster.taskList[taskIndex].changeTitle(mutation.target.textContent);
-        console.log(taskMaster.taskList[taskIndex].task);
         // Save changes to localStorage
         storage.updateLocalTaskTitle(taskMaster.taskList[taskIndex]);
       }
@@ -110,7 +112,6 @@ const loadTaskCards = (() => {
         taskMaster.taskList[taskIndex].changeDetails(
           mutation.target.textContent
         );
-        console.log(taskMaster.taskList[taskIndex].task);
         // Save changes to localStorage
         storage.updateLocalTaskDetails(taskMaster.taskList[taskIndex]);
       }

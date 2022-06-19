@@ -672,6 +672,13 @@ button:hover + input[type="search"] {
   margin-left: 5px;
 }
 
+.task-title:empty,
+.editable:empty,
+.task-project:empty {
+  padding: 5px;
+  margin-left: 5px;
+}
+
 .editable {
   margin-top: 5px;
 }

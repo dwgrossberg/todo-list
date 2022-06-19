@@ -103,7 +103,6 @@ const displayUI = (() => {
         );
         // Update localStorage
         storage.updateLocalTaskProject(selectedOption, task);
-        console.log(taskMaster.taskList[taskIndex].task);
         loadTaskCards.setSidebarCounters();
         // Display the updated project list
         tabController(taskProject);
@@ -126,7 +125,6 @@ const displayUI = (() => {
           (task) => task.task.title === taskTitle
         );
         const taskProject = taskMaster.taskList[taskIndex].task.project;
-        console.log(e.target.value);
         if (e.target.value !== "") {
           const newDateFormatted = new Date(e.target.value);
           // Update the Task object dueDate
@@ -375,7 +373,6 @@ const displayUI = (() => {
           "id",
           `project-counter-${mutation.target.textContent}`
         );
-        console.log(mutation.target.parentNode.parentNode.id);
         const projectIndex = taskMaster.projectList.findIndex(
           (project) =>
             `project-origName-${project.project.origName}` ===
@@ -387,7 +384,6 @@ const displayUI = (() => {
           oldProjectName,
           mutation.target.textContent
         );
-        console.log(taskMaster.projectList[projectIndex].project);
         // Update localStorage
         storage.updateLocalProjectName(
           oldProjectName,
@@ -718,7 +714,7 @@ const displayUI = (() => {
         )
           return;
         projectTasks = [];
-        const projectName = /(?<=([^-]*-)).*/.exec(project.id)[0];
+        const projectName = project.id.split("-")[1];
         taskMaster.taskList.forEach((task) => {
           if (task.task.project === projectName) {
             projectTasks.push(task);
