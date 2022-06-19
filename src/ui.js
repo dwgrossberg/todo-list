@@ -361,39 +361,44 @@ const displayUI = (() => {
     const callback = function (mutationsList) {
       for (const mutation of mutationsList) {
         // Keep track of mutated DOM element and text content
-        const projectElem = mutation.target.parentNode;
-        const projectCounter =
-          mutation.target.parentNode.parentNode.childNodes[0];
-        // Update Project DOM element id to match new name
-        projectElem.setAttribute(
-          "id",
-          `Project-${mutation.target.textContent}`
-        );
-        projectCounter.setAttribute(
-          "id",
-          `project-counter-${mutation.target.textContent}`
-        );
-        const projectIndex = taskMaster.projectList.findIndex(
-          (project) =>
-            `project-origName-${project.project.origName}` ===
-            mutation.target.parentNode.parentNode.id
-        );
-        const oldProjectName =
-          taskMaster.projectList[projectIndex].project.name;
-        taskMaster.projectList[projectIndex].changeName(
-          oldProjectName,
-          mutation.target.textContent
-        );
-        // Update localStorage
-        storage.updateLocalProjectName(
-          oldProjectName,
-          mutation.target.textContent
-        );
-        // Reload the Task cards to show the updated Project
-        removeDOMContent(taskContent);
-        loadTaskCards.run(taskMaster.taskList);
-        runDOMTaskFunctions();
-        tabController(mutation.target.textContent);
+        try {
+          const projectElem = mutation.target.parentNode;
+          const projectCounter =
+            mutation.target.parentNode.parentNode.childNodes[0];
+          // Update Project DOM element id to match new name
+          projectElem.setAttribute(
+            "id",
+            `Project-${mutation.target.textContent}`
+          );
+          projectCounter.setAttribute(
+            "id",
+            `project-counter-${mutation.target.textContent}`
+          );
+          const projectIndex = taskMaster.projectList.findIndex(
+            (project) =>
+              `project-origName-${project.project.origName}` ===
+              mutation.target.parentNode.parentNode.id
+          );
+          const oldProjectName =
+            taskMaster.projectList[projectIndex].project.name;
+          taskMaster.projectList[projectIndex].changeName(
+            oldProjectName,
+            mutation.target.textContent
+          );
+          // Update localStorage
+          storage.updateLocalProjectName(
+            oldProjectName,
+            mutation.target.textContent
+          );
+
+          // Reload the Task cards to show the updated Project
+          removeDOMContent(taskContent);
+          loadTaskCards.run(taskMaster.taskList);
+          runDOMTaskFunctions();
+          tabController(mutation.target.textContent);
+        } catch (err) {
+          //Protect against removal of all content by user
+        }
       }
     };
     const observer = new MutationObserver(callback);

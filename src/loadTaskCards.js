@@ -76,18 +76,22 @@ const loadTaskCards = (() => {
     const callback = function (mutationsList) {
       for (const mutation of mutationsList) {
         // Find the Task card details to match with the correct Task obj
-        console.log(mutation.target.parentNode);
-        const taskDetails =
-          mutation.target.parentNode.parentNode.parentNode.parentNode
-            .childNodes[2].innerText;
+        try {
+          const taskDetails =
+            mutation.target.parentNode.parentNode.parentNode.parentNode
+              .childNodes[2].innerText;
 
-        //Protect against removal of all content by user
-        taskIndex = taskMaster.taskList.findIndex(
-          (task) => task.task.details === taskDetails
-        );
-        taskMaster.taskList[taskIndex].changeTitle(mutation.target.textContent);
-        // Save changes to localStorage
-        storage.updateLocalTaskTitle(taskMaster.taskList[taskIndex]);
+          taskIndex = taskMaster.taskList.findIndex(
+            (task) => task.task.details === taskDetails
+          );
+          taskMaster.taskList[taskIndex].changeTitle(
+            mutation.target.textContent
+          );
+          // Save changes to localStorage
+          storage.updateLocalTaskTitle(taskMaster.taskList[taskIndex]);
+        } catch (err) {
+          //Protect against removal of all content by user
+        }
       }
     };
     const observer = new MutationObserver(callback);
@@ -103,17 +107,21 @@ const loadTaskCards = (() => {
     const callback = function (mutationsList) {
       for (const mutation of mutationsList) {
         // Find the Task card title to match with the correct Task obj
-        const taskTitle =
-          mutation.target.parentNode.parentNode.childNodes[1].childNodes[1]
-            .childNodes[1].innerText;
-        const taskIndex = taskMaster.taskList.findIndex(
-          (task) => task.task.title === taskTitle
-        );
-        taskMaster.taskList[taskIndex].changeDetails(
-          mutation.target.textContent
-        );
-        // Save changes to localStorage
-        storage.updateLocalTaskDetails(taskMaster.taskList[taskIndex]);
+        try {
+          const taskTitle =
+            mutation.target.parentNode.parentNode.childNodes[1].childNodes[1]
+              .childNodes[1].innerText;
+          const taskIndex = taskMaster.taskList.findIndex(
+            (task) => task.task.title === taskTitle
+          );
+          taskMaster.taskList[taskIndex].changeDetails(
+            mutation.target.textContent
+          );
+          // Save changes to localStorage
+          storage.updateLocalTaskDetails(taskMaster.taskList[taskIndex]);
+        } catch (err) {
+          //Protect against removal of all content by user
+        }
       }
     };
     const observer = new MutationObserver(callback);
@@ -196,7 +204,7 @@ const loadTaskCards = (() => {
       taskTitle.classList.add("task-title");
       taskTitle.setAttribute("id", `task-title-${taskList.indexOf(task)}`);
       taskTitle.setAttribute("contenteditable", "true");
-      taskTitle.innerText = `${task.task.title}`;
+      taskTitle.innerHTML = `${task.task.title}`;
       projectTitle.appendChild(taskTitle);
       checkboxTitle.appendChild(projectTitle);
       taskCardLeft.appendChild(checkboxTitle);
@@ -205,7 +213,7 @@ const loadTaskCards = (() => {
       let taskDetails = document.createElement("p");
       taskDetails.classList.add("task-details");
       taskDetails.setAttribute("id", `task-details-${taskList.indexOf(task)}`);
-      taskDetails.innerText = `${task.task.details}`;
+      taskDetails.innerHTML = `${task.task.details}`;
       taskCardLeft.appendChild(taskDetails);
       taskDiv.appendChild(taskCardLeft);
 
