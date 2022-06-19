@@ -390,7 +390,6 @@ const displayUI = (() => {
             oldProjectName,
             mutation.target.textContent
           );
-
           // Reload the Task cards to show the updated Project
           removeDOMContent(taskContent);
           loadTaskCards.run(taskMaster.taskList);
@@ -469,11 +468,15 @@ const displayUI = (() => {
         iconDiv.classList.add("project-icon");
         projectDiv.appendChild(iconDiv);
         // Set projectName as span for styling purposes
+        const containerDiv = document.createElement("div");
+        containerDiv.setAttribute("contentEditable", false);
+        containerDiv.classList.add("project-name-container");
         const projectName = document.createElement("span");
         projectName.classList.add("project-name");
         projectName.setAttribute("id", `Project-${project.project.name}`);
         projectName.innerText = project.project.name;
-        projectDiv.appendChild(projectName);
+        containerDiv.appendChild(projectName);
+        projectDiv.appendChild(containerDiv);
         const editDiv = document.createElement("div");
         editDiv.classList.add("edit-project");
         editDiv.setAttribute(
@@ -728,10 +731,10 @@ const displayUI = (() => {
         // Set Project styles on sidebar && reload Tasks
         if (e.isTrusted) {
           const otherProjects = Array.from(
-            project.parentNode.parentNode.childNodes
+            project.parentNode.parentNode.parentNode.childNodes
           );
           otherProjects.forEach((project) => {
-            const projectTag = project.childNodes[2];
+            const projectTag = project.childNodes[2].childNodes[0]; // Span
             if (projectTag.innerText === e.target.innerText) return;
             else {
               projectTag.style.color = "";
